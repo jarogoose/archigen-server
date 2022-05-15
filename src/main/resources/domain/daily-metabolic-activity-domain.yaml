@@ -1,0 +1,51 @@
+feature: "dailyMetabolicActivity"
+root: "metabolism"
+data:
+  - id
+  - userId
+  - date
+  - fat
+  - carb
+  - protein
+  - fiber
+  - water
+  - sleepStartTime
+  - sleepEndTime
+controller:
+  requests:
+    - name: "addDailyMetabolicActivity"
+      type: "POST"
+      data:
+        - userId
+        - date
+        - fat
+        - carb
+        - protein
+        - fiber
+        - water
+        - sleepStartTime
+        - sleepEndTime
+    - name: "modifyDailyMetabolicActivity"
+      type: "PUT"
+      data:
+        - id
+        - date
+        - fat
+        - carb
+        - protein
+        - fiber
+        - water
+        - sleepStartTime
+        - sleepEndTime
+    - name: "searchDailyMetabolicActivity"
+      type: "GET"
+      data:
+        - id
+    - name: "showAllDailyMetabolicActivities"
+      type: "GET"
+      data:
+        - userId
+    - name: "removeDailyMetabolicActivity"
+      type: "DELETE"
+      data:
+        - id

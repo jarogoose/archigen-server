@@ -1,0 +1,15 @@
+feature: "user"
+data:
+  - login
+  - password
+controller:
+  operation:
+    - name: "register"
+      access: "public"
+      type: "POST"
+    - name: "search"
+      access: "public"
+#service:
+#  - operation:
+#    - name: "register"
+#      access: "public"

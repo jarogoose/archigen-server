@@ -1,0 +1,5 @@
+private final {{class-name}}Facade facade;
+
+public {{class-name}}Controller({{class-name}}Facade facade) {
+  this.facade = facade;
+}
