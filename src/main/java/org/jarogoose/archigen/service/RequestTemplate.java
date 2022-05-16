@@ -27,7 +27,7 @@ public class RequestTemplate {
     // data block
     StringBuilder dataBlock = new StringBuilder();
     for (int i = 0; i < request.data().size(); i++) {
-      dataBlock.append(format("  private final String %s;",
+      dataBlock.append(format("  private String %s;",
           request.data().get(i)));
       if (i != request.data().size() - 1) {
         dataBlock.append(System.lineSeparator());
