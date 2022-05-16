@@ -2,7 +2,6 @@ package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
-import static org.jarogoose.archigen.util.Packages.CONTROLLER_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.STORAGE_PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
@@ -25,11 +24,23 @@ public class EntityTemplate {
     String className = format("%s", capitalize(domain.feature()));
     template = template.replace("{{class-name}}", className);
 
+    // document name
+    String documentName = formatDocumentName(domain.feature().split("(?=\\p{Upper})"));
+    template = template.replace("{{document-name}}", documentName);
+
     // data block
     StringBuilder dataBlock = new StringBuilder();
     for (int i = 0; i < domain.data().size(); i++) {
-      dataBlock.append(format("  private final String %s;",
-          domain.data().get(i)));
+      String field = domain.data().get(i);
+      String[] words = field.split("(?=\\p{Upper})");
+
+      if (words.length > 1) {
+        dataBlock.append(format("  @Field(\"%s\")", formatDocumentName(words)))
+            .append(System.lineSeparator());
+      }
+
+      dataBlock.append(format("  private String %s;", field));
+
       if (i != domain.data().size() - 1) {
         dataBlock.append(System.lineSeparator());
       }
@@ -39,4 +50,12 @@ public class EntityTemplate {
     return template;
   }
 
+  private String formatDocumentName(String[] words) {
+    StringBuilder sb = new StringBuilder();
+    for (String word : words) {
+      sb.append(word.toLowerCase()).append("_");
+    }
+    sb.deleteCharAt(sb.length() - 1);
+    return sb.toString();
+  }
 }

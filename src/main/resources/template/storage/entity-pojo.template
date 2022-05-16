@@ -1,14 +1,17 @@
 package {{package}};
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Getter
+@Data
 @Builder
-@ToString
-@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "{{document-name}}")
 class {{class-name}}Entity {
 {{data-block}}
 }
