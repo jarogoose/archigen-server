@@ -8,6 +8,7 @@ public enum Packages {
   EXCEPTION_PACKAGE("domain.exception"),
   REQUEST_PACKAGE("domain.model.request"),
   CONTROLLER_PACKAGE("control"),
+  API_PACKAGE("api"),
   STORAGE_PACKAGE("storage"),
   DTO_PACKAGE("domain.model.dto");
 

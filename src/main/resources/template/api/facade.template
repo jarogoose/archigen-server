@@ -1,0 +1,13 @@
+package {{package}};
+
+import java.util.List;
+import org.springframework.stereotype.Service;
+
+@Slf4j
+@Service
+public class {{class-name}}Facade {
+
+{{dependency-block}}
+
+{{api-block}}
+}

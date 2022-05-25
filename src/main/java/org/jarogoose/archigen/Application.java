@@ -3,6 +3,7 @@ package org.jarogoose.archigen;
 import static java.lang.String.format;
 import static org.jarogoose.archigen.util.Paths.CONTROLLER_PATH;
 import static org.jarogoose.archigen.util.Paths.DTO_PATH;
+import static org.jarogoose.archigen.util.Paths.API_PATH;
 import static org.jarogoose.archigen.util.Paths.STORAGE_PATH;
 import static org.jarogoose.archigen.util.Paths.EXCEPTION_PATH;
 import static org.jarogoose.archigen.util.Paths.REQUEST_PATH;
@@ -20,6 +21,7 @@ import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.service.ControllerTemplate;
 import org.jarogoose.archigen.service.EntityTemplate;
 import org.jarogoose.archigen.service.ExceptionTemplate;
+import org.jarogoose.archigen.service.FacadeTemplate;
 import org.jarogoose.archigen.service.ModelTemplate;
 import org.jarogoose.archigen.service.RequestTemplate;
 
@@ -82,5 +84,15 @@ public class Application {
     File controllerFile = new File(controllerFilePath);
     Files.createParentDirs(controllerFile);
     Files.asCharSink(controllerFile, StandardCharsets.UTF_8).write(controllerContent);
+
+    // Create facade file
+    FacadeTemplate facadeTemplate = new FacadeTemplate();
+    String facadeContent = facadeTemplate.createTemplate(domain);
+    String facadeClassName = capitalize(domain.feature());
+    String facadeFilePath = format("%s/%s/%s/%sFacade.java",
+        ROOT_PROJECT_PATH, domain.root(), API_PATH, facadeClassName);
+    File facadeFile = new File(facadeFilePath);
+    Files.createParentDirs(facadeFile);
+    Files.asCharSink(facadeFile, StandardCharsets.UTF_8).write(facadeContent);
   }
 }

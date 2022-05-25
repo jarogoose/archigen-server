@@ -13,6 +13,7 @@ data:
 controller:
   requests:
     - name: "addDailyMetabolicActivity"
+      api: "add"
       type: "POST"
       data:
         - userId
@@ -24,6 +25,7 @@ controller:
         - water
         - sleep
     - name: "modifyDailyMetabolicActivity"
+      api: "modify"
       type: "PUT"
       data:
         - id
@@ -35,14 +37,17 @@ controller:
         - water
         - sleep
     - name: "searchDailyMetabolicActivity"
+      api: "search"
       type: "GET"
       data:
         - id
     - name: "showAllDailyMetabolicActivities"
+      api: "showAll"
       type: "GET"
       data:
         - userId
     - name: "removeDailyMetabolicActivity"
+      api: "remove"
       type: "DELETE"
       data:
         - id

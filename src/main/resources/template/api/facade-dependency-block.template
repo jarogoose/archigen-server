@@ -1,0 +1,5 @@
+private final {{class-name}}Service service;
+
+public {{class-name}}Facade({{class-name}}Service service) {
+  this.service = service;
+}
