@@ -1,7 +1,0 @@
-package {{package}};
-
-public class {{class-name}}NotFoundException extends RuntimeException {
-  public {{class-name}}NotFoundException(String errorMessage) {
-    super(errorMessage);
-  }
-}
