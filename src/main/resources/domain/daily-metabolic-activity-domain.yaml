@@ -9,8 +9,7 @@ data:
   - protein
   - fiber
   - water
-  - sleepStartTime
-  - sleepEndTime
+  - sleep
 controller:
   requests:
     - name: "addDailyMetabolicActivity"
@@ -23,8 +22,7 @@ controller:
         - protein
         - fiber
         - water
-        - sleepStartTime
-        - sleepEndTime
+        - sleep
     - name: "modifyDailyMetabolicActivity"
       type: "PUT"
       data:
@@ -35,8 +33,7 @@ controller:
         - protein
         - fiber
         - water
-        - sleepStartTime
-        - sleepEndTime
+        - sleep
     - name: "searchDailyMetabolicActivity"
       type: "GET"
       data:
