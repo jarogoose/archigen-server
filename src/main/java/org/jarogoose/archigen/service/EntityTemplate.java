@@ -34,6 +34,10 @@ public class EntityTemplate {
       String field = domain.data().get(i);
       String[] words = field.split("(?=\\p{Upper})");
 
+      if (field.equalsIgnoreCase("id")) {
+        dataBlock.append("  @MongoId(FieldType.OBJECT_ID)").append(System.lineSeparator());
+      }
+
       if (words.length > 1) {
         dataBlock.append(format("  @Field(\"%s\")", formatDocumentName(words)))
             .append(System.lineSeparator());
