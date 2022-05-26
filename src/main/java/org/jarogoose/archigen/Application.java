@@ -4,6 +4,7 @@ import static java.lang.String.format;
 import static org.jarogoose.archigen.util.Paths.CONTROLLER_PATH;
 import static org.jarogoose.archigen.util.Paths.DTO_PATH;
 import static org.jarogoose.archigen.util.Paths.API_PATH;
+import static org.jarogoose.archigen.util.Paths.RESPONSE_PATH;
 import static org.jarogoose.archigen.util.Paths.STORAGE_PATH;
 import static org.jarogoose.archigen.util.Paths.EXCEPTION_PATH;
 import static org.jarogoose.archigen.util.Paths.REQUEST_PATH;
@@ -24,6 +25,7 @@ import org.jarogoose.archigen.service.ExceptionTemplate;
 import org.jarogoose.archigen.service.FacadeTemplate;
 import org.jarogoose.archigen.service.ModelTemplate;
 import org.jarogoose.archigen.service.RequestTemplate;
+import org.jarogoose.archigen.service.ResponseTemplate;
 import org.jarogoose.archigen.service.ServiceTemplate;
 
 public class Application {
@@ -65,6 +67,16 @@ public class Application {
       Files.createParentDirs(requestFile);
       Files.asCharSink(requestFile, StandardCharsets.UTF_8).write(requestContent);
     }
+
+    // Create response file
+    ResponseTemplate responseTemplate = new ResponseTemplate();
+    String responseContent = responseTemplate.createTemplate(domain);
+    String responseClassName = capitalize(domain.feature());
+    String responseFilePath = format("%s/%s/%s/%sResponse.java",
+        ROOT_PROJECT_PATH, domain.root(), RESPONSE_PATH, responseClassName);
+    File responseFile = new File(responseFilePath);
+    Files.createParentDirs(responseFile);
+    Files.asCharSink(responseFile, StandardCharsets.UTF_8).write(responseContent);
 
     // Create not found exception file
     ExceptionTemplate exceptionTemplate = new ExceptionTemplate();

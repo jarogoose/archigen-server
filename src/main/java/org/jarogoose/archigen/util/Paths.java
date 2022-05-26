@@ -8,6 +8,7 @@ public enum Paths {
   CONTROLLER_PATH("control"),
   API_PATH("api"),
   REQUEST_PATH("domain/model/request"),
+  RESPONSE_PATH("domain/model/response"),
   DTO_PATH("domain/model/dto"),
   STORAGE_PATH("storage"),
   EXCEPTION_PATH("domain/exception");

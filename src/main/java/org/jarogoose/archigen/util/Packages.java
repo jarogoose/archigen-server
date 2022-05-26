@@ -7,6 +7,7 @@ public enum Packages {
   ROOT_PACKAGE("org.jarogoose"),
   EXCEPTION_PACKAGE("domain.exception"),
   REQUEST_PACKAGE("domain.model.request"),
+  RESPONSE_PACKAGE("domain.model.response"),
   CONTROLLER_PACKAGE("control"),
   API_PACKAGE("api"),
   STORAGE_PACKAGE("storage"),
