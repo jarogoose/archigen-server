@@ -11,5 +11,5 @@ public class Domain {
   @JsonProperty("feature") private String feature;
   @JsonProperty("root") private String root;
   @JsonProperty("data") private List<String> data;
-  @JsonProperty("controller") private Controller controller;
+  @JsonProperty("api") private Api api;
 }

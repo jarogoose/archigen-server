@@ -56,9 +56,9 @@ public class Application {
 
     // Create request file
     RequestTemplate requestTemplate = new RequestTemplate();
-    for (Request request : domain.controller().requests()) {
+    for (Request request : domain.api().requests()) {
       String requestContent = requestTemplate.createTemplate(domain, request);
-      String requestClassName = capitalize(request.name());
+      String requestClassName = capitalize(request.control());
       String requestFilePath = format("%s/%s/%s/%sRequest.java",
           ROOT_PROJECT_PATH, domain.root(), REQUEST_PATH, requestClassName);
       File requestFile = new File(requestFilePath);

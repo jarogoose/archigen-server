@@ -43,22 +43,22 @@ public class ControllerTemplate {
     String apiBlockPath = "src/main/resources/template/control/api-block.template";
     StringBuilder content = new StringBuilder();
 
-    for (Request request : domain.controller().requests()) {
+    for (Request request : domain.api().requests()) {
       String apiBlock = readFile(apiBlockPath, Charsets.UTF_8);
 
       // uri
       String uri = format("@%sMapping(\"%s\")",
-          capitalize(request.type().toLowerCase()), formatUri(request.name()));
+          capitalize(request.type().toLowerCase()), formatUri(request.control()));
       apiBlock = apiBlock.replace("{{uri}}", uri);
 
       // function name
-      String functionNme = format("%s", request.name());
+      String functionNme = format("%s", request.control());
       apiBlock = apiBlock.replace("{{function-name}}", functionNme);
 
-      String controllerInput = format("%sRequest request", capitalize(request.name()));
+      String controllerInput = format("%sRequest request", capitalize(request.control()));
       apiBlock = apiBlock.replace("{{controller-input}}", controllerInput);
 
-      String action = format("%s", request.name());
+      String action = format("%s", request.control());
       String input = "request";
       String facadeCall = format("%s %s = facade.%s(%s)",
           capitalize(domain.feature()), domain.feature(), action, input);

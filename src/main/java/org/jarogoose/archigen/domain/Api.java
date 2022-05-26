@@ -7,6 +7,6 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(fluent = true)
-public class Controller {
+public class Api {
   @JsonProperty("requests") private List<Request> requests;
 }

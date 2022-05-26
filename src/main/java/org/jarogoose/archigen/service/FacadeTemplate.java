@@ -45,7 +45,7 @@ public class FacadeTemplate {
 
     StringBuilder content = new StringBuilder();
 
-    for (Request request : domain.controller().requests()) {
+    for (Request request : domain.api().requests()) {
       if (request.type().equalsIgnoreCase("get")) {
         String apiBlock = readFile(facadeReadApiBlockPath, Charsets.UTF_8);
 
@@ -54,15 +54,15 @@ public class FacadeTemplate {
         apiBlock = apiBlock.replace("{{domain-class}}", domainName);
 
         // facade api name
-        String facadeApiName = format("%s", request.name());
+        String facadeApiName = format("%s", request.control());
         apiBlock = apiBlock.replace("{{facade-api-name}}", facadeApiName);
 
         // request name
-        String requestName = format("%s", capitalize(request.name()));
+        String requestName = format("%s", capitalize(request.control()));
         apiBlock = apiBlock.replace("{{request-name}}", requestName);
 
         // service api name
-        String serviceApiName = format("%s", request.api());
+        String serviceApiName = format("%s", request.execute());
         apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
 
         content.append(apiBlock).append(System.lineSeparator());
@@ -71,15 +71,15 @@ public class FacadeTemplate {
         String apiBlock = readFile(facadeWriteApiBlockPath, Charsets.UTF_8);
 
         // facade api name
-        String facadeApiName = format("%s", request.name());
+        String facadeApiName = format("%s", request.control());
         apiBlock = apiBlock.replace("{{facade-api-name}}", facadeApiName);
 
         // request name
-        String requestName = format("%s", capitalize(request.name()));
+        String requestName = format("%s", capitalize(request.control()));
         apiBlock = apiBlock.replace("{{request-name}}", requestName);
 
         // service api name
-        String serviceApiName = format("%s", request.api());
+        String serviceApiName = format("%s", request.execute());
         apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
 
         content.append(apiBlock).append(System.lineSeparator());

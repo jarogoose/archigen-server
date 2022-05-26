@@ -10,10 +10,11 @@ data:
   - fiber
   - water
   - sleep
-controller:
+api:
   requests:
-    - name: "addDailyMetabolicActivity"
-      api: "add"
+    - control: "addDailyMetabolicActivity"
+      execute: "add"
+      query: "save"
       type: "POST"
       data:
         - userId
@@ -24,8 +25,9 @@ controller:
         - fiber
         - water
         - sleep
-    - name: "modifyDailyMetabolicActivity"
-      api: "modify"
+    - control: "modifyDailyMetabolicActivity"
+      execute: "modify"
+      query: "update"
       type: "PUT"
       data:
         - id
@@ -36,18 +38,21 @@ controller:
         - fiber
         - water
         - sleep
-    - name: "searchDailyMetabolicActivity"
-      api: "search"
+    - control: "searchDailyMetabolicActivity"
+      execute: "search"
+      query: "findById"
       type: "GET"
       data:
         - id
-    - name: "showAllDailyMetabolicActivities"
-      api: "showAll"
+    - control: "showAllDailyMetabolicActivities"
+      execute: "showAll"
+      query: "findAllByUserId"
       type: "GET"
       data:
         - userId
-    - name: "removeDailyMetabolicActivity"
-      api: "remove"
+    - control: "removeDailyMetabolicActivity"
+      execute: "remove"
+      query: "deleteById"
       type: "DELETE"
       data:
         - id

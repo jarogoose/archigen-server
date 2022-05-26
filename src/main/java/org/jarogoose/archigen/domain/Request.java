@@ -8,8 +8,9 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(fluent = true)
 public class Request {
-  @JsonProperty("name") private String name;
-  @JsonProperty("api") private String api;
+  @JsonProperty("control") private String control;
+  @JsonProperty("execute") private String execute;
+  @JsonProperty("query") private String query;
   @JsonProperty("type") private String type;
   @JsonProperty("data") private List<String> data;
 }

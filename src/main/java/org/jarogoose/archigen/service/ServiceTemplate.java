@@ -45,7 +45,7 @@ public class ServiceTemplate {
 
     StringBuilder content = new StringBuilder();
 
-    for (Request request : domain.controller().requests()) {
+    for (Request request : domain.api().requests()) {
       if (request.type().equalsIgnoreCase("get")) {
         String apiBlock = readFile(serviceReadApiBlockPath, Charsets.UTF_8);
 
@@ -54,11 +54,11 @@ public class ServiceTemplate {
         apiBlock = apiBlock.replace("{{domain-class}}", domainClass);
 
         // service api name
-        String serviceApiName = format("%s", request.api());
+        String serviceApiName = format("%s", request.execute());
         apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
 
         // storage query api name
-        String storageQueryApiName = format("%s", request.api());
+        String storageQueryApiName = format("%s", request.query());
         apiBlock = apiBlock.replace("{{storage-query-api-name}}", storageQueryApiName);
 
         content.append(apiBlock).append(System.lineSeparator());
@@ -71,11 +71,11 @@ public class ServiceTemplate {
         apiBlock = apiBlock.replace("{{domain-class}}", domainClass);
 
         // service api name
-        String serviceApiName = format("%s", request.api());
+        String serviceApiName = format("%s", request.execute());
         apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
 
         // storage query api name
-        String storageQueryApiName = format("%s", request.api());
+        String storageQueryApiName = format("%s", request.query());
         apiBlock = apiBlock.replace("{{storage-query-api-name}}", storageQueryApiName);
 
         content.append(apiBlock).append(System.lineSeparator());

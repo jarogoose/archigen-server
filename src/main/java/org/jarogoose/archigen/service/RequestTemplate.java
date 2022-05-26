@@ -21,7 +21,7 @@ public class RequestTemplate {
     template = template.replace("{{package}}", packageName);
 
     // class name
-    String className = format("%s", capitalize(request.name()));
+    String className = format("%s", capitalize(request.control()));
     template = template.replace("{{class-name}}", className);
 
     // data block
