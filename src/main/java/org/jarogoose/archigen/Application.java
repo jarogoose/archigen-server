@@ -24,6 +24,7 @@ import org.jarogoose.archigen.service.ExceptionTemplate;
 import org.jarogoose.archigen.service.FacadeTemplate;
 import org.jarogoose.archigen.service.ModelTemplate;
 import org.jarogoose.archigen.service.RequestTemplate;
+import org.jarogoose.archigen.service.ServiceTemplate;
 
 public class Application {
 
@@ -94,5 +95,15 @@ public class Application {
     File facadeFile = new File(facadeFilePath);
     Files.createParentDirs(facadeFile);
     Files.asCharSink(facadeFile, StandardCharsets.UTF_8).write(facadeContent);
+
+    // Create service file
+    ServiceTemplate serviceTemplate = new ServiceTemplate();
+    String serviceContent = serviceTemplate.createTemplate(domain);
+    String serviceClassName = capitalize(domain.feature());
+    String serviceFilePath = format("%s/%s/%s/%sService.java",
+        ROOT_PROJECT_PATH, domain.root(), API_PATH, serviceClassName);
+    File serviceFile = new File(serviceFilePath);
+    Files.createParentDirs(serviceFile);
+    Files.asCharSink(serviceFile, StandardCharsets.UTF_8).write(serviceContent);
   }
 }

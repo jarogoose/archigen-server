@@ -1,0 +1,3 @@
+public {{domain-class}} {{service-api-name}}({{domain-class}} dto) {
+  return loader.{{storage-query-api-name}}(dto);
+}
