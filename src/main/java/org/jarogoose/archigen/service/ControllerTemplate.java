@@ -58,10 +58,15 @@ public class ControllerTemplate {
       String controllerInput = format("%sRequest request", capitalize(request.control()));
       apiBlock = apiBlock.replace("{{controller-input}}", controllerInput);
 
-      String action = format("%s", request.control());
-      String input = "request";
-      String facadeCall = format("%s %s = facade.%s(%s)",
-          capitalize(domain.feature()), domain.feature(), action, input);
+      String facadeCall = null;
+      // facade call
+      if (request.type().equalsIgnoreCase("get")) {
+        String action = format("%s", request.control());
+        facadeCall = format("%sResponse response = facade.%s",
+            capitalize(domain.feature()), action);
+      } else {
+        facadeCall = format("facade.%s", request.control());
+      }
 
       apiBlock = apiBlock.replace("{{facade-call}}", facadeCall);
       apiBlock = apiBlock.replace("{{feature}}", capitalize(domain.feature()));

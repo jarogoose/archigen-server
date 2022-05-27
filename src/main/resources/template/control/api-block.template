@@ -1,7 +1,7 @@
 {{uri}}
 public ResponseEntity<Object> {{function-name}}({{controller-input}}) {
   try {
-    {{facade-call}};
+    {{facade-call}}(request);
     return ResponseEntity.status(HttpStatus.OK).body(null);
   } catch ({{feature}}NotFoundException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
