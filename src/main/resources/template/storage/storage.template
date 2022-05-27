@@ -1,4 +1,4 @@
-package org.jarogoose.calculator.investor.storage;
+package {{package}};
 
 import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 interface {{class-name}}Storage extends MongoRepository<{{class-name}}Entity, String> {
-  Optional<{{class-name}}Entity> findByEmail(String login);
+{{api-block}}
 }

@@ -1,0 +1,1 @@
+Optional<{{class-name}}Entity> {{query-name}}(String login);

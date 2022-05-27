@@ -15,6 +15,7 @@ api:
     - control: "addDailyMetabolicActivity"
       execute: "add"
       query: "save"
+      custom-query: false
       type: "POST"
       data:
         - userId
@@ -28,6 +29,7 @@ api:
     - control: "modifyDailyMetabolicActivity"
       execute: "modify"
       query: "update"
+      custom-query: false
       type: "PUT"
       data:
         - id
@@ -41,18 +43,21 @@ api:
     - control: "searchDailyMetabolicActivity"
       execute: "search"
       query: "findById"
+      custom-query: false
       type: "GET"
       data:
         - id
     - control: "showAllDailyMetabolicActivities"
       execute: "showAll"
       query: "findAllByUserId"
+      custom-query: true
       type: "GET"
       data:
         - userId
     - control: "removeDailyMetabolicActivity"
       execute: "remove"
       query: "deleteById"
+      custom-query: false
       type: "DELETE"
       data:
         - id

@@ -28,6 +28,7 @@ import org.jarogoose.archigen.service.ModelTemplate;
 import org.jarogoose.archigen.service.RequestTemplate;
 import org.jarogoose.archigen.service.ResponseTemplate;
 import org.jarogoose.archigen.service.ServiceTemplate;
+import org.jarogoose.archigen.service.StorageTemplate;
 
 public class Application {
 
@@ -128,5 +129,15 @@ public class Application {
     File loaderFile = new File(loaderFilePath);
     Files.createParentDirs(loaderFile);
     Files.asCharSink(loaderFile, StandardCharsets.UTF_8).write(loaderContent);
+
+    // Create storage file
+    StorageTemplate storageTemplate = new StorageTemplate();
+    String storageContent = storageTemplate.createTemplate(domain);
+    String storageClassName = capitalize(domain.feature());
+    String storageFilePath = format("%s/%s/%s/%sStorage.java",
+        ROOT_PROJECT_PATH, domain.root(), STORAGE_PATH, storageClassName);
+    File storageFile = new File(storageFilePath);
+    Files.createParentDirs(storageFile);
+    Files.asCharSink(storageFile, StandardCharsets.UTF_8).write(storageContent);
   }
 }
