@@ -16,10 +16,6 @@ public class FacadeTemplate {
     String filePath = "src/main/resources/template/api/facade.template";
     String template = readFile(filePath, Charsets.UTF_8);
 
-    // domain uri
-    String domainUri = domain.root();
-    template = template.replace("{{domain-uri}}", domainUri);
-
     // controller class
     String packageName = String.format("%s.%s.%s", ROOT_PACKAGE, domain.root(), API_PACKAGE);
     template = template.replace("{{package}}", packageName);

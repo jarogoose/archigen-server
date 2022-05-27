@@ -1,0 +1,5 @@
+private final {{class-name}}Storage storage;
+
+public {{class-name}}Loader({{class-name}}Storage storage) {
+  this.storage = storage;
+}

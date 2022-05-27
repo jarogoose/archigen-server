@@ -23,6 +23,7 @@ import org.jarogoose.archigen.service.ControllerTemplate;
 import org.jarogoose.archigen.service.EntityTemplate;
 import org.jarogoose.archigen.service.ExceptionTemplate;
 import org.jarogoose.archigen.service.FacadeTemplate;
+import org.jarogoose.archigen.service.LoaderTemplate;
 import org.jarogoose.archigen.service.ModelTemplate;
 import org.jarogoose.archigen.service.RequestTemplate;
 import org.jarogoose.archigen.service.ResponseTemplate;
@@ -117,5 +118,15 @@ public class Application {
     File serviceFile = new File(serviceFilePath);
     Files.createParentDirs(serviceFile);
     Files.asCharSink(serviceFile, StandardCharsets.UTF_8).write(serviceContent);
+
+    // Create loader file
+    LoaderTemplate loaderTemplate = new LoaderTemplate();
+    String loaderContent = loaderTemplate.createTemplate(domain);
+    String loaderClassName = capitalize(domain.feature());
+    String loaderFilePath = format("%s/%s/%s/%sLoader.java",
+        ROOT_PROJECT_PATH, domain.root(), STORAGE_PATH, loaderClassName);
+    File loaderFile = new File(loaderFilePath);
+    Files.createParentDirs(loaderFile);
+    Files.asCharSink(loaderFile, StandardCharsets.UTF_8).write(loaderContent);
   }
 }
