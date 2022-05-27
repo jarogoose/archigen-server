@@ -1,25 +1,27 @@
 package org.jarogoose.archigen;
 
 import static java.lang.String.format;
-import static org.jarogoose.archigen.util.Paths.CONTROLLER_PATH;
-import static org.jarogoose.archigen.util.Paths.DTO_PATH;
 import static org.jarogoose.archigen.util.Paths.API_PATH;
-import static org.jarogoose.archigen.util.Paths.RESPONSE_PATH;
-import static org.jarogoose.archigen.util.Paths.STORAGE_PATH;
+import static org.jarogoose.archigen.util.Paths.CONTROLLER_PATH;
+import static org.jarogoose.archigen.util.Paths.DTO_MAPPER_PATH;
+import static org.jarogoose.archigen.util.Paths.DTO_PATH;
 import static org.jarogoose.archigen.util.Paths.EXCEPTION_PATH;
 import static org.jarogoose.archigen.util.Paths.REQUEST_PATH;
+import static org.jarogoose.archigen.util.Paths.RESPONSE_PATH;
 import static org.jarogoose.archigen.util.Paths.ROOT_PROJECT_PATH;
+import static org.jarogoose.archigen.util.Paths.STORAGE_PATH;
 import static org.springframework.util.StringUtils.capitalize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import com.google.common.io.Files;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.service.ControllerTemplate;
+import org.jarogoose.archigen.service.DtoMapperTemplate;
 import org.jarogoose.archigen.service.EntityTemplate;
 import org.jarogoose.archigen.service.ExceptionTemplate;
 import org.jarogoose.archigen.service.FacadeTemplate;
@@ -79,6 +81,16 @@ public class Application {
     File responseFile = new File(responseFilePath);
     Files.createParentDirs(responseFile);
     Files.asCharSink(responseFile, StandardCharsets.UTF_8).write(responseContent);
+
+    // Create dto mapper file
+    DtoMapperTemplate dtoMapperTemplate = new DtoMapperTemplate();
+    String dtoMapperContent = dtoMapperTemplate.createTemplate(domain);
+    String dtoMapperClassName = capitalize(domain.feature());
+    String dtoMapperFilePath = format("%s/%s/%s/%sMapper.java",
+        ROOT_PROJECT_PATH, domain.root(), DTO_MAPPER_PATH, dtoMapperClassName);
+    File dtoMapperFile = new File(dtoMapperFilePath);
+    Files.createParentDirs(dtoMapperFile);
+    Files.asCharSink(dtoMapperFile, StandardCharsets.UTF_8).write(dtoMapperContent);
 
     // Create not found exception file
     ExceptionTemplate exceptionTemplate = new ExceptionTemplate();

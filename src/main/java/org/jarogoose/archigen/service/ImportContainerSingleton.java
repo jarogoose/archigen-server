@@ -2,13 +2,11 @@ package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.jarogoose.archigen.util.Packages;
-
 public class ImportContainerSingleton {
 
   private static final StringBuilder controllerImports = new StringBuilder();
+  private static final StringBuilder facadeImports = new StringBuilder();
+
 
   private ImportContainerSingleton() {
   }
@@ -23,6 +21,18 @@ public class ImportContainerSingleton {
   public String getControllerImports() {
     controllerImports.setLength(controllerImports.length() - 1);
     return controllerImports.toString();
+  }
+
+  public void addFacadeImport(String line) {
+    String formattedImport = format("import %s", line);
+    if (!facadeImports.toString().contains(formattedImport)) {
+      facadeImports.append(formattedImport).append(System.lineSeparator());
+    }
+  }
+
+  public String getFacadeImports() {
+    facadeImports.setLength(facadeImports.length() - 1);
+    return facadeImports.toString();
   }
 
   public static ImportContainerSingleton instance() {

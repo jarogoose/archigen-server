@@ -1,0 +1,9 @@
+package {{package}};
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class {{feature-name}}Mapper {
+{{dto-to-response-block}}
+{{request-to-dto-block}}
+}

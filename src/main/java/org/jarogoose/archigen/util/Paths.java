@@ -10,6 +10,7 @@ public enum Paths {
   REQUEST_PATH("domain/model/request"),
   RESPONSE_PATH("domain/model/response"),
   DTO_PATH("domain/model/dto"),
+  DTO_MAPPER_PATH("domain/mapper"),
   STORAGE_PATH("storage"),
   EXCEPTION_PATH("domain/exception");
 

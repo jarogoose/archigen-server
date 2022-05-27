@@ -11,7 +11,8 @@ public enum Packages {
   CONTROLLER_PACKAGE("control"),
   API_PACKAGE("api"),
   STORAGE_PACKAGE("storage"),
-  DTO_PACKAGE("domain.model.dto");
+  DTO_PACKAGE("domain.model.dto"),
+  DTO_MAPPER_PACKAGE("domain.mapper");
 
   private final String value;
 
