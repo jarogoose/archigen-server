@@ -19,7 +19,7 @@ import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.util.Commons;
-import org.jarogoose.archigen.util.Replacer;
+import org.jarogoose.archigen.util.RequestType;
 
 public class ControllerTemplate {
 
@@ -64,8 +64,9 @@ public class ControllerTemplate {
       String apiBlock = readFile(apiBlockPath, Charsets.UTF_8);
 
       // uri
-      String uri = format("@%sMapping(\"%s\")",
-          capitalize(request.type().toLowerCase()), formatUri(request.control()));
+      String[] arr = request.type().split("_");
+      String uri = format("@%sMapping(\"%s\")", capitalize(arr[0].toLowerCase()),
+          formatUri(request.control()));
       apiBlock = apiBlock.replace("{{uri}}", uri);
 
       // function name
@@ -80,18 +81,7 @@ public class ControllerTemplate {
       imports().addControllerImport(formatRequestImport(domain, request));
 
       // facade call
-      String facadeCall = null;
-      if (request.type().equalsIgnoreCase("get")) {
-        String action = format("%s", request.control());
-        facadeCall = format("%sResponse response = facade.%s",
-            capitalize(domain.feature()), action);
-
-        // response import
-        imports().addControllerImport(formatResponseImport(domain));
-      } else {
-        facadeCall = format("facade.%s", request.control());
-      }
-      apiBlock = apiBlock.replace("{{facade-call}}", facadeCall);
+      apiBlock = apiBlock.replace("{{facade-call}}", formatFacadeCall(domain, request));
 
       // exception name
       apiBlock = apiBlock.replace(FEATURE.toString(), capitalize(domain.feature()));
@@ -103,6 +93,27 @@ public class ControllerTemplate {
     }
 
     return content.toString();
+  }
+
+  private String formatFacadeCall(Domain domain, Request request) {
+    String facadeCall = "";
+    if (request.type().equalsIgnoreCase(RequestType.GET.toString())) {
+      facadeCall = format("%sResponse response = facade.%s",
+          capitalize(domain.feature()), request.control());
+
+      // response import
+      imports().addControllerImport(formatResponseImport(domain));
+    } else if (request.type().equalsIgnoreCase(RequestType.GET_ALL.toString())) {
+      facadeCall = format("List<%sResponse> response = facade.%s",
+          capitalize(domain.feature()), request.control());
+
+      // response import
+      imports().addControllerImport(formatResponseImport(domain));
+    } else {
+      facadeCall = format("facade.%s", request.control());
+    }
+
+    return facadeCall;
   }
 
   private String formatUri(String feature) {

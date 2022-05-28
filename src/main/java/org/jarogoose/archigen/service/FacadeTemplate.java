@@ -19,6 +19,7 @@ import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.util.Commons;
+import org.jarogoose.archigen.util.RequestType;
 
 public class FacadeTemplate {
 
@@ -51,62 +52,94 @@ public class FacadeTemplate {
   }
 
   public String createApiBlock(Domain domain) {
-    String facadeReadApiBlockPath = "src/main/resources/template/api/facade-read-api-block.template";
-    String facadeWriteApiBlockPath = "src/main/resources/template/api/facade-write-api-block.template";
-
     // response import
     imports().addFacadeImport(formatResponseImport(domain));
 
     StringBuilder content = new StringBuilder();
-
     for (Request request : domain.api().requests()) {
-      if (request.type().equalsIgnoreCase("get")) {
-        String apiBlock = readFile(facadeReadApiBlockPath, Charsets.UTF_8);
-
-        // domain name
-        String domainName = format("%s", capitalize(domain.feature()));
-        apiBlock = apiBlock.replace(FEATURE.toString(), domainName);
-
-        // facade api name
-        String facadeApiName = format("%s", request.control());
-        apiBlock = apiBlock.replace("{{facade-api-name}}", facadeApiName);
-
-        // request name
-        String requestName = format("%s", capitalize(request.control()));
-        apiBlock = apiBlock.replace(REQUEST.toString(), requestName);
-
-        // request import
-        imports().addFacadeImport(formatRequestImport(domain, request));
-
-        // service api name
-        String serviceApiName = format("%s", request.execute());
-        apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
-
-        content.append(apiBlock).append(System.lineSeparator());
-
+      if (request.type().equalsIgnoreCase(RequestType.GET.toString())) {
+        formatReadFacadeApi(domain, request, content);
+      } else if (request.type().equalsIgnoreCase(RequestType.GET_ALL.toString())) {
+        formatReadAllFacadeApi(domain, request, content);
       } else {
-        String apiBlock = readFile(facadeWriteApiBlockPath, Charsets.UTF_8);
-
-        // facade api name
-        String facadeApiName = format("%s", request.control());
-        apiBlock = apiBlock.replace("{{facade-api-name}}", facadeApiName);
-
-        // request name
-        String requestName = format("%s", capitalize(request.control()));
-        apiBlock = apiBlock.replace(REQUEST.toString(), requestName);
-
-        // request import
-        imports().addFacadeImport(formatRequestImport(domain, request));
-
-        // service api name
-        String serviceApiName = format("%s", request.execute());
-        apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
-
-        content.append(apiBlock).append(System.lineSeparator());
+        formatWriteFacadeApi(domain, request, content);
       }
     }
 
     return content.toString();
   }
 
+  private void formatReadFacadeApi(Domain domain, Request request, StringBuilder content) {
+    String facadeReadApiBlockPath = "src/main/resources/template/api/facade-read-api-block.template";
+    String apiBlock = readFile(facadeReadApiBlockPath, Charsets.UTF_8);
+
+    // domain name
+    String domainName = format("%s", capitalize(domain.feature()));
+    apiBlock = apiBlock.replace(FEATURE.toString(), domainName);
+
+    // facade api name
+    String facadeApiName = format("%s", request.control());
+    apiBlock = apiBlock.replace("{{facade-api-name}}", facadeApiName);
+
+    // request name
+    String requestName = format("%s", capitalize(request.control()));
+    apiBlock = apiBlock.replace(REQUEST.toString(), requestName);
+
+    // request import
+    imports().addFacadeImport(formatRequestImport(domain, request));
+
+    // service api name
+    String serviceApiName = format("%s", request.execute());
+    apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
+
+    content.append(apiBlock).append(System.lineSeparator());
+  }
+
+  private void formatReadAllFacadeApi(Domain domain, Request request, StringBuilder content) {
+    String template = "src/main/resources/template/api/facade-read-all-api-block.template";
+    String apiBlock = readFile(template, Charsets.UTF_8);
+
+    // domain name
+    String domainName = format("%s", capitalize(domain.feature()));
+    apiBlock = apiBlock.replace(FEATURE.toString(), domainName);
+
+    // facade api name
+    String facadeApiName = format("%s", request.control());
+    apiBlock = apiBlock.replace("{{facade-api-name}}", facadeApiName);
+
+    // request name
+    String requestName = format("%s", capitalize(request.control()));
+    apiBlock = apiBlock.replace(REQUEST.toString(), requestName);
+
+    // request import
+    imports().addFacadeImport(formatRequestImport(domain, request));
+
+    // service api name
+    String serviceApiName = format("%s", request.execute());
+    apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
+
+    content.append(apiBlock).append(System.lineSeparator());
+  }
+
+  private void formatWriteFacadeApi(Domain domain, Request request, StringBuilder content) {
+    String facadeWriteApiBlockPath = "src/main/resources/template/api/facade-write-api-block.template";
+    String apiBlock = readFile(facadeWriteApiBlockPath, Charsets.UTF_8);
+
+    // facade api name
+    String facadeApiName = format("%s", request.control());
+    apiBlock = apiBlock.replace("{{facade-api-name}}", facadeApiName);
+
+    // request name
+    String requestName = format("%s", capitalize(request.control()));
+    apiBlock = apiBlock.replace(REQUEST.toString(), requestName);
+
+    // request import
+    imports().addFacadeImport(formatRequestImport(domain, request));
+
+    // service api name
+    String serviceApiName = format("%s", request.execute());
+    apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
+
+    content.append(apiBlock).append(System.lineSeparator());
+  }
 }

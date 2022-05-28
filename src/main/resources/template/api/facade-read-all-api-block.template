@@ -1,0 +1,3 @@
+public List<{{feature-name}}Response> {{facade-api-name}}({{request-name}}Request request) {
+  return toResponse(service.{{service-api-name}}(toDto(request)));
+}

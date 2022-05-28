@@ -51,7 +51,7 @@ api:
       execute: "showAll"
       query: "findAllByUserId"
       custom-query: true
-      type: "GET"
+      type: "GET_ALL"
       data:
         - userId
     - control: "removeDailyMetabolicActivity"
