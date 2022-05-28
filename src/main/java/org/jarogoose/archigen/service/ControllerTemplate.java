@@ -1,7 +1,7 @@
 package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
-import static org.jarogoose.archigen.service.ImportContainerSingleton.instance;
+import static org.jarogoose.archigen.service.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.Packages.API_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.CONTROLLER_PACKAGE;
@@ -31,7 +31,7 @@ public class ControllerTemplate {
     template = template.replace("{{class-name}}", capitalize(domain.feature()));
     template = template.replace("{{dependency-block}}", createDependencyBlock(domain));
     template = template.replace("{{api-block}}", createApiBlock(domain));
-    template = template.replace("{{imports}}", instance().getControllerImports());
+    template = template.replace("{{imports}}", imports().getControllerImports());
 
     return template;
   }
@@ -47,7 +47,7 @@ public class ControllerTemplate {
     // facade import
     String imp = String.format("%s.%s.%s.%sFacade;",
         ROOT_PACKAGE, domain.root(), API_PACKAGE, className);
-    instance().addControllerImport(imp);
+    imports().addControllerImport(imp);
 
     return dependencyBlock;
   }
@@ -75,7 +75,7 @@ public class ControllerTemplate {
       // request import
       String requestImport = String.format("%s.%s.%s.%sRequest;",
           ROOT_PACKAGE, domain.root(), REQUEST_PACKAGE, capitalize(request.control()));
-      instance().addControllerImport(requestImport);
+      imports().addControllerImport(requestImport);
 
       // facade call
       String facadeCall = null;
@@ -87,7 +87,7 @@ public class ControllerTemplate {
         // response import
         String responseImport = String.format("%s.%s.%s.%sResponse;",
             ROOT_PACKAGE, domain.root(), RESPONSE_PACKAGE, capitalize(domain.feature()));
-        instance().addControllerImport(responseImport);
+        imports().addControllerImport(responseImport);
       } else {
         facadeCall = format("facade.%s", request.control());
       }
@@ -99,7 +99,7 @@ public class ControllerTemplate {
       // import exception
       String exceptionImport = String.format("%s.%s.%s.%sNotFoundException;",
           ROOT_PACKAGE, domain.root(), EXCEPTION_PACKAGE, capitalize(domain.feature()));
-      instance().addControllerImport(exceptionImport);
+      imports().addControllerImport(exceptionImport);
 
       content.append(apiBlock).append(System.lineSeparator());
     }

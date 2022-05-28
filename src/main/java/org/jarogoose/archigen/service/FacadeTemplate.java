@@ -1,6 +1,9 @@
 package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
+import static org.jarogoose.archigen.service.ImportContainerSingleton.imports;
+import static org.jarogoose.archigen.util.Commons.formatRequestImport;
+import static org.jarogoose.archigen.util.Commons.formatResponseImport;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.Packages.API_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
@@ -22,6 +25,7 @@ public class FacadeTemplate {
     template = template.replace("{{class-name}}", capitalize(domain.feature()));
     template = template.replace("{{dependency-block}}", createDependencyBlock(domain));
     template = template.replace("{{api-block}}", createApiBlock(domain));
+    template = template.replace("{{imports}}", imports().getFacadeImports());
 
     return template;
   }
@@ -38,6 +42,9 @@ public class FacadeTemplate {
   public String createApiBlock(Domain domain) {
     String facadeReadApiBlockPath = "src/main/resources/template/api/facade-read-api-block.template";
     String facadeWriteApiBlockPath = "src/main/resources/template/api/facade-write-api-block.template";
+
+    // response import
+    imports().addFacadeImport(formatResponseImport(domain));
 
     StringBuilder content = new StringBuilder();
 
@@ -57,6 +64,9 @@ public class FacadeTemplate {
         String requestName = format("%s", capitalize(request.control()));
         apiBlock = apiBlock.replace("{{request-name}}", requestName);
 
+        // request import
+        imports().addFacadeImport(formatRequestImport(domain, request));
+
         // service api name
         String serviceApiName = format("%s", request.execute());
         apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
@@ -73,6 +83,9 @@ public class FacadeTemplate {
         // request name
         String requestName = format("%s", capitalize(request.control()));
         apiBlock = apiBlock.replace("{{request-name}}", requestName);
+
+        // request import
+        imports().addFacadeImport(formatRequestImport(domain, request));
 
         // service api name
         String serviceApiName = format("%s", request.execute());

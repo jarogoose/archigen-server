@@ -48,7 +48,7 @@ public class ImportContainerSingleton {
     return dtoMapperImports.toString();
   }
 
-  public static ImportContainerSingleton instance() {
+  public static ImportContainerSingleton imports() {
     return new ImportContainerSingleton();
   }
 }
