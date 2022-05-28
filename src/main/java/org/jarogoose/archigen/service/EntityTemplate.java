@@ -4,6 +4,9 @@ import static java.lang.String.format;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.STORAGE_PACKAGE;
+import static org.jarogoose.archigen.util.Replacer.DATA;
+import static org.jarogoose.archigen.util.Replacer.FEATURE;
+import static org.jarogoose.archigen.util.Replacer.PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
 
 import com.google.common.base.Charsets;
@@ -18,11 +21,11 @@ public class EntityTemplate {
     // package
     String packageName = String.format("%s.%s.%s",
         ROOT_PACKAGE, domain.root(), STORAGE_PACKAGE);
-    template = template.replace("{{package}}", packageName);
+    template = template.replace(PACKAGE.toString(), packageName);
 
-    // class name
-    String className = format("%s", capitalize(domain.feature()));
-    template = template.replace("{{class-name}}", className);
+    // feature name
+    String featureName = format("%s", capitalize(domain.feature()));
+    template = template.replace(FEATURE.toString(), featureName);
 
     // document name
     String documentName = formatDocumentName(domain.feature().split("(?=\\p{Upper})"));
@@ -49,7 +52,7 @@ public class EntityTemplate {
         dataBlock.append(System.lineSeparator());
       }
     }
-    template = template.replace("{{data-block}}", dataBlock.toString());
+    template = template.replace(DATA.toString(), dataBlock.toString());
 
     return template;
   }

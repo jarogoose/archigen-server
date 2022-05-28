@@ -14,6 +14,6 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "{{document-name}}")
-class {{class-name}}Entity {
+class {{feature-name}}Entity {
 {{data-block}}
 }

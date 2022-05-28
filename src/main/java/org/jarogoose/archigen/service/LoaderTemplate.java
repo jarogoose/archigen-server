@@ -4,11 +4,16 @@ import static java.lang.String.format;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.STORAGE_PACKAGE;
+import static org.jarogoose.archigen.util.Replacer.API;
+import static org.jarogoose.archigen.util.Replacer.DEPENDENCY;
+import static org.jarogoose.archigen.util.Replacer.FEATURE;
+import static org.jarogoose.archigen.util.Replacer.PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
 
 import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
+import org.jarogoose.archigen.util.Replacer;
 
 public class LoaderTemplate {
 
@@ -18,10 +23,10 @@ public class LoaderTemplate {
 
     // controller class
     String packageName = String.format("%s.%s.%s", ROOT_PACKAGE, domain.root(), STORAGE_PACKAGE);
-    template = template.replace("{{package}}", packageName);
-    template = template.replace("{{class-name}}", capitalize(domain.feature()));
-    template = template.replace("{{dependency-block}}", createDependencyBlock(domain));
-    template = template.replace("{{api-block}}", createApiBlock(domain));
+    template = template.replace(PACKAGE.toString(), packageName);
+    template = template.replace(FEATURE.toString(), capitalize(domain.feature()));
+    template = template.replace(DEPENDENCY.toString(), createDependencyBlock(domain));
+    template = template.replace(API.toString(), createApiBlock(domain));
 
     return template;
   }
@@ -30,7 +35,7 @@ public class LoaderTemplate {
     String dependencyBlockPath = "src/main/resources/template/storage/loader-dependency-block.template";
     String dependencyBlock = readFile(dependencyBlockPath, Charsets.UTF_8);
 
-    dependencyBlock = dependencyBlock.replace("{{class-name}}", capitalize(domain.feature()));
+    dependencyBlock = dependencyBlock.replace(FEATURE.toString(), capitalize(domain.feature()));
 
     return dependencyBlock;
   }
@@ -45,9 +50,9 @@ public class LoaderTemplate {
       if (request.type().equalsIgnoreCase("get")) {
         String apiBlock = readFile(serviceReadApiBlockPath, Charsets.UTF_8);
 
-        // domain class
-        String domainClass = format("%s", capitalize(domain.feature()));
-        apiBlock = apiBlock.replace("{{domain-class}}", domainClass);
+        // feature name
+        String featureName = format("%s", capitalize(domain.feature()));
+        apiBlock = apiBlock.replace(FEATURE.toString(), featureName);
 
         // storage query api name
         String storageQueryApiName = format("%s", request.query());
@@ -57,16 +62,16 @@ public class LoaderTemplate {
         apiBlock = apiBlock.replace("{{root-name}}", domain.root().toUpperCase());
 
         // domain text
-        apiBlock = apiBlock.replace("{{domain-text}}", formatDomainText(domain.feature()));
+        apiBlock = apiBlock.replace(FEATURE.toString(), formatDomainText(domain.feature()));
 
         content.append(apiBlock).append(System.lineSeparator());
 
       } else {
         String apiBlock = readFile(serviceWriteApiBlockPath, Charsets.UTF_8);
 
-        // domain class
-        String domainClass = format("%s", capitalize(domain.feature()));
-        apiBlock = apiBlock.replace("{{domain-class}}", domainClass);
+        // feature class
+        String featureClass = format("%s", capitalize(domain.feature()));
+        apiBlock = apiBlock.replace(FEATURE.toString(), featureClass);
 
         // storage query api name
         String storageQueryApiName = format("%s", request.query());

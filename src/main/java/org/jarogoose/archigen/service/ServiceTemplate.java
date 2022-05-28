@@ -5,6 +5,11 @@ import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.Packages.API_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
+import static org.jarogoose.archigen.util.Replacer.API;
+import static org.jarogoose.archigen.util.Replacer.DEPENDENCY;
+import static org.jarogoose.archigen.util.Replacer.FEATURE;
+import static org.jarogoose.archigen.util.Replacer.IMPORTS;
+import static org.jarogoose.archigen.util.Replacer.PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
 
 import com.google.common.base.Charsets;
@@ -23,11 +28,11 @@ public class ServiceTemplate {
 
     // controller class
     String packageName = String.format("%s.%s.%s", ROOT_PACKAGE, domain.root(), API_PACKAGE);
-    template = template.replace("{{package}}", packageName);
-    template = template.replace("{{class-name}}", capitalize(domain.feature()));
-    template = template.replace("{{dependency-block}}", createDependencyBlock(domain));
-    template = template.replace("{{api-block}}", createApiBlock(domain));
-    template = template.replace("{{imports}}", imports().getServiceImports());
+    template = template.replace(PACKAGE.toString(), packageName);
+    template = template.replace(FEATURE.toString(), capitalize(domain.feature()));
+    template = template.replace(DEPENDENCY.toString(), createDependencyBlock(domain));
+    template = template.replace(API.toString(), createApiBlock(domain));
+    template = template.replace(IMPORTS.toString(), imports().getServiceImports());
 
     return template;
   }
@@ -36,7 +41,7 @@ public class ServiceTemplate {
     String dependencyBlockPath = "src/main/resources/template/api/service-dependency-block.template";
     String dependencyBlock = readFile(dependencyBlockPath, Charsets.UTF_8);
 
-    dependencyBlock = dependencyBlock.replace("{{class-name}}", capitalize(domain.feature()));
+    dependencyBlock = dependencyBlock.replace(FEATURE.toString(), capitalize(domain.feature()));
 
     // loader import
     imports().addServiceImports(Commons.formatLoaderImport(domain));
@@ -54,9 +59,9 @@ public class ServiceTemplate {
       if (request.type().equalsIgnoreCase("get")) {
         String apiBlock = readFile(serviceReadApiBlockPath, Charsets.UTF_8);
 
-        // domain class
-        String domainClass = format("%s", capitalize(domain.feature()));
-        apiBlock = apiBlock.replace("{{domain-class}}", domainClass);
+        // feature name
+        String featureName = format("%s", capitalize(domain.feature()));
+        apiBlock = apiBlock.replace(FEATURE.toString(), featureName);
 
         // service api name
         String serviceApiName = format("%s", request.execute());
@@ -71,9 +76,9 @@ public class ServiceTemplate {
       } else {
         String apiBlock = readFile(serviceWriteApiBlockPath, Charsets.UTF_8);
 
-        // domain class
-        String domainClass = format("%s", capitalize(domain.feature()));
-        apiBlock = apiBlock.replace("{{domain-class}}", domainClass);
+        // feature name
+        String featureName = format("%s", capitalize(domain.feature()));
+        apiBlock = apiBlock.replace(FEATURE.toString(), featureName);
 
         // service api name
         String serviceApiName = format("%s", request.execute());

@@ -1,5 +1,5 @@
-private final {{class-name}}Loader loader;
+private final {{feature-name}}Loader loader;
 
-public {{class-name}}Service({{class-name}}Loader loader) {
+public {{feature-name}}Service({{feature-name}}Loader loader) {
   this.loader = loader;
 }

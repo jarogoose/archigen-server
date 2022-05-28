@@ -4,6 +4,8 @@ import static java.lang.String.format;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.Packages.EXCEPTION_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
+import static org.jarogoose.archigen.util.Replacer.FEATURE;
+import static org.jarogoose.archigen.util.Replacer.PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
 
 import com.google.common.base.Charsets;
@@ -18,11 +20,11 @@ public class ExceptionTemplate {
     // package
     String packageName = String.format("%s.%s.%s",
         ROOT_PACKAGE, domain.root(), EXCEPTION_PACKAGE);
-    template = template.replace("{{package}}", packageName);
+    template = template.replace(PACKAGE.toString(), packageName);
 
-    // class name
-    String className = format("%s", capitalize(domain.feature()));
-    template = template.replace("{{class-name}}", className);
+    // feature name
+    String featureName = format("%s", capitalize(domain.feature()));
+    template = template.replace(FEATURE.toString(), featureName);
 
     return template;
   }

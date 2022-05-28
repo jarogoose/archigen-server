@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController()
 @RequestMapping("{{domain-uri}}-api")
-public class {{class-name}}Controller {
+public class {{feature-name}}Controller {
 
 {{dependency-block}}
 

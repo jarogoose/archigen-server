@@ -9,6 +9,6 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-public class {{class-name}} {
+public class {{feature-name}} {
 {{data-block}}
 }

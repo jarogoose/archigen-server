@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-class {{class-name}}Service {
+class {{feature-name}}Service {
 
 {{dependency-block}}
 

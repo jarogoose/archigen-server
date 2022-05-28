@@ -13,6 +13,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class {{class-name}}Request {
+public class {{feature-name}}Request {
 {{data-block}}
 }

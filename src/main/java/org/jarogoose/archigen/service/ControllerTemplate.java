@@ -8,12 +8,18 @@ import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.Packages.CONTROLLER_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
+import static org.jarogoose.archigen.util.Replacer.API;
+import static org.jarogoose.archigen.util.Replacer.DEPENDENCY;
+import static org.jarogoose.archigen.util.Replacer.FEATURE;
+import static org.jarogoose.archigen.util.Replacer.IMPORTS;
+import static org.jarogoose.archigen.util.Replacer.PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
 
 import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.util.Commons;
+import org.jarogoose.archigen.util.Replacer;
 
 public class ControllerTemplate {
 
@@ -27,11 +33,11 @@ public class ControllerTemplate {
 
     // controller class
     String packageName = String.format("%s.%s.%s", ROOT_PACKAGE, domain.root(), CONTROLLER_PACKAGE);
-    template = template.replace("{{package}}", packageName);
-    template = template.replace("{{class-name}}", capitalize(domain.feature()));
-    template = template.replace("{{dependency-block}}", createDependencyBlock(domain));
-    template = template.replace("{{api-block}}", createApiBlock(domain));
-    template = template.replace("{{imports}}", imports().getControllerImports());
+    template = template.replace(PACKAGE.toString(), packageName);
+    template = template.replace(FEATURE.toString(), capitalize(domain.feature()));
+    template = template.replace(DEPENDENCY.toString(), createDependencyBlock(domain));
+    template = template.replace(API.toString(), createApiBlock(domain));
+    template = template.replace(IMPORTS.toString(), imports().getControllerImports());
 
     return template;
   }
@@ -40,9 +46,9 @@ public class ControllerTemplate {
     String dependencyBlockPath = "src/main/resources/template/control/dependency-block.template";
     String dependencyBlock = readFile(dependencyBlockPath, Charsets.UTF_8);
 
-    // class name
-    String className = capitalize(domain.feature());
-    dependencyBlock = dependencyBlock.replace("{{class-name}}", className);
+    // feature name
+    String featureName = capitalize(domain.feature());
+    dependencyBlock = dependencyBlock.replace(FEATURE.toString(), featureName);
 
     // facade import
     imports().addControllerImport(Commons.formatFacadeImport(domain));
@@ -88,7 +94,7 @@ public class ControllerTemplate {
       apiBlock = apiBlock.replace("{{facade-call}}", facadeCall);
 
       // exception name
-      apiBlock = apiBlock.replace("{{exception-name}}", capitalize(domain.feature()));
+      apiBlock = apiBlock.replace(FEATURE.toString(), capitalize(domain.feature()));
 
       // import exception
       imports().addControllerImport(formatNotFoundExceptionImport(domain));

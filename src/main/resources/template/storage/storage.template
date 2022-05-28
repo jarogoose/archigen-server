@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-interface {{class-name}}Storage extends MongoRepository<{{class-name}}Entity, String> {
+interface {{feature-name}}Storage extends MongoRepository<{{feature-name}}Entity, String> {
 {{api-block}}
 }

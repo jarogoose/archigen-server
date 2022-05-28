@@ -1,5 +1,5 @@
-private final {{class-name}}Storage storage;
+private final {{feature-name}}Storage storage;
 
-public {{class-name}}Loader({{class-name}}Storage storage) {
+public {{feature-name}}Loader({{feature-name}}Storage storage) {
   this.storage = storage;
 }

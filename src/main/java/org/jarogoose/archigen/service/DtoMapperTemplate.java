@@ -1,18 +1,23 @@
 package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
+import static org.jarogoose.archigen.util.Commons.formatDtoImport;
+import static org.jarogoose.archigen.util.Commons.formatRequestImport;
 import static org.jarogoose.archigen.util.Commons.formatResponseImport;
-import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
+import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.Packages.DTO_MAPPER_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
+import static org.jarogoose.archigen.util.Replacer.FEATURE;
+import static org.jarogoose.archigen.util.Replacer.IMPORTS;
+import static org.jarogoose.archigen.util.Replacer.PACKAGE;
+import static org.jarogoose.archigen.util.Replacer.REQUEST;
 import static org.springframework.util.StringUtils.capitalize;
 
 import com.google.common.base.Charsets;
 import java.util.List;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
-import org.jarogoose.archigen.util.Commons;
 
 public class DtoMapperTemplate {
 
@@ -23,16 +28,16 @@ public class DtoMapperTemplate {
     // package
     String packageName = String.format("%s.%s.%s",
         ROOT_PACKAGE, domain.root(), DTO_MAPPER_PACKAGE);
-    template = template.replace("{{package}}", packageName);
 
     // dto import
-    imports().addDtoMapperImports(Commons.formatDtoImport(domain));
+    imports().addDtoMapperImports(formatDtoImport(domain));
 
     String featureName = format("%s", capitalize(domain.feature()));
-    template = template.replace("{{feature-name}}", featureName);
+    template = template.replace(PACKAGE.toString(), packageName);
+    template = template.replace(FEATURE.toString(), featureName);
     template = template.replace("{{dto-to-response-block}}", createDtoToResponseBlock(domain));
     template = template.replace("{{request-to-dto-block}}", createRequestToDtoBlock(domain));
-    template = template.replace("{{imports}}", imports().getDtoMapperImportsFacadeImports());
+    template = template.replace(IMPORTS.toString(), imports().getDtoMapperImportsFacadeImports());
 
     return template;
   }
@@ -47,9 +52,8 @@ public class DtoMapperTemplate {
 
     // feature name
     String featureName = format("%s", capitalize(domain.feature()));
-    template = template.replace("{{feature-name}}", featureName);
+    template = template.replace(FEATURE.toString(), featureName);
     template = template.replace("{{data-map-block}}", iterateData(domain.data(), mapPattern));
-    template = template.replace("{{imports}}", imports().getDtoMapperImportsFacadeImports());
 
     return template;
   }
@@ -64,14 +68,14 @@ public class DtoMapperTemplate {
 
       // feature name
       String featureName = format("%s", capitalize(domain.feature()));
-      template = template.replace("{{feature-name}}", featureName);
+      template = template.replace(FEATURE.toString(), featureName);
 
       // request name
       String requestName = format("%s", capitalize(request.control()));
-      template = template.replace("{{request-name}}", requestName);
+      template = template.replace(REQUEST.toString(), requestName);
 
       // request import
-      imports().addDtoMapperImports(Commons.formatRequestImport(domain, request));
+      imports().addDtoMapperImports(formatRequestImport(domain, request));
 
       template = template.replace("{{data-map-block}}", iterateData(request.data(), mapPattern));
 
