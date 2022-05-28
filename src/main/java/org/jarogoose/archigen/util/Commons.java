@@ -45,13 +45,23 @@ public class Commons {
         ROOT_PACKAGE, domain.root(), DTO_PACKAGE, capitalize(domain.feature()));
   }
 
-  public static String formatToDtoStaticImport(Domain domain) {
+  public static String formatRequestToDtoStaticImport(Domain domain) {
     return String.format("import static %s.%s.%s.%sMapper.toDto;",
         ROOT_PACKAGE, domain.root(), DTO_MAPPER_PACKAGE, capitalize(domain.feature()));
   }
 
-  public static String formatToResponseStaticImport(Domain domain) {
+  public static String formatDtoToResponseStaticImport(Domain domain) {
     return String.format("import static %s.%s.%s.%sMapper.toResponse;",
         ROOT_PACKAGE, domain.root(), DTO_MAPPER_PACKAGE, capitalize(domain.feature()));
+  }
+
+  public static String formatDtoToEntityStaticImport(Domain domain) {
+    return String.format("import static %s.%s.%s.%sEntityMapper.toEntity;",
+        ROOT_PACKAGE, domain.root(), STORAGE_PACKAGE, capitalize(domain.feature()));
+  }
+
+  public static String formatEntityToDtoStaticImport(Domain domain) {
+    return String.format("import static %s.%s.%s.%sEntityMapper.toDto;",
+        ROOT_PACKAGE, domain.root(), STORAGE_PACKAGE, capitalize(domain.feature()));
   }
 }

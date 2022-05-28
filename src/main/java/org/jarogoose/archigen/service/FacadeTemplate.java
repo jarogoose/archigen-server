@@ -27,8 +27,8 @@ public class FacadeTemplate {
     String template = readFile(filePath, Charsets.UTF_8);
 
     // mapper static import
-    imports().addFacadeImport(Commons.formatToDtoStaticImport(domain));
-    imports().addFacadeImport(Commons.formatToResponseStaticImport(domain));
+    imports().addFacadeImport(Commons.formatRequestToDtoStaticImport(domain));
+    imports().addFacadeImport(Commons.formatDtoToResponseStaticImport(domain));
 
     // controller class
     String packageName = String.format("%s.%s.%s", ROOT_PACKAGE, domain.root(), API_PACKAGE);

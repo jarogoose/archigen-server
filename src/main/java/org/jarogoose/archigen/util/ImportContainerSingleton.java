@@ -7,6 +7,7 @@ public class ImportContainerSingleton {
   private static final StringBuilder controllerImports = new StringBuilder();
   private static final StringBuilder facadeImports = new StringBuilder();
   private static final StringBuilder serviceImports = new StringBuilder();
+  private static final StringBuilder loaderImports = new StringBuilder();
   private static final StringBuilder dtoMapperImports = new StringBuilder();
   private static final StringBuilder entityMapperImports = new StringBuilder();
 
@@ -67,6 +68,17 @@ public class ImportContainerSingleton {
   public String getEntityMapperImportsFacadeImports() {
     entityMapperImports.setLength(entityMapperImports.length() - 1);
     return entityMapperImports.toString();
+  }
+
+  public void addLoaderImports(String line) {
+    if (!loaderImports.toString().contains(line)) {
+      loaderImports.append(line).append(System.lineSeparator());
+    }
+  }
+
+  public String getLoaderImports() {
+    loaderImports.setLength(loaderImports.length() - 1);
+    return loaderImports.toString();
   }
 
   public static ImportContainerSingleton imports() {

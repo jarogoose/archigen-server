@@ -1,19 +1,26 @@
 package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
+import static org.jarogoose.archigen.util.Commons.formatDtoImport;
+import static org.jarogoose.archigen.util.Commons.formatDtoToEntityStaticImport;
+import static org.jarogoose.archigen.util.Commons.formatEntityToDtoStaticImport;
+import static org.jarogoose.archigen.util.Commons.formatNotFoundExceptionImport;
+import static org.jarogoose.archigen.util.Commons.formatRequestToDtoStaticImport;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
+import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.STORAGE_PACKAGE;
 import static org.jarogoose.archigen.util.Replacer.API;
 import static org.jarogoose.archigen.util.Replacer.DEPENDENCY;
 import static org.jarogoose.archigen.util.Replacer.FEATURE;
+import static org.jarogoose.archigen.util.Replacer.IMPORTS;
 import static org.jarogoose.archigen.util.Replacer.PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
 
 import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
-import org.jarogoose.archigen.util.Replacer;
+import org.jarogoose.archigen.util.Commons;
 
 public class LoaderTemplate {
 
@@ -21,12 +28,20 @@ public class LoaderTemplate {
     String filePath = "src/main/resources/template/storage/loader.template";
     String template = readFile(filePath, Charsets.UTF_8);
 
+    // dto import
+    imports().addLoaderImports(formatDtoImport(domain));
+
+    // entity  mapper static import
+    imports().addLoaderImports(formatEntityToDtoStaticImport(domain));
+    imports().addLoaderImports(formatDtoToEntityStaticImport(domain));
+
     // controller class
     String packageName = String.format("%s.%s.%s", ROOT_PACKAGE, domain.root(), STORAGE_PACKAGE);
     template = template.replace(PACKAGE.toString(), packageName);
     template = template.replace(FEATURE.toString(), capitalize(domain.feature()));
     template = template.replace(DEPENDENCY.toString(), createDependencyBlock(domain));
     template = template.replace(API.toString(), createApiBlock(domain));
+    template = template.replace(IMPORTS.toString(), imports().getLoaderImports());
 
     return template;
   }
@@ -49,6 +64,9 @@ public class LoaderTemplate {
     for (Request request : domain.api().requests()) {
       if (request.type().equalsIgnoreCase("get")) {
         String apiBlock = readFile(serviceReadApiBlockPath, Charsets.UTF_8);
+
+        // exception import
+        imports().addLoaderImports(formatNotFoundExceptionImport(domain));
 
         // feature name
         String featureName = format("%s", capitalize(domain.feature()));
