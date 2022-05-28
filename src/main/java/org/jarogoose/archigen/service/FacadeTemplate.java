@@ -1,7 +1,7 @@
 package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
-import static org.jarogoose.archigen.service.ImportContainerSingleton.imports;
+import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.Commons.formatRequestImport;
 import static org.jarogoose.archigen.util.Commons.formatResponseImport;
 import static org.jarogoose.archigen.util.FileUtils.readFile;

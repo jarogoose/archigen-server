@@ -1,4 +1,4 @@
-package org.jarogoose.archigen.service;
+package org.jarogoose.archigen.util;
 
 import static java.lang.String.format;
 
@@ -13,9 +13,8 @@ public class ImportContainerSingleton {
   }
 
   public void addControllerImport(String line) {
-    String formattedImport = format("import %s", line);
-    if (!controllerImports.toString().contains(formattedImport)) {
-      controllerImports.append(formattedImport).append(System.lineSeparator());
+    if (!controllerImports.toString().contains(line)) {
+      controllerImports.append(line).append(System.lineSeparator());
     }
   }
 
@@ -25,9 +24,8 @@ public class ImportContainerSingleton {
   }
 
   public void addFacadeImport(String line) {
-    String formattedImport = format("import %s", line);
-    if (!facadeImports.toString().contains(formattedImport)) {
-      facadeImports.append(formattedImport).append(System.lineSeparator());
+    if (!facadeImports.toString().contains(line)) {
+      facadeImports.append(line).append(System.lineSeparator());
     }
   }
 
@@ -37,9 +35,8 @@ public class ImportContainerSingleton {
   }
 
   public void addDtoMapperImportsImport(String line) {
-    String formattedImport = format("import %s", line);
-    if (!dtoMapperImports.toString().contains(formattedImport)) {
-      dtoMapperImports.append(formattedImport).append(System.lineSeparator());
+    if (!dtoMapperImports.toString().contains(line)) {
+      dtoMapperImports.append(line).append(System.lineSeparator());
     }
   }
 

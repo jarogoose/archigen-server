@@ -1,7 +1,8 @@
 package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
-import static org.jarogoose.archigen.service.ImportContainerSingleton.imports;
+import static org.jarogoose.archigen.util.Commons.formatResponseImport;
+import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.Packages.DTO_MAPPER_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.DTO_PACKAGE;
@@ -14,6 +15,7 @@ import com.google.common.base.Charsets;
 import java.util.List;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
+import org.jarogoose.archigen.util.Commons;
 
 public class DtoMapperTemplate {
 
@@ -27,9 +29,7 @@ public class DtoMapperTemplate {
     template = template.replace("{{package}}", packageName);
 
     // dto import
-    String dtoImport = String.format("%s.%s.%s.%s;",
-        ROOT_PACKAGE, domain.root(), DTO_PACKAGE, capitalize(domain.feature()));
-    imports().addDtoMapperImportsImport(dtoImport);
+    imports().addDtoMapperImportsImport(Commons.formatDtoImport(domain));
 
     String featureName = format("%s", capitalize(domain.feature()));
     template = template.replace("{{feature-name}}", featureName);
@@ -46,9 +46,7 @@ public class DtoMapperTemplate {
     String mapPattern = ".%s(dto.get%s())";
 
     // response import
-    String responseImport = String.format("%s.%s.%s.%sResponse;",
-        ROOT_PACKAGE, domain.root(), RESPONSE_PACKAGE, capitalize(domain.feature()));
-    imports().addDtoMapperImportsImport(responseImport);
+    imports().addDtoMapperImportsImport(formatResponseImport(domain));
 
     // feature name
     String featureName = format("%s", capitalize(domain.feature()));
@@ -76,9 +74,7 @@ public class DtoMapperTemplate {
       template = template.replace("{{request-name}}", requestName);
 
       // request import
-      String requestImport = String.format("%s.%s.%s.%sRequest;",
-          ROOT_PACKAGE, domain.root(), REQUEST_PACKAGE, capitalize(request.control()));
-      imports().addDtoMapperImportsImport(requestImport);
+      imports().addDtoMapperImportsImport(Commons.formatRequestImport(domain, request));
 
       template = template.replace("{{data-map-block}}", iterateData(request.data(), mapPattern));
 
