@@ -2,6 +2,7 @@ package {{package}};
 
 import java.util.ArrayList;
 import java.util.List;
+{{imports}}
 
 public class {{feature-name}}Mapper {
 {{dto-to-response-block}}

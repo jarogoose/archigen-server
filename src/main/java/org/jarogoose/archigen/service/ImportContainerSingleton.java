@@ -6,6 +6,7 @@ public class ImportContainerSingleton {
 
   private static final StringBuilder controllerImports = new StringBuilder();
   private static final StringBuilder facadeImports = new StringBuilder();
+  private static final StringBuilder dtoMapperImports = new StringBuilder();
 
 
   private ImportContainerSingleton() {
@@ -33,6 +34,18 @@ public class ImportContainerSingleton {
   public String getFacadeImports() {
     facadeImports.setLength(facadeImports.length() - 1);
     return facadeImports.toString();
+  }
+
+  public void addDtoMapperImportsImport(String line) {
+    String formattedImport = format("import %s", line);
+    if (!dtoMapperImports.toString().contains(formattedImport)) {
+      dtoMapperImports.append(formattedImport).append(System.lineSeparator());
+    }
+  }
+
+  public String getDtoMapperImportsFacadeImports() {
+    dtoMapperImports.setLength(dtoMapperImports.length() - 1);
+    return dtoMapperImports.toString();
   }
 
   public static ImportContainerSingleton instance() {
