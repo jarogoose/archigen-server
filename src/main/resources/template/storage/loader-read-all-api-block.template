@@ -1,0 +1,3 @@
+public List<{{feature-name}}> {{query-name}}(String userId) {
+  return toDto(storage.{{query-name}}(userId));
+}

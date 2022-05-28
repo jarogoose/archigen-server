@@ -5,7 +5,6 @@ import static org.jarogoose.archigen.util.Commons.formatDtoImport;
 import static org.jarogoose.archigen.util.Commons.formatDtoToEntityStaticImport;
 import static org.jarogoose.archigen.util.Commons.formatEntityToDtoStaticImport;
 import static org.jarogoose.archigen.util.Commons.formatNotFoundExceptionImport;
-import static org.jarogoose.archigen.util.Commons.formatRequestToDtoStaticImport;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
@@ -20,7 +19,7 @@ import static org.springframework.util.StringUtils.capitalize;
 import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
-import org.jarogoose.archigen.util.Commons;
+import org.jarogoose.archigen.util.RequestType;
 
 public class LoaderTemplate {
 
@@ -56,50 +55,82 @@ public class LoaderTemplate {
   }
 
   public CharSequence createApiBlock(Domain domain) {
-    String serviceReadApiBlockPath = "src/main/resources/template/storage/loader-read-api-block.template";
-    String serviceWriteApiBlockPath = "src/main/resources/template/storage/loader-write-api-block.template";
-
     StringBuilder content = new StringBuilder();
 
     for (Request request : domain.api().requests()) {
-      if (request.type().equalsIgnoreCase("get")) {
-        String apiBlock = readFile(serviceReadApiBlockPath, Charsets.UTF_8);
-
-        // exception import
-        imports().addLoaderImports(formatNotFoundExceptionImport(domain));
-
-        // feature name
-        String featureName = format("%s", capitalize(domain.feature()));
-        apiBlock = apiBlock.replace(FEATURE.toString(), featureName);
-
-        // storage query api name
-        String storageQueryApiName = format("%s", request.query());
-        apiBlock = apiBlock.replace("{{query-name}}", storageQueryApiName);
-
-        // root name
-        apiBlock = apiBlock.replace("{{root-name}}", domain.root().toUpperCase());
-
-        // domain text
-        apiBlock = apiBlock.replace(FEATURE.toString(), formatDomainText(domain.feature()));
-
-        content.append(apiBlock).append(System.lineSeparator());
-
+      if (request.type().equalsIgnoreCase(RequestType.GET.toString())) {
+        formatReadLoaderApi(domain, request, content);
+      } else if (request.type().equalsIgnoreCase(RequestType.GET_ALL.toString())) {
+        formatReadAllLoaderApi(domain, request, content);
       } else {
-        String apiBlock = readFile(serviceWriteApiBlockPath, Charsets.UTF_8);
-
-        // feature class
-        String featureClass = format("%s", capitalize(domain.feature()));
-        apiBlock = apiBlock.replace(FEATURE.toString(), featureClass);
-
-        // storage query api name
-        String storageQueryApiName = format("%s", request.query());
-        apiBlock = apiBlock.replace("{{query-name}}", storageQueryApiName);
-
-        content.append(apiBlock).append(System.lineSeparator());
+        formatWriteLoaderApi(domain, request, content);
       }
     }
 
     return content.toString();
+  }
+
+  private void formatReadLoaderApi(Domain domain, Request request, StringBuilder content) {
+    String template = "src/main/resources/template/storage/loader-read-api-block.template";
+    String apiBlock = readFile(template, Charsets.UTF_8);
+
+    // exception import
+    imports().addLoaderImports(formatNotFoundExceptionImport(domain));
+
+    // feature name
+    String featureName = format("%s", capitalize(domain.feature()));
+    apiBlock = apiBlock.replace(FEATURE.toString(), featureName);
+
+    // storage query api name
+    String storageQueryApiName = format("%s", request.query());
+    apiBlock = apiBlock.replace("{{query-name}}", storageQueryApiName);
+
+    // root name
+    apiBlock = apiBlock.replace("{{root-name}}", domain.root().toUpperCase());
+
+    // domain text
+    apiBlock = apiBlock.replace(FEATURE.toString(), formatDomainText(domain.feature()));
+
+    content.append(apiBlock).append(System.lineSeparator());
+  }
+
+  private void formatReadAllLoaderApi(Domain domain, Request request, StringBuilder content) {
+    String template = "src/main/resources/template/storage/loader-read-all-api-block.template";
+    String apiBlock = readFile(template, Charsets.UTF_8);
+
+    // exception import
+    imports().addLoaderImports(formatNotFoundExceptionImport(domain));
+
+    // feature name
+    String featureName = format("%s", capitalize(domain.feature()));
+    apiBlock = apiBlock.replace(FEATURE.toString(), featureName);
+
+    // storage query api name
+    String storageQueryApiName = format("%s", request.query());
+    apiBlock = apiBlock.replace("{{query-name}}", storageQueryApiName);
+
+    // root name
+    apiBlock = apiBlock.replace("{{root-name}}", domain.root().toUpperCase());
+
+    // domain text
+    apiBlock = apiBlock.replace(FEATURE.toString(), formatDomainText(domain.feature()));
+
+    content.append(apiBlock).append(System.lineSeparator());
+  }
+
+  private void formatWriteLoaderApi(Domain domain, Request request, StringBuilder content) {
+    String template = "src/main/resources/template/storage/loader-write-api-block.template";
+    String apiBlock = readFile(template, Charsets.UTF_8);
+
+    // feature class
+    String featureClass = format("%s", capitalize(domain.feature()));
+    apiBlock = apiBlock.replace(FEATURE.toString(), featureClass);
+
+    // storage query api name
+    String storageQueryApiName = format("%s", request.query());
+    apiBlock = apiBlock.replace("{{query-name}}", storageQueryApiName);
+
+    content.append(apiBlock).append(System.lineSeparator());
   }
 
   private String formatDomainText(String feature) {
