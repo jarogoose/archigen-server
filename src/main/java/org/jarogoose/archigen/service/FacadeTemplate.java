@@ -1,10 +1,10 @@
 package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
-import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.Commons.formatRequestImport;
 import static org.jarogoose.archigen.util.Commons.formatResponseImport;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
+import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.Packages.API_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
@@ -12,12 +12,17 @@ import static org.springframework.util.StringUtils.capitalize;
 import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
+import org.jarogoose.archigen.util.Commons;
 
 public class FacadeTemplate {
 
   public String createTemplate(Domain domain) {
     String filePath = "src/main/resources/template/api/facade.template";
     String template = readFile(filePath, Charsets.UTF_8);
+
+    // mapper static import
+    imports().addFacadeImport(Commons.formatToDtoStaticImport(domain));
+    imports().addFacadeImport(Commons.formatToResponseStaticImport(domain));
 
     // controller class
     String packageName = String.format("%s.%s.%s", ROOT_PACKAGE, domain.root(), API_PACKAGE);

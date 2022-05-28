@@ -5,9 +5,6 @@ import static org.jarogoose.archigen.util.Commons.formatResponseImport;
 import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.Packages.DTO_MAPPER_PACKAGE;
-import static org.jarogoose.archigen.util.Packages.DTO_PACKAGE;
-import static org.jarogoose.archigen.util.Packages.REQUEST_PACKAGE;
-import static org.jarogoose.archigen.util.Packages.RESPONSE_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
 
@@ -29,7 +26,7 @@ public class DtoMapperTemplate {
     template = template.replace("{{package}}", packageName);
 
     // dto import
-    imports().addDtoMapperImportsImport(Commons.formatDtoImport(domain));
+    imports().addDtoMapperImports(Commons.formatDtoImport(domain));
 
     String featureName = format("%s", capitalize(domain.feature()));
     template = template.replace("{{feature-name}}", featureName);
@@ -46,7 +43,7 @@ public class DtoMapperTemplate {
     String mapPattern = ".%s(dto.get%s())";
 
     // response import
-    imports().addDtoMapperImportsImport(formatResponseImport(domain));
+    imports().addDtoMapperImports(formatResponseImport(domain));
 
     // feature name
     String featureName = format("%s", capitalize(domain.feature()));
@@ -74,7 +71,7 @@ public class DtoMapperTemplate {
       template = template.replace("{{request-name}}", requestName);
 
       // request import
-      imports().addDtoMapperImportsImport(Commons.formatRequestImport(domain, request));
+      imports().addDtoMapperImports(Commons.formatRequestImport(domain, request));
 
       template = template.replace("{{data-map-block}}", iterateData(request.data(), mapPattern));
 

@@ -6,6 +6,7 @@ public class ImportContainerSingleton {
 
   private static final StringBuilder controllerImports = new StringBuilder();
   private static final StringBuilder facadeImports = new StringBuilder();
+  private static final StringBuilder serviceImports = new StringBuilder();
   private static final StringBuilder dtoMapperImports = new StringBuilder();
 
 
@@ -34,7 +35,18 @@ public class ImportContainerSingleton {
     return facadeImports.toString();
   }
 
-  public void addDtoMapperImportsImport(String line) {
+  public void addServiceImports(String line) {
+    if (!serviceImports.toString().contains(line)) {
+      serviceImports.append(line).append(System.lineSeparator());
+    }
+  }
+
+  public String getServiceImports() {
+    serviceImports.setLength(serviceImports.length() - 1);
+    return serviceImports.toString();
+  }
+
+  public void addDtoMapperImports(String line) {
     if (!dtoMapperImports.toString().contains(line)) {
       dtoMapperImports.append(line).append(System.lineSeparator());
     }

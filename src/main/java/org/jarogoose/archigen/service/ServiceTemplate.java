@@ -2,6 +2,7 @@ package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
 import static org.jarogoose.archigen.util.FileUtils.readFile;
+import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.Packages.API_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
@@ -9,6 +10,7 @@ import static org.springframework.util.StringUtils.capitalize;
 import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
+import org.jarogoose.archigen.util.Commons;
 
 public class ServiceTemplate {
 
@@ -16,12 +18,16 @@ public class ServiceTemplate {
     String filePath = "src/main/resources/template/api/service.template";
     String template = readFile(filePath, Charsets.UTF_8);
 
+    // dto import
+    imports().addServiceImports(Commons.formatDtoImport(domain));
+
     // controller class
     String packageName = String.format("%s.%s.%s", ROOT_PACKAGE, domain.root(), API_PACKAGE);
     template = template.replace("{{package}}", packageName);
     template = template.replace("{{class-name}}", capitalize(domain.feature()));
     template = template.replace("{{dependency-block}}", createDependencyBlock(domain));
     template = template.replace("{{api-block}}", createApiBlock(domain));
+    template = template.replace("{{imports}}", imports().getServiceImports());
 
     return template;
   }
@@ -31,6 +37,9 @@ public class ServiceTemplate {
     String dependencyBlock = readFile(dependencyBlockPath, Charsets.UTF_8);
 
     dependencyBlock = dependencyBlock.replace("{{class-name}}", capitalize(domain.feature()));
+
+    // loader import
+    imports().addServiceImports(Commons.formatLoaderImport(domain));
 
     return dependencyBlock;
   }
