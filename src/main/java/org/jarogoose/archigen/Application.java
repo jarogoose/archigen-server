@@ -22,6 +22,7 @@ import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.service.ControllerTemplate;
 import org.jarogoose.archigen.service.DtoMapperTemplate;
+import org.jarogoose.archigen.service.EntityMapperTemplate;
 import org.jarogoose.archigen.service.EntityTemplate;
 import org.jarogoose.archigen.service.ExceptionTemplate;
 import org.jarogoose.archigen.service.FacadeTemplate;
@@ -151,5 +152,15 @@ public class Application {
     File storageFile = new File(storageFilePath);
     Files.createParentDirs(storageFile);
     Files.asCharSink(storageFile, StandardCharsets.UTF_8).write(storageContent);
+
+    // Create entity mapper file
+    EntityMapperTemplate entityMapperTemplate = new EntityMapperTemplate();
+    String entityMapperContent = entityMapperTemplate.createTemplate(domain);
+    String entityMapperClassName = capitalize(domain.feature());
+    String entityMapperFilePath = format("%s/%s/%s/%sEntityMapper.java",
+        ROOT_PROJECT_PATH, domain.root(), STORAGE_PATH, entityMapperClassName);
+    File entityMapperFile = new File(entityMapperFilePath);
+    Files.createParentDirs(entityMapperFile);
+    Files.asCharSink(entityMapperFile, StandardCharsets.UTF_8).write(entityMapperContent);
   }
 }

@@ -1,0 +1,6 @@
+public static {{feature-name}}Entity toEntity({{feature-name}} dto) {
+  return {{feature-name}}Entity.builder()
+      .id(dto.getId() == null ? null : dto.getId())
+      {{data-map-block}}
+      .build();
+}

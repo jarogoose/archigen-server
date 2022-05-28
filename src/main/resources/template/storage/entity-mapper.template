@@ -1,0 +1,10 @@
+package {{package}};
+
+import java.util.ArrayList;
+import java.util.List;
+{{imports}}
+
+class {{feature-name}}EntityMapper {
+{{dto-to-entity-block}}
+{{entity-to-dto-block}}
+}
