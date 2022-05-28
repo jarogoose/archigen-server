@@ -16,6 +16,7 @@ import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.util.Commons;
+import org.jarogoose.archigen.util.RequestType;
 
 public class ServiceTemplate {
 
@@ -50,48 +51,73 @@ public class ServiceTemplate {
   }
 
   public CharSequence createApiBlock(Domain domain) {
-    String serviceReadApiBlockPath = "src/main/resources/template/api/service-read-api-block.template";
-    String serviceWriteApiBlockPath = "src/main/resources/template/api/service-write-api-block.template";
-
     StringBuilder content = new StringBuilder();
-
     for (Request request : domain.api().requests()) {
-      if (request.type().equalsIgnoreCase("get")) {
-        String apiBlock = readFile(serviceReadApiBlockPath, Charsets.UTF_8);
-
-        // feature name
-        String featureName = format("%s", capitalize(domain.feature()));
-        apiBlock = apiBlock.replace(FEATURE.toString(), featureName);
-
-        // service api name
-        String serviceApiName = format("%s", request.execute());
-        apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
-
-        // storage query api name
-        String storageQueryApiName = format("%s", request.query());
-        apiBlock = apiBlock.replace("{{storage-query-api-name}}", storageQueryApiName);
-
-        content.append(apiBlock).append(System.lineSeparator());
-
+      if (request.type().equalsIgnoreCase(RequestType.GET.toString())) {
+        formatReadServiceApi(domain, request, content);
+      } else if (request.type().equalsIgnoreCase(RequestType.GET_ALL.toString())) {
+        formatReadAllServiceApi(domain, request, content);
       } else {
-        String apiBlock = readFile(serviceWriteApiBlockPath, Charsets.UTF_8);
-
-        // feature name
-        String featureName = format("%s", capitalize(domain.feature()));
-        apiBlock = apiBlock.replace(FEATURE.toString(), featureName);
-
-        // service api name
-        String serviceApiName = format("%s", request.execute());
-        apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
-
-        // storage query api name
-        String storageQueryApiName = format("%s", request.query());
-        apiBlock = apiBlock.replace("{{storage-query-api-name}}", storageQueryApiName);
-
-        content.append(apiBlock).append(System.lineSeparator());
+        formatWritServiceApi(domain, request, content);
       }
     }
-
     return content.toString();
+  }
+
+  private void formatReadServiceApi(Domain domain, Request request, StringBuilder content) {
+    String template = "src/main/resources/template/api/service-read-api-block.template";
+    String apiBlock = readFile(template, Charsets.UTF_8);
+
+    // feature name
+    String featureName = format("%s", capitalize(domain.feature()));
+    apiBlock = apiBlock.replace(FEATURE.toString(), featureName);
+
+    // service api name
+    String serviceApiName = format("%s", request.execute());
+    apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
+
+    // storage query api name
+    String storageQueryApiName = format("%s", request.query());
+    apiBlock = apiBlock.replace("{{storage-query-api-name}}", storageQueryApiName);
+
+    content.append(apiBlock).append(System.lineSeparator());
+  }
+
+  private void formatReadAllServiceApi(Domain domain, Request request, StringBuilder content) {
+    String template = "src/main/resources/template/api/service-read-all-api-block.template";
+    String apiBlock = readFile(template, Charsets.UTF_8);
+
+    // feature name
+    String featureName = format("%s", capitalize(domain.feature()));
+    apiBlock = apiBlock.replace(FEATURE.toString(), featureName);
+
+    // service api name
+    String serviceApiName = format("%s", request.execute());
+    apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
+
+    // storage query api name
+    String storageQueryApiName = format("%s", request.query());
+    apiBlock = apiBlock.replace("{{storage-query-api-name}}", storageQueryApiName);
+
+    content.append(apiBlock).append(System.lineSeparator());
+  }
+
+  private void formatWritServiceApi(Domain domain, Request request, StringBuilder content) {
+    String template = "src/main/resources/template/api/service-write-api-block.template";
+    String apiBlock = readFile(template, Charsets.UTF_8);
+
+    // feature name
+    String featureName = format("%s", capitalize(domain.feature()));
+    apiBlock = apiBlock.replace(FEATURE.toString(), featureName);
+
+    // service api name
+    String serviceApiName = format("%s", request.execute());
+    apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
+
+    // storage query api name
+    String storageQueryApiName = format("%s", request.query());
+    apiBlock = apiBlock.replace("{{storage-query-api-name}}", storageQueryApiName);
+
+    content.append(apiBlock).append(System.lineSeparator());
   }
 }
