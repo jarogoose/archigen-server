@@ -1,9 +1,9 @@
 package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
+import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.Packages.REQUEST_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
-import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.Replacer.DATA;
 import static org.jarogoose.archigen.util.Replacer.FEATURE;
 import static org.jarogoose.archigen.util.Replacer.PACKAGE;

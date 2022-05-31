@@ -8,8 +8,13 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(fluent = true)
 public class Domain {
-  @JsonProperty("feature") private String feature;
-  @JsonProperty("root") private String root;
-  @JsonProperty("data") private List<String> data;
-  @JsonProperty("api") private Api api;
+
+  @JsonProperty("feature")
+  private String feature;
+  @JsonProperty("root")
+  private String root;
+  @JsonProperty("data")
+  private List<String> data;
+  @JsonProperty("api")
+  private Api api;
 }

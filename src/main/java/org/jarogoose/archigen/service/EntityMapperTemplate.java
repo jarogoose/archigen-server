@@ -33,7 +33,8 @@ public class EntityMapperTemplate {
     template = template.replace(FEATURE.toString(), featureName);
     template = template.replace("{{dto-to-entity-block}}", createDtoToEntityBlock(domain));
     template = template.replace("{{entity-to-dto-block}}", createEntityToDtoBlock(domain));
-    template = template.replace(IMPORTS.toString(), imports().getEntityMapperImportsFacadeImports());
+    template = template.replace(IMPORTS.toString(),
+        imports().getEntityMapperImportsFacadeImports());
 
     return template;
   }

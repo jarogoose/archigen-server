@@ -5,5 +5,5 @@ public enum RequestType {
   PUT,
   POST,
   DELETE,
-  GET_ALL;
+  GET_ALL
 }

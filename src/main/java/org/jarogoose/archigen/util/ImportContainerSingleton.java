@@ -1,7 +1,5 @@
 package org.jarogoose.archigen.util;
 
-import static java.lang.String.format;
-
 public class ImportContainerSingleton {
 
   private static final StringBuilder controllerImports = new StringBuilder();
@@ -13,6 +11,10 @@ public class ImportContainerSingleton {
 
 
   private ImportContainerSingleton() {
+  }
+
+  public static ImportContainerSingleton imports() {
+    return new ImportContainerSingleton();
   }
 
   public void addControllerImport(String line) {
@@ -79,9 +81,5 @@ public class ImportContainerSingleton {
   public String getLoaderImports() {
     loaderImports.setLength(loaderImports.length() - 1);
     return loaderImports.toString();
-  }
-
-  public static ImportContainerSingleton imports() {
-    return new ImportContainerSingleton();
   }
 }
