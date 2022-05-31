@@ -33,6 +33,8 @@ public class Application {
       for (final String name : prop.stringPropertyNames()) {
         PROPERTIES.put(name, prop.getProperty(name));
       }
+      PROPERTIES.put("user.home", System.getProperty("user.home"));
+
       System.out.println("[INFO] Application properties initialized");
 
     } catch (IOException ex) {

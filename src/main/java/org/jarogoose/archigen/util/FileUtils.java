@@ -24,7 +24,7 @@ public class FileUtils {
       ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
       String dir = Application.PROPERTIES.get("domain.object.dir");
-      String home = System.getProperty("user.home");
+      String home = Application.PROPERTIES.get("user.home");
       String path = String.format("%s/%s%s.yaml", home, dir, fileName);
 
       System.out.println("[INFO] Domain object path " + path);
