@@ -2,10 +2,10 @@
 public ResponseEntity<Object> {{function-name}}({{controller-input}}) {
   try {
     {{facade-call}}(request);
-    return ResponseEntity.status(HttpStatus.OK).body(null);
+    return ok("Success");
   } catch ({{feature-name}}NotFoundException e) {
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    return notFound("{{feature-name}} not found");
   } catch (Exception e) {
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    return internalServerError();
   }
 }
