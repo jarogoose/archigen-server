@@ -24,7 +24,7 @@ public enum Paths {
     String home = Application.PROPERTIES.get("user.home");
     String artefact = Application.PROPERTIES.get("project.artefact").replace(".", "/");
     String project = Application.PROPERTIES.get("project.name");
-    return format("%s/%s/src/main/java/%s/%s/%s/%s/%s%s.java",
+    return format("%s/%s/src/main/java/%s/%s/feature/%s/%s/%s%s.java",
         home, dir, artefact, project, root, this.value, capitalize(feature), postfix);
   }
 

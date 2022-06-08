@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Packages {
-  ROOT_PACKAGE("org.jarogoose.archigen"),
+  ROOT_PACKAGE("com.jarogoose.enenbi.feature"),
   EXCEPTION_PACKAGE("domain.exception"),
   REQUEST_PACKAGE("domain.model.request"),
   RESPONSE_PACKAGE("domain.model.response"),

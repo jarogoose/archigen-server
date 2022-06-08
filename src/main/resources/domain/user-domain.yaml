@@ -1,15 +1,28 @@
 feature: "user"
+root: "user"
 data:
+  - id
+  - profileId
+  - roles
+  - email
   - login
   - password
-controller:
-  operation:
-    - name: "register"
-      access: "public"
+  - status
+api:
+  requests:
+    - control: "registerUserAccount"
+      execute: "register"
+      query: "save"
+      custom-query: false
       type: "POST"
-    - name: "search"
-      access: "public"
-#service:
-#  - operation:
-#    - name: "register"
-#      access: "public"
+      data:
+        - login
+        - password
+        - status
+    - control: "loginUser"
+      execute: "login"
+      query: "findByEmail"
+      custom-query: true
+      type: "GET"
+      data:
+        - email
