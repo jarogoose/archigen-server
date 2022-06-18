@@ -6,7 +6,7 @@ plugins {
 
 group = 'org.jarogoose'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '17'
 
 repositories {
 	mavenCentral()
@@ -15,7 +15,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.2'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.3'
 	implementation('com.google.guava:guava:31.1-jre')
 
 	compileOnly 'org.projectlombok:lombok'
