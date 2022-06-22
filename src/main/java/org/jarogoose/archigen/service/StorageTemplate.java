@@ -32,7 +32,7 @@ public class StorageTemplate {
     String storageReadApiBlockPath = "src/main/resources/template/storage/storage-read-api-block.template";
     StringBuilder content = new StringBuilder();
 
-    for (Request request : domain.api().requests()) {
+    for (Request request : domain.requests()) {
       if (request.customQuery()) {
         String apiBlock = readFile(storageReadApiBlockPath, Charsets.UTF_8);
 

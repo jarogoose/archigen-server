@@ -57,7 +57,7 @@ public class LoaderTemplate {
   public CharSequence createApiBlock(Domain domain) {
     StringBuilder content = new StringBuilder();
 
-    for (Request request : domain.api().requests()) {
+    for (Request request : domain.requests()) {
       if (request.type().equalsIgnoreCase(RequestType.GET.toString())) {
         formatReadLoaderApi(domain, request, content);
       } else if (request.type().equalsIgnoreCase(RequestType.GET_ALL.toString())) {

@@ -15,6 +15,6 @@ public class Domain {
   private String root;
   @JsonProperty("data")
   private List<String> data;
-  @JsonProperty("api")
-  private Api api;
+  @JsonProperty("requests")
+  private List<Request> requests;
 }

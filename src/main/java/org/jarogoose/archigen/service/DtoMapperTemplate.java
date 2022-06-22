@@ -62,7 +62,7 @@ public class DtoMapperTemplate {
     String mapPattern = ".%s(request.get%s())";
     StringBuilder requestToDtoBlock = new StringBuilder();
 
-    for (Request request : domain.api().requests()) {
+    for (Request request : domain.requests()) {
       String filePath = "src/main/resources/template/domain/request-to-dto-block.template";
       String template = readFile(filePath, Charsets.UTF_8);
 

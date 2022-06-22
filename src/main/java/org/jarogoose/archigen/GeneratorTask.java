@@ -78,7 +78,7 @@ public class GeneratorTask implements Runnable {
 
   private void createRequestFile(Domain domain) throws IOException {
     RequestTemplate requestTemplate = new RequestTemplate();
-    for (Request request : domain.api().requests()) {
+    for (Request request : domain.requests()) {
       String requestContent = requestTemplate.createTemplate(domain, request);
       File requestFile = new File(REQUEST_PATH.get(domain.root(), request.control(), "Request"));
       Files.createParentDirs(requestFile);

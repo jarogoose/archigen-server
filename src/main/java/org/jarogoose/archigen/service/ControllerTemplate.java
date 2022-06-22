@@ -60,7 +60,7 @@ public class ControllerTemplate {
     String apiBlockPath = "src/main/resources/template/control/api-block.template";
     StringBuilder content = new StringBuilder();
 
-    for (Request request : domain.api().requests()) {
+    for (Request request : domain.requests()) {
       String apiBlock = readFile(apiBlockPath, Charsets.UTF_8);
 
       // uri
