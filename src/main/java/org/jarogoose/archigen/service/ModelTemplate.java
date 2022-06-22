@@ -1,7 +1,6 @@
 package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
-import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.Packages.DTO_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
 import static org.jarogoose.archigen.util.Replacer.DATA;
@@ -9,14 +8,26 @@ import static org.jarogoose.archigen.util.Replacer.FEATURE;
 import static org.jarogoose.archigen.util.Replacer.PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
 
-import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 
 public class ModelTemplate {
 
+  private static final String TEMPLATE = """
+      package {{package}};
+      
+      import lombok.Builder;
+      
+      @Builder
+      public record {{feature-name}}(
+      {{data-block}}
+      ) {
+      
+      }
+      
+      """;
+
   public String createTemplate(Domain domain) {
-    String filePath = "src/main/resources/template/domain/model-pojo.template";
-    String template = readFile(filePath, Charsets.UTF_8);
+    String template = TEMPLATE;
 
     // package
     String packageName = String.format("%s.%s.%s",
@@ -30,10 +41,10 @@ public class ModelTemplate {
     // data block
     StringBuilder dataBlock = new StringBuilder();
     for (int i = 0; i < domain.data().size(); i++) {
-      dataBlock.append(format("  private final String %s;",
+      dataBlock.append(format("    String %s",
           domain.data().get(i)));
       if (i != domain.data().size() - 1) {
-        dataBlock.append(System.lineSeparator());
+        dataBlock.append(",").append(System.lineSeparator());
       }
     }
     template = template.replace(DATA.toString(), dataBlock.toString());
