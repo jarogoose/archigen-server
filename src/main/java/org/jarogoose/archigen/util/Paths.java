@@ -4,7 +4,7 @@ import static java.lang.String.format;
 import static org.springframework.util.StringUtils.capitalize;
 
 import lombok.AllArgsConstructor;
-import org.jarogoose.archigen.Application;
+import org.jarogoose.archigen.ArchigenResource;
 
 @AllArgsConstructor
 public enum Paths {
@@ -20,10 +20,10 @@ public enum Paths {
   private final String value;
 
   public String get(String root, String feature, String postfix) {
-    String dir = Application.PROPERTIES.get("project.dir");
-    String home = Application.PROPERTIES.get("user.home");
-    String artefact = Application.PROPERTIES.get("project.artefact").replace(".", "/");
-    String project = Application.PROPERTIES.get("project.name");
+    String dir = ArchigenResource.PROPERTIES.get("project.dir");
+    String home = ArchigenResource.PROPERTIES.get("user.home");
+    String artefact = ArchigenResource.PROPERTIES.get("project.artefact").replace(".", "/");
+    String project = ArchigenResource.PROPERTIES.get("project.name");
     return format("%s/%s/src/main/java/%s/%s/feature/%s/%s/%s%s.java",
         home, dir, artefact, project, root, this.value, capitalize(feature), postfix);
   }

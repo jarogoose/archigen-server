@@ -6,7 +6,7 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import org.jarogoose.archigen.Application;
+import org.jarogoose.archigen.ArchigenResource;
 import org.jarogoose.archigen.domain.Domain;
 
 public class FileUtils {
@@ -23,8 +23,8 @@ public class FileUtils {
     try {
       ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
-      String dir = Application.PROPERTIES.get("domain.object.dir");
-      String home = Application.PROPERTIES.get("user.home");
+      String dir = ArchigenResource.PROPERTIES.get("domain.object.dir");
+      String home = ArchigenResource.PROPERTIES.get("user.home");
       String path = String.format("%s/%s%s.yaml", home, dir, fileName);
 
       System.out.println("[INFO] Domain object path " + path);

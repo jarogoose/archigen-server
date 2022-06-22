@@ -10,54 +10,53 @@ data:
   - fiber
   - water
   - sleep
-api:
-  requests:
-    - control: "addDailyMetabolicActivity"
-      execute: "add"
-      query: "save"
-      custom-query: false
-      type: "POST"
-      data:
-        - userId
-        - date
-        - fat
-        - carb
-        - protein
-        - fiber
-        - water
-        - sleep
-    - control: "modifyDailyMetabolicActivity"
-      execute: "modify"
-      query: "update"
-      custom-query: false
-      type: "PUT"
-      data:
-        - id
-        - date
-        - fat
-        - carb
-        - protein
-        - fiber
-        - water
-        - sleep
-    - control: "searchDailyMetabolicActivity"
-      execute: "search"
-      query: "findById"
-      custom-query: false
-      type: "GET"
-      data:
-        - id
-    - control: "showAllDailyMetabolicActivities"
-      execute: "showAll"
-      query: "findAllByUserId"
-      custom-query: true
-      type: "GET_ALL"
-      data:
-        - userId
-    - control: "removeDailyMetabolicActivity"
-      execute: "remove"
-      query: "deleteById"
-      custom-query: false
-      type: "DELETE"
-      data:
-        - id
+requests:
+  - control: "addDailyMetabolicActivity"
+    execute: "add"
+    query: "save"
+    custom-query: false
+    type: "POST"
+    data:
+      - userId
+      - date
+      - fat
+      - carb
+      - protein
+      - fiber
+      - water
+      - sleep
+  - control: "modifyDailyMetabolicActivity"
+    execute: "modify"
+    query: "update"
+    custom-query: false
+    type: "PUT"
+    data:
+      - id
+      - date
+      - fat
+      - carb
+      - protein
+      - fiber
+      - water
+      - sleep
+  - control: "searchDailyMetabolicActivity"
+    execute: "search"
+    query: "findById"
+    custom-query: false
+    type: "GET"
+    data:
+      - id
+  - control: "showAllDailyMetabolicActivities"
+    execute: "showAll"
+    query: "findAllByUserId"
+    custom-query: true
+    type: "GET_ALL"
+    data:
+      - userId
+  - control: "removeDailyMetabolicActivity"
+    execute: "remove"
+    query: "deleteById"
+    custom-query: false
+    type: "DELETE"
+    data:
+      - id

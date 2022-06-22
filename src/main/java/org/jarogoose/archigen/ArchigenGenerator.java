@@ -27,25 +27,12 @@ import org.jarogoose.archigen.service.RequestTemplate;
 import org.jarogoose.archigen.service.ResponseTemplate;
 import org.jarogoose.archigen.service.ServiceTemplate;
 import org.jarogoose.archigen.service.StorageTemplate;
+import org.springframework.stereotype.Component;
 
-public class GeneratorTask implements Runnable {
+@Component
+public class ArchigenGenerator {
 
-  private final Domain domain;
-
-  public GeneratorTask(Domain domain) {
-    this.domain = domain;
-  }
-
-  @Override
-  public void run() {
-    try {
-      generate(domain);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  private void generate(Domain domain) throws IOException {
+  public void generateAll(Domain domain) throws IOException {
     createEntityFile(domain);
     createModelFile(domain);
     createRequestFile(domain);
@@ -60,7 +47,7 @@ public class GeneratorTask implements Runnable {
     createEntityMapperFile(domain);
   }
 
-  private void createEntityFile(Domain domain) throws IOException {
+  public void createEntityFile(Domain domain) throws IOException {
     EntityTemplate entityTemplate = new EntityTemplate();
     String entityContent = entityTemplate.createTemplate(domain);
     File entityFile = new File(STORAGE_PATH.get(domain.root(), domain.feature(), "Entity"));
@@ -68,7 +55,7 @@ public class GeneratorTask implements Runnable {
     Files.asCharSink(entityFile, StandardCharsets.UTF_8).write(entityContent);
   }
 
-  private void createModelFile(Domain domain) throws IOException {
+  public void createModelFile(Domain domain) throws IOException {
     ModelTemplate modelTemplate = new ModelTemplate();
     String modelContent = modelTemplate.createTemplate(domain);
     File modelFile = new File(DTO_PATH.get(domain.root(), domain.feature(), ""));
@@ -76,7 +63,7 @@ public class GeneratorTask implements Runnable {
     Files.asCharSink(modelFile, StandardCharsets.UTF_8).write(modelContent);
   }
 
-  private void createRequestFile(Domain domain) throws IOException {
+  public void createRequestFile(Domain domain) throws IOException {
     RequestTemplate requestTemplate = new RequestTemplate();
     for (Request request : domain.requests()) {
       String requestContent = requestTemplate.createTemplate(domain, request);
@@ -86,7 +73,7 @@ public class GeneratorTask implements Runnable {
     }
   }
 
-  private void createResponseFile(Domain domain) throws IOException {
+  public void createResponseFile(Domain domain) throws IOException {
     ResponseTemplate responseTemplate = new ResponseTemplate();
     String responseContent = responseTemplate.createTemplate(domain);
     File responseFile = new File(RESPONSE_PATH.get(domain.root(), domain.feature(), "Response"));
@@ -94,7 +81,7 @@ public class GeneratorTask implements Runnable {
     Files.asCharSink(responseFile, StandardCharsets.UTF_8).write(responseContent);
   }
 
-  private void createDtoMapperFile(Domain domain) throws IOException {
+  public void createDtoMapperFile(Domain domain) throws IOException {
     DtoMapperTemplate dtoMapperTemplate = new DtoMapperTemplate();
     String dtoMapperContent = dtoMapperTemplate.createTemplate(domain);
     File dtoMapperFile = new File(DTO_MAPPER_PATH.get(domain.root(), domain.feature(), "Mapper"));
@@ -102,7 +89,7 @@ public class GeneratorTask implements Runnable {
     Files.asCharSink(dtoMapperFile, StandardCharsets.UTF_8).write(dtoMapperContent);
   }
 
-  private void createNotFoundExceptionFile(Domain domain) throws IOException {
+  public void createNotFoundExceptionFile(Domain domain) throws IOException {
     ExceptionTemplate exceptionTemplate = new ExceptionTemplate();
     String exceptionContent = exceptionTemplate.createTemplate(domain);
     File exceptionFile = new File(
@@ -111,7 +98,7 @@ public class GeneratorTask implements Runnable {
     Files.asCharSink(exceptionFile, StandardCharsets.UTF_8).write(exceptionContent);
   }
 
-  private void createControllerFile(Domain domain) throws IOException {
+  public void createControllerFile(Domain domain) throws IOException {
     ControllerTemplate controllerTemplate = new ControllerTemplate();
     String controllerContent = controllerTemplate.createTemplate(domain);
     File controllerFile = new File(
@@ -120,7 +107,7 @@ public class GeneratorTask implements Runnable {
     Files.asCharSink(controllerFile, StandardCharsets.UTF_8).write(controllerContent);
   }
 
-  private void createFacadeFile(Domain domain) throws IOException {
+  public void createFacadeFile(Domain domain) throws IOException {
     FacadeTemplate facadeTemplate = new FacadeTemplate();
     String facadeContent = facadeTemplate.createTemplate(domain);
     File facadeFile = new File(API_PATH.get(domain.root(), domain.feature(), "Facade"));
@@ -128,7 +115,7 @@ public class GeneratorTask implements Runnable {
     Files.asCharSink(facadeFile, StandardCharsets.UTF_8).write(facadeContent);
   }
 
-  private void createServiceFile(Domain domain) throws IOException {
+  public void createServiceFile(Domain domain) throws IOException {
     ServiceTemplate serviceTemplate = new ServiceTemplate();
     String serviceContent = serviceTemplate.createTemplate(domain);
     File serviceFile = new File(API_PATH.get(domain.root(), domain.feature(), "Service"));
@@ -136,7 +123,7 @@ public class GeneratorTask implements Runnable {
     Files.asCharSink(serviceFile, StandardCharsets.UTF_8).write(serviceContent);
   }
 
-  private void createLoaderFile(Domain domain) throws IOException {
+  public void createLoaderFile(Domain domain) throws IOException {
     LoaderTemplate loaderTemplate = new LoaderTemplate();
     String loaderContent = loaderTemplate.createTemplate(domain);
     File loaderFile = new File(STORAGE_PATH.get(domain.root(), domain.feature(), "Loader"));
@@ -144,7 +131,7 @@ public class GeneratorTask implements Runnable {
     Files.asCharSink(loaderFile, StandardCharsets.UTF_8).write(loaderContent);
   }
 
-  private void createStorageFile(Domain domain) throws IOException {
+  public void createStorageFile(Domain domain) throws IOException {
     StorageTemplate storageTemplate = new StorageTemplate();
     String storageContent = storageTemplate.createTemplate(domain);
     File storageFile = new File(STORAGE_PATH.get(domain.root(), domain.feature(), "Storage"));
@@ -152,7 +139,7 @@ public class GeneratorTask implements Runnable {
     Files.asCharSink(storageFile, StandardCharsets.UTF_8).write(storageContent);
   }
 
-  private void createEntityMapperFile(Domain domain) throws IOException {
+  public void createEntityMapperFile(Domain domain) throws IOException {
     EntityMapperTemplate entityMapperTemplate = new EntityMapperTemplate();
     String entityMapperContent = entityMapperTemplate.createTemplate(domain);
     File entityMapperFile = new File(
