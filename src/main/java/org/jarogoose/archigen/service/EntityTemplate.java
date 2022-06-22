@@ -1,7 +1,6 @@
 package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
-import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.STORAGE_PACKAGE;
 import static org.jarogoose.archigen.util.Replacer.DATA;
@@ -9,14 +8,36 @@ import static org.jarogoose.archigen.util.Replacer.FEATURE;
 import static org.jarogoose.archigen.util.Replacer.PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
 
-import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 
 public class EntityTemplate {
 
+  private static final String TEMPLATE = """
+      package {{package}};
+            
+      import lombok.AllArgsConstructor;
+      import lombok.Builder;
+      import lombok.Data;
+      import lombok.NoArgsConstructor;
+      import org.springframework.data.mongodb.core.mapping.Document;
+      import org.springframework.data.mongodb.core.mapping.Field;
+      import org.springframework.data.mongodb.core.mapping.FieldType;
+      import org.springframework.data.mongodb.core.mapping.MongoId;
+            
+      @Data
+      @Builder
+      @NoArgsConstructor
+      @AllArgsConstructor
+      @Document(collection = "{{document-name}}")
+      class {{feature-name}}Entity {
+      
+      {{data-block}}
+      }
+      
+      """;
+
   public String createTemplate(Domain domain) {
-    String filePath = "src/main/resources/template/storage/entity-pojo.template";
-    String template = readFile(filePath, Charsets.UTF_8);
+    String template = TEMPLATE;
 
     // package
     String packageName = String.format("%s.%s.%s",
