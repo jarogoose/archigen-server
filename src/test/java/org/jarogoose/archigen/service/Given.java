@@ -40,7 +40,7 @@ public class Given {
     String query = "update";
     boolean customQuery = false;
     String type = "PUT";
-    List<String> data = List.of("id", "date", "fat", "carb", "protein", "fiber", "water", "sleep");
+    List<String> data = List.of("id", "userId", "date", "fat", "carb", "protein", "fiber", "water", "sleep");
 
     return new Request(
         control, execute, query, customQuery, type, data

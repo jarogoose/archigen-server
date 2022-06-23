@@ -30,7 +30,7 @@ class ModelTemplateTest {
 
   @Test
   @DisplayName("[FEATURE] Model class generated and formatted as expected")
-  public void generateEntityClass() {
+  public void generateModelClass() {
     ModelTemplate template = new ModelTemplate();
     String actual = template.createTemplate(Given.dailyMetabolicActivityDomain());
 

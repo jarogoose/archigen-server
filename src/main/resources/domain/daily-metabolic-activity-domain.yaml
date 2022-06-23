@@ -32,6 +32,7 @@ requests:
     type: "PUT"
     data:
       - id
+      - userId
       - date
       - fat
       - carb
