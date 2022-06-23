@@ -8,7 +8,7 @@ public class Then {
     String[] expectLines = expected.split(System.lineSeparator());
     String[] actualLines = actual.split(System.lineSeparator());
 
-    for (int i = 0; i < actualLines.length; i++) {
+    for (int i = 0; i < expectLines.length; i++) {
       assertThat(actualLines[i])
           .withFailMessage("Line %s expect to be \n %s \n but was \n %s", i+1, expectLines[i], actualLines[i])
           .isEqualTo(expectLines[i]);
