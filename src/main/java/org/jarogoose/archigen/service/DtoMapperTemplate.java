@@ -4,7 +4,6 @@ import static java.lang.String.format;
 import static org.jarogoose.archigen.util.Commons.formatDtoImport;
 import static org.jarogoose.archigen.util.Commons.formatRequestImport;
 import static org.jarogoose.archigen.util.Commons.formatResponseImport;
-import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.Packages.DTO_MAPPER_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
@@ -14,16 +13,45 @@ import static org.jarogoose.archigen.util.Replacer.PACKAGE;
 import static org.jarogoose.archigen.util.Replacer.REQUEST;
 import static org.springframework.util.StringUtils.capitalize;
 
-import com.google.common.base.Charsets;
 import java.util.List;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 
 public class DtoMapperTemplate {
 
+  private static final String TEMPLATE = """
+      package {{package}};
+            
+      {{imports}}
+      import java.util.ArrayList;
+      import java.util.List;
+            
+      public class {{feature-name}}Mapper {
+            
+      {{request-to-dto-block}}
+      {{dto-to-response-block}}
+      }
+            
+      """;
+
+  private static final String REQUEST_TO_DTO_BLOCK_TEMPLATE = """
+        public static {{feature-name}} toDto({{request-name}}Request request) {
+          return {{feature-name}}.builder()
+      {{data-map-block}}
+              .build();
+        }
+      """;
+
+  private static final String DTO_TO_REQUEST_BLOCK_TEMPLATE = """
+        public static {{feature-name}}Response toResponse({{feature-name}} dto) {
+          return {{feature-name}}Response.builder()
+      {{data-map-block}}
+              .build();
+        }
+      """;
+
   public String createTemplate(Domain domain) {
-    String filePath = "src/main/resources/template/domain/dto-mapper.template";
-    String template = readFile(filePath, Charsets.UTF_8);
+    String template = TEMPLATE;
 
     // package
     String packageName = String.format("%s.%s.%s",
@@ -37,15 +65,14 @@ public class DtoMapperTemplate {
     template = template.replace(FEATURE.toString(), featureName);
     template = template.replace("{{dto-to-response-block}}", createDtoToResponseBlock(domain));
     template = template.replace("{{request-to-dto-block}}", createRequestToDtoBlock(domain));
-    template = template.replace(IMPORTS.toString(), imports().getDtoMapperImportsFacadeImports());
+    template = template.replace(IMPORTS.toString(), imports().getDtoMapperImports());
 
     return template;
   }
 
   private String createDtoToResponseBlock(Domain domain) {
-    String filePath = "src/main/resources/template/domain/dto-to-response-block.template";
-    String template = readFile(filePath, Charsets.UTF_8);
-    String mapPattern = ".%s(dto.get%s())";
+    String template = DTO_TO_REQUEST_BLOCK_TEMPLATE;
+    String mapPattern = ".%s(dto.%s())";
 
     // response import
     imports().addDtoMapperImports(formatResponseImport(domain));
@@ -59,12 +86,11 @@ public class DtoMapperTemplate {
   }
 
   private String createRequestToDtoBlock(Domain domain) {
-    String mapPattern = ".%s(request.get%s())";
+    String mapPattern = ".%s(request.%s())";
     StringBuilder requestToDtoBlock = new StringBuilder();
 
     for (Request request : domain.requests()) {
-      String filePath = "src/main/resources/template/domain/request-to-dto-block.template";
-      String template = readFile(filePath, Charsets.UTF_8);
+      String template = REQUEST_TO_DTO_BLOCK_TEMPLATE;
 
       // feature name
       String featureName = format("%s", capitalize(domain.feature()));
@@ -79,7 +105,7 @@ public class DtoMapperTemplate {
 
       template = template.replace("{{data-map-block}}", iterateData(request.data(), mapPattern));
 
-      requestToDtoBlock.append(template);
+      requestToDtoBlock.append(template).append(System.lineSeparator());
     }
 
     return requestToDtoBlock.toString();
@@ -89,7 +115,7 @@ public class DtoMapperTemplate {
     // data block
     StringBuilder dataMapBlock = new StringBuilder();
     for (int i = 0; i < data.size(); i++) {
-      dataMapBlock.append(format(mapPattern, data.get(i), capitalize(data.get(i))));
+      dataMapBlock.append("        ").append(format(mapPattern, data.get(i), data.get(i)));
       if (i != data.size() - 1) {
         dataMapBlock.append(System.lineSeparator());
       }

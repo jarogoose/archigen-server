@@ -56,7 +56,7 @@ public class ImportContainerSingleton {
     }
   }
 
-  public String getDtoMapperImportsFacadeImports() {
+  public String getDtoMapperImports() {
     dtoMapperImports.setLength(dtoMapperImports.length() - 1);
     return dtoMapperImports.toString();
   }
