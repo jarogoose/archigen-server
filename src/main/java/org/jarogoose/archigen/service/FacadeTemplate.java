@@ -24,9 +24,51 @@ import org.springframework.http.HttpMethod;
 
 public class FacadeTemplate {
 
+  private static final String TEMPLATE = """
+      package {{package}};
+      
+      {{imports}}
+      import java.util.List;
+      import lombok.extern.slf4j.Slf4j;
+      import org.springframework.stereotype.Service;
+            
+      @Slf4j
+      @Service
+      public class {{feature-name}}Facade {
+            
+      {{dependency-block}}
+      {{api-block}}
+      }
+      """;
+
+  private static final String DEPENDENCY_BLOCK_TEMPLATE = """
+        private final {{feature-name}}Service service;
+              
+        public {{feature-name}}Facade({{feature-name}}Service service) {
+          this.service = service;
+        }
+      """;
+
+  private static final String API_READ_BLOCK_TEMPLATE = """
+        public {{feature-name}}Response {{facade-api-name}}({{request-name}}Request request) {
+          return toResponse(service.{{service-api-name}}(toDto(request)));
+        }
+      """;
+
+  private static final String API_READ_ALL_BLOCK_TEMPLATE = """
+        public List<{{feature-name}}Response> {{facade-api-name}}({{request-name}}Request request) {
+          return toResponse(service.{{service-api-name}}(toDto(request)));
+        }
+      """;
+
+  private static final String API_WRITE_BLOCK_TEMPLATE = """
+        public void {{facade-api-name}}({{request-name}}Request request) {
+          service.{{service-api-name}}(toDto(request));
+        }
+      """;
+
   public String createTemplate(Domain domain) {
-    String filePath = "src/main/resources/template/api/facade.template";
-    String template = readFile(filePath, Charsets.UTF_8);
+    String template = TEMPLATE;
 
     // mapper static import
     imports().addFacadeImport(Commons.formatRequestToDtoStaticImport(domain));
@@ -44,8 +86,7 @@ public class FacadeTemplate {
   }
 
   public String createDependencyBlock(Domain domain) {
-    String dependencyBlockPath = "src/main/resources/template/api/facade-dependency-block.template";
-    String dependencyBlock = readFile(dependencyBlockPath, Charsets.UTF_8);
+    String dependencyBlock = DEPENDENCY_BLOCK_TEMPLATE;
 
     dependencyBlock = dependencyBlock.replace(FEATURE.toString(), capitalize(domain.feature()));
 
@@ -66,13 +107,13 @@ public class FacadeTemplate {
         formatWriteFacadeApi(domain, request, content);
       }
     }
+    content.deleteCharAt(content.length() - 1);
 
     return content.toString();
   }
 
   private void formatReadFacadeApi(Domain domain, Request request, StringBuilder content) {
-    String facadeReadApiBlockPath = "src/main/resources/template/api/facade-read-api-block.template";
-    String apiBlock = readFile(facadeReadApiBlockPath, Charsets.UTF_8);
+    String apiBlock = API_READ_BLOCK_TEMPLATE;
 
     // domain name
     String domainName = format("%s", capitalize(domain.feature()));
@@ -97,8 +138,7 @@ public class FacadeTemplate {
   }
 
   private void formatReadAllFacadeApi(Domain domain, Request request, StringBuilder content) {
-    String template = "src/main/resources/template/api/facade-read-all-api-block.template";
-    String apiBlock = readFile(template, Charsets.UTF_8);
+    String apiBlock = API_READ_ALL_BLOCK_TEMPLATE;
 
     // domain name
     String domainName = format("%s", capitalize(domain.feature()));
@@ -123,8 +163,7 @@ public class FacadeTemplate {
   }
 
   private void formatWriteFacadeApi(Domain domain, Request request, StringBuilder content) {
-    String facadeWriteApiBlockPath = "src/main/resources/template/api/facade-write-api-block.template";
-    String apiBlock = readFile(facadeWriteApiBlockPath, Charsets.UTF_8);
+    String apiBlock = API_WRITE_BLOCK_TEMPLATE;
 
     // facade api name
     String facadeApiName = format("%s", request.control());
