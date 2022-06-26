@@ -16,7 +16,7 @@ import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.util.Commons;
-import org.jarogoose.archigen.util.RequestType;
+import org.jarogoose.archigen.util.ReturnType;
 
 public class ServiceTemplate {
 
@@ -53,9 +53,9 @@ public class ServiceTemplate {
   public CharSequence createApiBlock(Domain domain) {
     StringBuilder content = new StringBuilder();
     for (Request request : domain.requests()) {
-      if (request.type().equalsIgnoreCase(RequestType.GET.toString())) {
+      if (request.returnType().equalsIgnoreCase(ReturnType.OBJECT.name())) {
         formatReadServiceApi(domain, request, content);
-      } else if (request.type().equalsIgnoreCase(RequestType.GET_ALL.toString())) {
+      } else if (request.returnType().equalsIgnoreCase(ReturnType.COLLECTION.name())) {
         formatReadAllServiceApi(domain, request, content);
       } else {
         formatWritServiceApi(domain, request, content);

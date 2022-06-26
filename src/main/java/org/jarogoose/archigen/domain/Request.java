@@ -10,7 +10,8 @@ public record Request(
     @JsonProperty("execute") String execute,
     @JsonProperty("query") String query,
     @JsonProperty(value = "custom-query", defaultValue = "false") boolean customQuery,
-    @JsonProperty("type") String type,
+    @JsonProperty("http-method") String httpMethod,
+    @JsonProperty("return-type") String returnType, // VOID, OBJECT, COLLECTION
     @JsonProperty("data") List<String> data
 ) {
 

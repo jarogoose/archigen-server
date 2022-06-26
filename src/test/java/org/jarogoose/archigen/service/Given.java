@@ -3,6 +3,8 @@ package org.jarogoose.archigen.service;
 import java.util.List;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
+import org.jarogoose.archigen.util.ReturnType;
+import org.springframework.http.HttpMethod;
 
 public class Given {
 
@@ -25,12 +27,11 @@ public class Given {
     String execute = "add";
     String query = "save";
     boolean customQuery = false;
-    String type = "POST";
     List<String> data = List.of("userId", "date", "fat", "carb", "protein", "fiber", "water",
         "sleep");
 
     return new Request(
-        control, execute, query, customQuery, type, data
+        control, execute, query, customQuery, HttpMethod.POST.name(), ReturnType.VOID.name(), data
     );
   }
 
@@ -39,11 +40,11 @@ public class Given {
     String execute = "modify";
     String query = "update";
     boolean customQuery = false;
-    String type = "PUT";
-    List<String> data = List.of("id", "userId", "date", "fat", "carb", "protein", "fiber", "water", "sleep");
+    List<String> data = List.of("id", "userId", "date", "fat", "carb", "protein", "fiber", "water",
+        "sleep");
 
     return new Request(
-        control, execute, query, customQuery, type, data
+        control, execute, query, customQuery, HttpMethod.PUT.name(), ReturnType.VOID.name(), data
     );
   }
 
@@ -52,11 +53,10 @@ public class Given {
     String execute = "search";
     String query = "findById";
     boolean customQuery = false;
-    String type = "GET";
     List<String> data = List.of("id");
 
     return new Request(
-        control, execute, query, customQuery, type, data
+        control, execute, query, customQuery, HttpMethod.POST.name(), ReturnType.OBJECT.name(), data
     );
   }
 
@@ -65,11 +65,11 @@ public class Given {
     String execute = "showAll";
     String query = "findAllByUserId";
     boolean customQuery = true;
-    String type = "GET_ALL";
     List<String> data = List.of("userId");
 
     return new Request(
-        control, execute, query, customQuery, type, data
+        control, execute, query, customQuery, HttpMethod.POST.name(), ReturnType.COLLECTION.name(),
+        data
     );
   }
 
@@ -78,11 +78,10 @@ public class Given {
     String execute = "remove";
     String query = "deleteById";
     boolean customQuery = false;
-    String type = "DELETE";
     List<String> data = List.of("id");
 
     return new Request(
-        control, execute, query, customQuery, type, data
+        control, execute, query, customQuery, HttpMethod.DELETE.name(), ReturnType.VOID.name(), data
     );
   }
 }

@@ -3,8 +3,6 @@ package org.jarogoose.archigen.service;
 import static java.lang.String.format;
 import static org.jarogoose.archigen.util.Commons.formatNotFoundExceptionImport;
 import static org.jarogoose.archigen.util.Commons.formatRequestImport;
-import static org.jarogoose.archigen.util.Commons.formatResponseImport;
-import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.Packages.CONTROLLER_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
@@ -15,11 +13,10 @@ import static org.jarogoose.archigen.util.Replacer.IMPORTS;
 import static org.jarogoose.archigen.util.Replacer.PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
 
-import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.util.Commons;
-import org.jarogoose.archigen.util.RequestType;
+import org.jarogoose.archigen.util.ReturnType;
 
 public class ControllerTemplate {
 
@@ -111,11 +108,7 @@ public class ControllerTemplate {
       String apiBlock = API_BLOCK_TEMPLATE;
 
       // uri
-      String[] arr = request.type().split("_");
-      String httpMethod = capitalize(arr[0].toLowerCase());
-      if (!request.data().isEmpty() && httpMethod.equalsIgnoreCase("GET")) {
-        httpMethod = "Post";
-      }
+      String httpMethod = capitalize(request.httpMethod().toLowerCase());
       String uri = format("@%sMapping(\"%s\")", httpMethod, formatUri(request.control()));
       apiBlock = apiBlock.replace("{{uri}}", uri);
 
@@ -134,7 +127,7 @@ public class ControllerTemplate {
       apiBlock = apiBlock.replace("{{facade-call}}", formatFacadeCall(domain, request));
 
       // return success
-      apiBlock = apiBlock.replace("{{return-success}}", formatReturnSuccessCall(request.type()));
+      apiBlock = apiBlock.replace("{{return-success}}", formatReturnSuccessCall(request.returnType()));
 
       // exception name
       apiBlock = apiBlock.replace(FEATURE.toString(), capitalize(domain.feature()));
@@ -151,26 +144,18 @@ public class ControllerTemplate {
   }
 
   private String formatFacadeCall(Domain domain, Request request) {
-    String facadeCall = "";
-    if (request.type().equalsIgnoreCase(RequestType.GET.toString())) {
-      facadeCall = format("var response = facade.%s", request.control());
-
-    } else if (request.type().equalsIgnoreCase(RequestType.GET_ALL.toString())) {
-      facadeCall = format("var response = facade.%s", request.control());
-
+    if (request.returnType().equalsIgnoreCase(ReturnType.VOID.name())) {
+      return format("facade.%s", request.control());
     } else {
-      facadeCall = format("facade.%s", request.control());
+      return format("var response = facade.%s", request.control());
     }
-
-    return facadeCall;
   }
 
-  private CharSequence formatReturnSuccessCall(String type) {
-    if (type.equalsIgnoreCase(RequestType.GET.toString()) ||
-        type.equalsIgnoreCase(RequestType.GET_ALL.toString())) {
-      return "return ok(\"Success\", response)";
-    } else {
+  private CharSequence formatReturnSuccessCall(String returnType) {
+    if (returnType.equalsIgnoreCase(ReturnType.VOID.name())) {
       return "return ok(\"Success\")";
+    } else {
+      return "return ok(\"Success\", response)";
     }
   }
 

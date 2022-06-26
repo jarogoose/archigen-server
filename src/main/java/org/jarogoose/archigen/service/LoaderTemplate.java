@@ -19,7 +19,7 @@ import static org.springframework.util.StringUtils.capitalize;
 import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
-import org.jarogoose.archigen.util.RequestType;
+import org.jarogoose.archigen.util.ReturnType;
 
 public class LoaderTemplate {
 
@@ -58,9 +58,9 @@ public class LoaderTemplate {
     StringBuilder content = new StringBuilder();
 
     for (Request request : domain.requests()) {
-      if (request.type().equalsIgnoreCase(RequestType.GET.toString())) {
+      if (request.returnType().equalsIgnoreCase(ReturnType.OBJECT.name())) {
         formatReadLoaderApi(domain, request, content);
-      } else if (request.type().equalsIgnoreCase(RequestType.GET_ALL.toString())) {
+      } else if (request.returnType().equalsIgnoreCase(ReturnType.COLLECTION.name())) {
         formatReadAllLoaderApi(domain, request, content);
       } else {
         formatWriteLoaderApi(domain, request, content);

@@ -19,7 +19,8 @@ import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.util.Commons;
-import org.jarogoose.archigen.util.RequestType;
+import org.jarogoose.archigen.util.ReturnType;
+import org.springframework.http.HttpMethod;
 
 public class FacadeTemplate {
 
@@ -57,9 +58,9 @@ public class FacadeTemplate {
 
     StringBuilder content = new StringBuilder();
     for (Request request : domain.requests()) {
-      if (request.type().equalsIgnoreCase(RequestType.GET.toString())) {
+      if (request.returnType().equalsIgnoreCase(ReturnType.OBJECT.name())) {
         formatReadFacadeApi(domain, request, content);
-      } else if (request.type().equalsIgnoreCase(RequestType.GET_ALL.toString())) {
+      } else if (request.returnType().equalsIgnoreCase(ReturnType.COLLECTION.name())) {
         formatReadAllFacadeApi(domain, request, content);
       } else {
         formatWriteFacadeApi(domain, request, content);
