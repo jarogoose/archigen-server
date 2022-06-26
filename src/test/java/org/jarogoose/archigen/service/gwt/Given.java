@@ -1,4 +1,4 @@
-package org.jarogoose.archigen.service;
+package org.jarogoose.archigen.service.gwt;
 
 import java.util.List;
 import org.jarogoose.archigen.domain.Domain;

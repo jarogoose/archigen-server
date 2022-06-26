@@ -1,4 +1,4 @@
-package org.jarogoose.archigen.service;
+package org.jarogoose.archigen.service.gwt;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

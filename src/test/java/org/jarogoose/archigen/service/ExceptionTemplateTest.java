@@ -1,5 +1,7 @@
 package org.jarogoose.archigen.service;
 
+import org.jarogoose.archigen.service.gwt.Given;
+import org.jarogoose.archigen.service.gwt.Then;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
