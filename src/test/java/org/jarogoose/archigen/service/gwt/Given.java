@@ -52,7 +52,7 @@ public class Given {
     String control = "searchDailyMetabolicActivity";
     String execute = "search";
     String query = "findById";
-    boolean customQuery = false;
+    boolean customQuery = true;
     List<String> data = List.of("id");
 
     return new Request(
@@ -77,7 +77,7 @@ public class Given {
     String control = "removeDailyMetabolicActivity";
     String execute = "remove";
     String query = "deleteById";
-    boolean customQuery = false;
+    boolean customQuery = true;
     List<String> data = List.of("id");
 
     return new Request(

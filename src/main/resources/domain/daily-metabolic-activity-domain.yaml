@@ -43,15 +43,15 @@ requests:
   - control: "searchDailyMetabolicActivity"
     execute: "search"
     query: "findById"
-    custom-query: false
-    type: "GET"
+    custom-query: true
+    type: "POST"
     data:
       - id
   - control: "showAllDailyMetabolicActivities"
     execute: "showAll"
     query: "findAllByUserId"
     custom-query: true
-    type: "GET_ALL"
+    type: "POST"
     data:
       - userId
   - control: "removeDailyMetabolicActivity"

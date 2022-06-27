@@ -1,7 +1,6 @@
 package org.jarogoose.archigen.service;
 
 import static java.lang.String.format;
-import static org.jarogoose.archigen.util.FileUtils.readFile;
 import static org.jarogoose.archigen.util.ImportContainerSingleton.imports;
 import static org.jarogoose.archigen.util.Packages.API_PACKAGE;
 import static org.jarogoose.archigen.util.Packages.ROOT_PACKAGE;
@@ -12,17 +11,63 @@ import static org.jarogoose.archigen.util.Replacer.IMPORTS;
 import static org.jarogoose.archigen.util.Replacer.PACKAGE;
 import static org.springframework.util.StringUtils.capitalize;
 
-import com.google.common.base.Charsets;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.util.Commons;
 import org.jarogoose.archigen.util.ReturnType;
+import org.jarogoose.archigen.util.StringUtils;
 
 public class ServiceTemplate {
 
+  public static final String TEMPLATE = """
+      package {{package}};
+            
+      import java.util.List;
+      import lombok.extern.slf4j.Slf4j;
+      {{imports}}
+      import org.springframework.stereotype.Service;
+            
+      @Slf4j
+      @Service
+      class {{feature-name}}Service {
+            
+      {{dependency-block}}
+      {{api-block}}
+      }
+            
+      """;
+
+  public static final String DEPENDENCY_BLOCK_TEMPLATE = """
+        private final {{feature-name}}Loader loader;
+              
+        {{feature-name}}Service({{feature-name}}Loader loader) {
+          this.loader = loader;
+        }
+      """;
+
+  public static final String API_READ_BLOCK_TEMPLATE = """
+        public {{feature-name}} {{service-api-name}}({{feature-name}} dto) {
+          return loader.{{storage-query-api-name}};
+        }
+      """;
+
+  public static final String API_READ_ALL_BLOCK_TEMPLATE = """
+        public List<{{feature-name}}> {{service-api-name}}({{feature-name}} dto) {
+          return loader.{{storage-query-api-name}};
+        }
+      """;
+
+  public static final String API_WRITE_BLOCK_TEMPLATE = """
+        public void {{service-api-name}}({{feature-name}} dto) {
+          loader.{{storage-query-api-name}};
+        }
+      """;
+
   public String createTemplate(Domain domain) {
-    String filePath = "src/main/resources/template/api/service.template";
-    String template = readFile(filePath, Charsets.UTF_8);
+    String template = TEMPLATE;
 
     // dto import
     imports().addServiceImports(Commons.formatDtoImport(domain));
@@ -39,8 +84,7 @@ public class ServiceTemplate {
   }
 
   public String createDependencyBlock(Domain domain) {
-    String dependencyBlockPath = "src/main/resources/template/api/service-dependency-block.template";
-    String dependencyBlock = readFile(dependencyBlockPath, Charsets.UTF_8);
+    String dependencyBlock = DEPENDENCY_BLOCK_TEMPLATE;
 
     dependencyBlock = dependencyBlock.replace(FEATURE.toString(), capitalize(domain.feature()));
 
@@ -61,12 +105,12 @@ public class ServiceTemplate {
         formatWritServiceApi(domain, request, content);
       }
     }
+    content.deleteCharAt(content.length() - 1);
     return content.toString();
   }
 
   private void formatReadServiceApi(Domain domain, Request request, StringBuilder content) {
-    String template = "src/main/resources/template/api/service-read-api-block.template";
-    String apiBlock = readFile(template, Charsets.UTF_8);
+    String apiBlock = API_READ_BLOCK_TEMPLATE;
 
     // feature name
     String featureName = format("%s", capitalize(domain.feature()));
@@ -77,15 +121,19 @@ public class ServiceTemplate {
     apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
 
     // storage query api name
-    String storageQueryApiName = format("%s", request.query());
+    String storageQueryApiName = "";
+    if (request.customQuery()) {
+      storageQueryApiName = constructCustomLoaderCall(request);
+    } else {
+      storageQueryApiName = format("%s(dto)", request.query());
+    }
     apiBlock = apiBlock.replace("{{storage-query-api-name}}", storageQueryApiName);
 
     content.append(apiBlock).append(System.lineSeparator());
   }
 
   private void formatReadAllServiceApi(Domain domain, Request request, StringBuilder content) {
-    String template = "src/main/resources/template/api/service-read-all-api-block.template";
-    String apiBlock = readFile(template, Charsets.UTF_8);
+    String apiBlock = API_READ_ALL_BLOCK_TEMPLATE;
 
     // feature name
     String featureName = format("%s", capitalize(domain.feature()));
@@ -96,15 +144,19 @@ public class ServiceTemplate {
     apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
 
     // storage query api name
-    String storageQueryApiName = format("%s", request.query());
+    String storageQueryApiName = "";
+    if (request.customQuery()) {
+      storageQueryApiName = constructCustomLoaderCall(request);
+    } else {
+      storageQueryApiName = format("%s(dto)", request.query());
+    }
     apiBlock = apiBlock.replace("{{storage-query-api-name}}", storageQueryApiName);
 
     content.append(apiBlock).append(System.lineSeparator());
   }
 
   private void formatWritServiceApi(Domain domain, Request request, StringBuilder content) {
-    String template = "src/main/resources/template/api/service-write-api-block.template";
-    String apiBlock = readFile(template, Charsets.UTF_8);
+    String apiBlock = API_WRITE_BLOCK_TEMPLATE;
 
     // feature name
     String featureName = format("%s", capitalize(domain.feature()));
@@ -115,9 +167,50 @@ public class ServiceTemplate {
     apiBlock = apiBlock.replace("{{service-api-name}}", serviceApiName);
 
     // storage query api name
-    String storageQueryApiName = format("%s", request.query());
+    String storageQueryApiName = "";
+    if (request.customQuery()) {
+      storageQueryApiName = constructCustomLoaderCall(request);
+    } else {
+      storageQueryApiName = format("%s(dto)", request.query());
+    }
     apiBlock = apiBlock.replace("{{storage-query-api-name}}", storageQueryApiName);
 
     content.append(apiBlock).append(System.lineSeparator());
   }
+
+  private String constructCustomLoaderCall(Request request) {
+    // build custom query for example getByUserName(dto.userName())
+    StringBuilder sb = new StringBuilder();
+    sb.append(request.query()).append("(");
+    String[] words = StringUtils.splitByUpperCase(request.query());
+
+    Queue<String> stack = new LinkedList<>(Arrays.asList(words));
+
+    boolean isPropertyFound = false;
+    boolean isFirstWord = true;
+
+    while (!stack.isEmpty()) {
+      String word = stack.poll();
+
+      if (word.equalsIgnoreCase("by")) {
+        isPropertyFound = true;
+        isFirstWord = true;
+        continue;
+      }
+
+      if (isPropertyFound && isFirstWord) {
+        sb.append("dto.").append(word.toLowerCase());
+        isFirstWord = false;
+        continue;
+      }
+
+      if (isPropertyFound) {
+        sb.append(capitalize(word));
+      }
+    }
+
+    sb.append("())");
+    return sb.toString();
+  }
+
 }
