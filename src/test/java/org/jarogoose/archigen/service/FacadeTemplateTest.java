@@ -58,8 +58,8 @@ class FacadeTemplateTest {
       """;
 
   @Test
-  @DisplayName("[FEATURE] Model class generated and formatted as expected")
-  public void generateModelClass() {
+  @DisplayName("[FEATURE] Facade class generated and formatted as expected")
+  public void generateFacadeClass() {
     FacadeTemplate template = new FacadeTemplate();
     String actual = template.createTemplate(Given.dailyMetabolicActivityDomain());
 
