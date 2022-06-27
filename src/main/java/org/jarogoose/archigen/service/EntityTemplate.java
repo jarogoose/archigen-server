@@ -6,6 +6,7 @@ import static org.jarogoose.archigen.util.Packages.STORAGE_PACKAGE;
 import static org.jarogoose.archigen.util.Replacer.DATA;
 import static org.jarogoose.archigen.util.Replacer.FEATURE;
 import static org.jarogoose.archigen.util.Replacer.PACKAGE;
+import static org.jarogoose.archigen.util.StringUtils.splitByUpperCase;
 import static org.springframework.util.StringUtils.capitalize;
 
 import org.jarogoose.archigen.domain.Domain;
@@ -50,14 +51,14 @@ public class EntityTemplate {
     template = template.replace(FEATURE.toString(), featureName);
 
     // document name
-    String documentName = formatDocumentName(domain.feature().split("(?=\\p{Upper})"));
+    String documentName = formatDocumentName(splitByUpperCase(domain.feature()));
     template = template.replace("{{document-name}}", documentName);
 
     // data block
     StringBuilder dataBlock = new StringBuilder();
     for (int i = 0; i < domain.data().size(); i++) {
       String field = domain.data().get(i);
-      String[] words = field.split("(?=\\p{Upper})");
+      String[] words = splitByUpperCase(field);
 
       if (field.equalsIgnoreCase("id")) {
         dataBlock.append("  @MongoId(FieldType.OBJECT_ID)").append(System.lineSeparator());

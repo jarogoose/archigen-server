@@ -14,12 +14,14 @@ import static org.jarogoose.archigen.util.Replacer.DEPENDENCY;
 import static org.jarogoose.archigen.util.Replacer.FEATURE;
 import static org.jarogoose.archigen.util.Replacer.IMPORTS;
 import static org.jarogoose.archigen.util.Replacer.PACKAGE;
+import static org.jarogoose.archigen.util.StringUtils.splitByUpperCase;
 import static org.springframework.util.StringUtils.capitalize;
 
 import com.google.common.base.Charsets;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.util.ReturnType;
+import org.jarogoose.archigen.util.StringUtils;
 
 public class LoaderTemplate {
 
@@ -134,7 +136,7 @@ public class LoaderTemplate {
   }
 
   private String formatDomainText(String feature) {
-    String[] words = feature.split("(?=\\p{Upper})");
+    String[] words = splitByUpperCase(feature);
     StringBuilder sb = new StringBuilder();
     for (String word : words) {
       sb.append(word.toLowerCase()).append(" ");

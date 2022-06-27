@@ -9,6 +9,7 @@ import static org.jarogoose.archigen.util.Replacer.DEPENDENCY;
 import static org.jarogoose.archigen.util.Replacer.FEATURE;
 import static org.jarogoose.archigen.util.Replacer.IMPORTS;
 import static org.jarogoose.archigen.util.Replacer.PACKAGE;
+import static org.jarogoose.archigen.util.StringUtils.splitByUpperCase;
 import static org.springframework.util.StringUtils.capitalize;
 
 import java.util.Arrays;
@@ -182,7 +183,7 @@ public class ServiceTemplate {
     // build custom query for example getByUserName(dto.userName())
     StringBuilder sb = new StringBuilder();
     sb.append(request.query()).append("(");
-    String[] words = StringUtils.splitByUpperCase(request.query());
+    String[] words = splitByUpperCase(request.query());
 
     Queue<String> stack = new LinkedList<>(Arrays.asList(words));
 
