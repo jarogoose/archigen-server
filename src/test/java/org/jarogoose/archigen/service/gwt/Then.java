@@ -13,6 +13,8 @@ public class Then {
           .withFailMessage("Line %s expect to be \n %s \n but was \n %s", i+1, expectLines[i], actualLines[i])
           .isEqualTo(expectLines[i]);
     }
+
+    assertThat(actualLines.length).isEqualTo(expectLines.length);
   }
 
 }
