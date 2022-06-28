@@ -81,9 +81,7 @@ public class EntityMapperTemplate {
   }
 
   private String createEntitiesToDtosBlock(Domain domain) {
-    String template = ENTITIES_TO_DTOS_BLOCK_TEMPLATE;
-
-    return template.replace("{{feature-name}}", capitalize(domain.feature()));
+    return ENTITIES_TO_DTOS_BLOCK_TEMPLATE.replace("{{feature-name}}", capitalize(domain.feature()));
   }
 
   private String createDtoToEntityBlock(Domain domain) {

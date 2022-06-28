@@ -30,6 +30,7 @@ public class DtoMapperTemplate {
             
       {{request-to-dto-block}}
       {{dto-to-response-block}}
+      {{dtos-to-requests-block}}
       }
             
       """;
@@ -50,6 +51,16 @@ public class DtoMapperTemplate {
         }
       """;
 
+  public static final String DTOS_TO_REQUESTS_BLOCK_TEMPLATE = """
+        public static List<{{feature-name}}Response> toResponse(List<{{feature-name}}> dtos) {
+          List<{{feature-name}}Response> response = new ArrayList<>();
+          for (var dto : dtos) {
+            response.add(toResponse(dto));
+          }
+          return response;
+        }
+      """;
+
   public String createTemplate(Domain domain) {
     String template = TEMPLATE;
 
@@ -65,9 +76,14 @@ public class DtoMapperTemplate {
     template = template.replace(FEATURE.toString(), featureName);
     template = template.replace("{{dto-to-response-block}}", createDtoToResponseBlock(domain));
     template = template.replace("{{request-to-dto-block}}", createRequestToDtoBlock(domain));
+    template = template.replace("{{dtos-to-requests-block}}", createDtosToRequestsBlock(domain));
     template = template.replace(IMPORTS.toString(), imports().getDtoMapperImports());
 
     return template;
+  }
+
+  private CharSequence createDtosToRequestsBlock(Domain domain) {
+    return DTOS_TO_REQUESTS_BLOCK_TEMPLATE.replace("{{feature-name}}", capitalize(domain.feature()));
   }
 
   private String createDtoToResponseBlock(Domain domain) {

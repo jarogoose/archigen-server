@@ -83,6 +83,14 @@ class DtoMapperTemplateTest {
               .build();
         }
       
+        public static List<DailyMetabolicActivityResponse> toResponse(List<DailyMetabolicActivity> dtos) {
+          List<DailyMetabolicActivityResponse> response = new ArrayList<>();
+          for (var dto : dtos) {
+            response.add(toResponse(dto));
+          }
+          return response;
+        }
+      
       }
       
       """;
