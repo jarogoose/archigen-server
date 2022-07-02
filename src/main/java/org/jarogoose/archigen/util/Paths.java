@@ -4,7 +4,7 @@ import static java.lang.String.format;
 import static org.springframework.util.StringUtils.capitalize;
 
 import lombok.AllArgsConstructor;
-import org.jarogoose.archigen.ArchigenResource;
+import org.jarogoose.archigen.web.control.ArchigenResource;
 
 @AllArgsConstructor
 public enum Paths {

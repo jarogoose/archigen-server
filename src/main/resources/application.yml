@@ -1,0 +1,14 @@
+server:
+  port: 8085
+
+spring:
+  data:
+    mongodb:
+      username: 'arcadmin'
+      password: 'admin'
+      database: archigen
+      port: 27017
+      host: localhost
+      connect-timeout: 5000
+      socket-timeout: 5000
+      auto-index-creation: true
