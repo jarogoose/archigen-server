@@ -10,7 +10,6 @@ import static org.jarogoose.archigen.util.StringUtils.splitByUpperCase;
 import static org.springframework.util.StringUtils.capitalize;
 
 import org.jarogoose.archigen.domain.Domain;
-import org.jarogoose.archigen.util.StringUtils;
 
 public class EntityTemplate {
 

@@ -19,7 +19,6 @@ import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.util.Commons;
 import org.jarogoose.archigen.util.ReturnType;
-import org.jarogoose.archigen.util.StringUtils;
 
 public class ServiceTemplate {
 

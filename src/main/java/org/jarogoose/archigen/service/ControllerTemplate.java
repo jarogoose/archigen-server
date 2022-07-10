@@ -18,13 +18,12 @@ import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.domain.Request;
 import org.jarogoose.archigen.util.Commons;
 import org.jarogoose.archigen.util.ReturnType;
-import org.jarogoose.archigen.util.StringUtils;
 
 public class ControllerTemplate {
 
   private static final String TEMPLATE = """
       package {{package}};
-      
+
       import com.jarogoose.enenbi.event.Event;
       {{imports}}
       import com.jarogoose.enenbi.rest.EnenbiController;
@@ -37,21 +36,21 @@ public class ControllerTemplate {
       import org.springframework.web.bind.annotation.RequestBody;
       import org.springframework.web.bind.annotation.RequestMapping;
       import org.springframework.web.bind.annotation.RestController;
-      
+
       @Slf4j
       @RestController()
       @RequestMapping("user-ui/{{domain-uri}}-api")
       public class {{feature-name}}Controller implements EnenbiController {
-      
+
       {{dependency-block}}
       {{api-block}}
       }
-      
+
       """;
 
   private static final String DEPENDENCY_BLOCK_TEMPLATE = """
         private final {{feature-name}}Facade facade;
-      
+
         public {{feature-name}}Controller({{feature-name}}Facade facade) {
           this.facade = facade;
         }
@@ -70,7 +69,6 @@ public class ControllerTemplate {
           }
         }
       """;
-
 
   public String createTemplate(Domain domain) {
     String template = TEMPLATE;
