@@ -27,123 +27,124 @@ import org.jarogoose.archigen.service.RequestTemplate;
 import org.jarogoose.archigen.service.ResponseTemplate;
 import org.jarogoose.archigen.service.ServiceTemplate;
 import org.jarogoose.archigen.service.StorageTemplate;
+import org.jarogoose.archigen.web.domain.Config;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ArchigenGenerator {
 
-  public void generateAll(Domain domain) throws IOException {
-    createEntityFile(domain);
-    createModelFile(domain);
-    createRequestFile(domain);
-    createResponseFile(domain);
-    createDtoMapperFile(domain);
-    createNotFoundExceptionFile(domain);
-    createControllerFile(domain);
-    createFacadeFile(domain);
-    createServiceFile(domain);
-    createLoaderFile(domain);
-    createStorageFile(domain);
-    createEntityMapperFile(domain);
+  public void generateAll(Config config, Domain domain) throws IOException {
+    createEntityFile(config, domain);
+    createModelFile(config, domain);
+    createRequestFile(config, domain);
+    createResponseFile(config, domain);
+    createDtoMapperFile(config, domain);
+    createNotFoundExceptionFile(config, domain);
+    createControllerFile(config, domain);
+    createFacadeFile(config, domain);
+    createServiceFile(config, domain);
+    createLoaderFile(config, domain);
+    createStorageFile(config, domain);
+    createEntityMapperFile(config, domain);
   }
 
-  public void createEntityFile(Domain domain) throws IOException {
+  public void createEntityFile(Config config, Domain domain) throws IOException {
     EntityTemplate entityTemplate = new EntityTemplate();
     String entityContent = entityTemplate.createTemplate(domain);
-    File entityFile = new File(STORAGE_PATH.get(domain.root(), domain.feature(), "Entity"));
+    File entityFile = new File(STORAGE_PATH.get(config, domain.root(), domain.feature(), "Entity"));
     Files.createParentDirs(entityFile);
     Files.asCharSink(entityFile, StandardCharsets.UTF_8).write(entityContent);
   }
 
-  public void createModelFile(Domain domain) throws IOException {
+  public void createModelFile(Config config, Domain domain) throws IOException {
     ModelTemplate modelTemplate = new ModelTemplate();
     String modelContent = modelTemplate.createTemplate(domain);
-    File modelFile = new File(DTO_PATH.get(domain.root(), domain.feature(), ""));
+    File modelFile = new File(DTO_PATH.get(config, domain.root(), domain.feature(), ""));
     Files.createParentDirs(modelFile);
     Files.asCharSink(modelFile, StandardCharsets.UTF_8).write(modelContent);
   }
 
-  public void createRequestFile(Domain domain) throws IOException {
+  public void createRequestFile(Config config, Domain domain) throws IOException {
     RequestTemplate requestTemplate = new RequestTemplate();
     for (Request request : domain.requests()) {
       String requestContent = requestTemplate.createTemplate(domain, request);
-      File requestFile = new File(REQUEST_PATH.get(domain.root(), request.control(), "Request"));
+      File requestFile = new File(REQUEST_PATH.get(config, domain.root(), request.control(), "Request"));
       Files.createParentDirs(requestFile);
       Files.asCharSink(requestFile, StandardCharsets.UTF_8).write(requestContent);
     }
   }
 
-  public void createResponseFile(Domain domain) throws IOException {
+  public void createResponseFile(Config config, Domain domain) throws IOException {
     ResponseTemplate responseTemplate = new ResponseTemplate();
     String responseContent = responseTemplate.createTemplate(domain);
-    File responseFile = new File(RESPONSE_PATH.get(domain.root(), domain.feature(), "Response"));
+    File responseFile = new File(RESPONSE_PATH.get(config, domain.root(), domain.feature(), "Response"));
     Files.createParentDirs(responseFile);
     Files.asCharSink(responseFile, StandardCharsets.UTF_8).write(responseContent);
   }
 
-  public void createDtoMapperFile(Domain domain) throws IOException {
+  public void createDtoMapperFile(Config config, Domain domain) throws IOException {
     DtoMapperTemplate dtoMapperTemplate = new DtoMapperTemplate();
     String dtoMapperContent = dtoMapperTemplate.createTemplate(domain);
-    File dtoMapperFile = new File(DTO_MAPPER_PATH.get(domain.root(), domain.feature(), "Mapper"));
+    File dtoMapperFile = new File(DTO_MAPPER_PATH.get(config, domain.root(), domain.feature(), "Mapper"));
     Files.createParentDirs(dtoMapperFile);
     Files.asCharSink(dtoMapperFile, StandardCharsets.UTF_8).write(dtoMapperContent);
   }
 
-  public void createNotFoundExceptionFile(Domain domain) throws IOException {
+  public void createNotFoundExceptionFile(Config config, Domain domain) throws IOException {
     ExceptionTemplate exceptionTemplate = new ExceptionTemplate();
     String exceptionContent = exceptionTemplate.createTemplate(domain);
     File exceptionFile = new File(
-        EXCEPTION_PATH.get(domain.root(), domain.feature(), "NotFoundException"));
+        EXCEPTION_PATH.get(config, domain.root(), domain.feature(), "NotFoundException"));
     Files.createParentDirs(exceptionFile);
     Files.asCharSink(exceptionFile, StandardCharsets.UTF_8).write(exceptionContent);
   }
 
-  public void createControllerFile(Domain domain) throws IOException {
+  public void createControllerFile(Config config, Domain domain) throws IOException {
     ControllerTemplate controllerTemplate = new ControllerTemplate();
     String controllerContent = controllerTemplate.createTemplate(domain);
     File controllerFile = new File(
-        CONTROLLER_PATH.get(domain.root(), domain.feature(), "Controller"));
+        CONTROLLER_PATH.get(config, domain.root(), domain.feature(), "Controller"));
     Files.createParentDirs(controllerFile);
     Files.asCharSink(controllerFile, StandardCharsets.UTF_8).write(controllerContent);
   }
 
-  public void createFacadeFile(Domain domain) throws IOException {
+  public void createFacadeFile(Config config, Domain domain) throws IOException {
     FacadeTemplate facadeTemplate = new FacadeTemplate();
     String facadeContent = facadeTemplate.createTemplate(domain);
-    File facadeFile = new File(API_PATH.get(domain.root(), domain.feature(), "Facade"));
+    File facadeFile = new File(API_PATH.get(config, domain.root(), domain.feature(), "Facade"));
     Files.createParentDirs(facadeFile);
     Files.asCharSink(facadeFile, StandardCharsets.UTF_8).write(facadeContent);
   }
 
-  public void createServiceFile(Domain domain) throws IOException {
+  public void createServiceFile(Config config, Domain domain) throws IOException {
     ServiceTemplate serviceTemplate = new ServiceTemplate();
     String serviceContent = serviceTemplate.createTemplate(domain);
-    File serviceFile = new File(API_PATH.get(domain.root(), domain.feature(), "Service"));
+    File serviceFile = new File(API_PATH.get(config, domain.root(), domain.feature(), "Service"));
     Files.createParentDirs(serviceFile);
     Files.asCharSink(serviceFile, StandardCharsets.UTF_8).write(serviceContent);
   }
 
-  public void createLoaderFile(Domain domain) throws IOException {
+  public void createLoaderFile(Config config, Domain domain) throws IOException {
     LoaderTemplate loaderTemplate = new LoaderTemplate();
     String loaderContent = loaderTemplate.createTemplate(domain);
-    File loaderFile = new File(STORAGE_PATH.get(domain.root(), domain.feature(), "Loader"));
+    File loaderFile = new File(STORAGE_PATH.get(config, domain.root(), domain.feature(), "Loader"));
     Files.createParentDirs(loaderFile);
     Files.asCharSink(loaderFile, StandardCharsets.UTF_8).write(loaderContent);
   }
 
-  public void createStorageFile(Domain domain) throws IOException {
+  public void createStorageFile(Config config, Domain domain) throws IOException {
     StorageTemplate storageTemplate = new StorageTemplate();
     String storageContent = storageTemplate.createTemplate(domain);
-    File storageFile = new File(STORAGE_PATH.get(domain.root(), domain.feature(), "Storage"));
+    File storageFile = new File(STORAGE_PATH.get(config, domain.root(), domain.feature(), "Storage"));
     Files.createParentDirs(storageFile);
     Files.asCharSink(storageFile, StandardCharsets.UTF_8).write(storageContent);
   }
 
-  public void createEntityMapperFile(Domain domain) throws IOException {
+  public void createEntityMapperFile(Config config, Domain domain) throws IOException {
     EntityMapperTemplate entityMapperTemplate = new EntityMapperTemplate();
     String entityMapperContent = entityMapperTemplate.createTemplate(domain);
     File entityMapperFile = new File(
-        STORAGE_PATH.get(domain.root(), domain.feature(), "EntityMapper"));
+        STORAGE_PATH.get(config, domain.root(), domain.feature(), "EntityMapper"));
     Files.createParentDirs(entityMapperFile);
     Files.asCharSink(entityMapperFile, StandardCharsets.UTF_8).write(entityMapperContent);
   }

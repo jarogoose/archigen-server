@@ -20,7 +20,8 @@ public class ArchigenService {
   }
 
   public void generateAll(Domain request) throws IOException {
-    generator.generateAll(request);
+    Config config = loadConfig();
+    generator.generateAll(config, request);
   }
 
   public void saveConfig(Config config) {

@@ -1,12 +1,5 @@
 package org.jarogoose.archigen.web.control;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import lombok.extern.slf4j.Slf4j;
-import org.jarogoose.archigen.ArchigenApplication;
 import org.jarogoose.archigen.domain.Domain;
 import org.jarogoose.archigen.web.api.ArchigenService;
 import org.jarogoose.archigen.web.domain.Config;
@@ -18,24 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
 @RestController
 @RequestMapping("archigen")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ArchigenResource {
 
-  public static final Map<String, String> PROPERTIES = new HashMap<>();
-
   private final ArchigenService service;
 
   public ArchigenResource(ArchigenService service) {
     this.service = service;
-    try {
-      this.initProperties();
-    } catch (IOException e) {
-      log.error(e.getMessage());
-      throw new RuntimeException(e);
-    }
   }
 
   @PostMapping("generate")
@@ -66,24 +50,5 @@ public class ArchigenResource {
     } catch (Exception e) {
       return ResponseEntity.internalServerError().build();
     }
-  }
-
-  private void initProperties() throws IOException {
-    InputStream input = ArchigenApplication.class.getClassLoader()
-        .getResourceAsStream("application.yml");
-
-    if (input == null) {
-      log.error("Properties file was not found");
-      return;
-    }
-
-    Properties prop = new Properties();
-    prop.load(input);
-
-    for (final String name : prop.stringPropertyNames()) {
-      PROPERTIES.put(name, prop.getProperty(name));
-    }
-    PROPERTIES.put("user.home", System.getProperty("user.home"));
-    log.info("Properties loaded");
   }
 }
