@@ -1,3 +1,0 @@
-public void {{service-api-name}}({{feature-name}} dto) {
-  loader.{{storage-query-api-name}}(dto);
-}

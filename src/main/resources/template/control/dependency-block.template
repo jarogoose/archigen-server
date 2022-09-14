@@ -1,5 +1,0 @@
-private final {{feature-name}}Facade facade;
-
-public {{feature-name}}Controller({{feature-name}}Facade facade) {
-  this.facade = facade;
-}

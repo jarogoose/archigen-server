@@ -1,3 +1,0 @@
-public void {{facade-api-name}}({{request-name}}Request request) {
-  service.{{service-api-name}}(toDto(request));
-}

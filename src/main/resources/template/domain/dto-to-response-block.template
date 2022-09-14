@@ -1,5 +1,0 @@
-public static {{feature-name}}Response toResponse({{feature-name}} dto) {
-  return {{feature-name}}Response.builder()
-      {{data-map-block}}
-      .build();
-}

@@ -1,3 +1,0 @@
-public List<{{feature-name}}> {{service-api-name}}({{feature-name}} dto) {
-  return loader.{{storage-query-api-name}}(dto);
-}

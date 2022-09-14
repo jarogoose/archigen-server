@@ -1,6 +1,0 @@
-public static {{feature-name}} toDto({{feature-name}}Entity entity) {
-  return {{feature-name}}.builder()
-      .id(entity.getId())
-      {{data-map-block}}
-      .build();
-}

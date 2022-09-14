@@ -1,3 +1,0 @@
-public void {{query-name}}({{feature-name}} dto) {
-  storage.{{query-name}}(toEntity((dto)));
-}

@@ -1,1 +1,0 @@
-List<{{feature-name}}Entity> {{query-name}}(String id);

@@ -1,6 +1,0 @@
-public {{feature-name}} {{query-name}}({{feature-name}} dto) {
-  return storage.{{query-name}}(id)
-    .map({{feature-name}}EntityMapper::toDto)
-    .orElseThrow(() -> new {{feature-name}}NotFoundException(
-      "[{{root-name}}] {{domain-text}} was not found"));
-}

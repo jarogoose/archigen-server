@@ -1,5 +1,0 @@
-private final {{feature-name}}Loader loader;
-
-public {{feature-name}}Service({{feature-name}}Loader loader) {
-  this.loader = loader;
-}

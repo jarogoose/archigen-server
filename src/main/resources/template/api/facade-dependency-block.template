@@ -1,5 +1,0 @@
-private final {{feature-name}}Service service;
-
-public {{feature-name}}Facade({{feature-name}}Service service) {
-  this.service = service;
-}
