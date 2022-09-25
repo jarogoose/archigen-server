@@ -1,11 +1,15 @@
 package org.jarogoose.archigen.util;
 
 import com.google.common.io.Files;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
 public class FileUtils {
+
+  private FileUtils() {
+  }
 
   public static String readFile(String path, Charset encoding) {
     try {

@@ -15,6 +15,9 @@ import org.jarogoose.archigen.domain.Request;
 
 public class Commons {
 
+  private Commons() {
+  }
+
   public static String formatResponseImport(Domain domain) {
     return String.format("import %s.%s.%s.%sResponse;",
         ROOT_PACKAGE, domain.root(), RESPONSE_PACKAGE, capitalize(domain.feature()));
