@@ -12,7 +12,7 @@ public record Request(
     @JsonProperty(value = "custom-query", defaultValue = "false") boolean customQuery,
     @JsonProperty("http-method") String httpMethod,
     @JsonProperty("return-type") String returnType, // VOID, OBJECT, COLLECTION
-    @JsonProperty("data") List<String> data
+    @JsonProperty("payload") List<String> payload
 ) {
 
 }

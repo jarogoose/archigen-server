@@ -21,18 +21,18 @@ public class DtoMapperTemplate {
 
   private static final String TEMPLATE = """
       package {{package}};
-            
+
       {{imports}}
       import java.util.ArrayList;
       import java.util.List;
-            
+
       public class {{feature-name}}Mapper {
-            
+
       {{request-to-dto-block}}
       {{dto-to-response-block}}
       {{dtos-to-requests-block}}
       }
-            
+
       """;
 
   private static final String REQUEST_TO_DTO_BLOCK_TEMPLATE = """
@@ -119,7 +119,7 @@ public class DtoMapperTemplate {
       // request import
       imports().addDtoMapperImports(formatRequestImport(domain, request));
 
-      template = template.replace("{{data-map-block}}", iterateData(request.data(), mapPattern));
+      template = template.replace("{{data-map-block}}", iterateData(request.payload(), mapPattern));
 
       requestToDtoBlock.append(template).append(System.lineSeparator());
     }

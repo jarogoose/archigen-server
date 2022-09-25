@@ -41,10 +41,10 @@ public class RequestTemplate {
 
     // data block
     StringBuilder dataBlock = new StringBuilder();
-    for (int i = 0; i < request.data().size(); i++) {
+    for (int i = 0; i < request.payload().size(); i++) {
       dataBlock.append(format("    @JsonProperty(\"%s\") String %s",
-          request.data().get(i), request.data().get(i)));
-      if (i != request.data().size() - 1) {
+          request.payload().get(i), request.payload().get(i)));
+      if (i != request.payload().size() - 1) {
         dataBlock.append(",").append(System.lineSeparator());
       }
     }
