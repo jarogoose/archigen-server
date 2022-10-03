@@ -1,8 +1,10 @@
 package org.jarogoose.archigen.web.api;
 
 import java.io.IOException;
-import org.jarogoose.archigen.ArchigenGenerator;
-import org.jarogoose.archigen.domain.Domain;
+import java.util.List;
+import org.jarogoose.archigen.core.ArchigenGenerator;
+import org.jarogoose.archigen.core.domain.Domain;
+import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.domain.Config;
 import org.jarogoose.archigen.web.domain.Mapper;
 import org.jarogoose.archigen.web.storage.ConfigStorage;
@@ -19,9 +21,10 @@ public class ArchigenService {
     this.configStorage = configStorage;
   }
 
-  public void generateAll(Domain request) throws IOException {
+  public void generateAll(Domain domain) throws IOException {
     Config config = loadConfig();
-    generator.generateAll(config, request);
+    List<ArcTemplate> templates = generator.prepare(config, domain);
+    generator.generate(templates);
   }
 
   public void saveConfig(Config config) {

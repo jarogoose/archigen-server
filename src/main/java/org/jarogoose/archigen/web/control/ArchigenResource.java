@@ -1,6 +1,6 @@
 package org.jarogoose.archigen.web.control;
 
-import org.jarogoose.archigen.domain.Domain;
+import org.jarogoose.archigen.core.domain.Domain;
 import org.jarogoose.archigen.web.api.ArchigenService;
 import org.jarogoose.archigen.web.domain.Config;
 import org.springframework.http.ResponseEntity;
