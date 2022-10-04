@@ -22,4 +22,5 @@ public class ConfigEntity {
   private String project;
   @Field("base_dir")
   private String baseDir;
+  private String author;
 }

@@ -1,5 +1,6 @@
 package org.jarogoose.archigen.core;
 
+import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +25,6 @@ import org.jarogoose.archigen.core.template.ServiceWriteTemplate;
 import org.jarogoose.archigen.core.template.StorageTemplate;
 import org.jarogoose.archigen.web.domain.Config;
 import org.springframework.stereotype.Component;
-import com.google.common.io.Files;
 
 @Component
 public class ArchigenGenerator {
@@ -42,7 +42,7 @@ public class ArchigenGenerator {
     templates.add(new EntityMapperTemplate(config, domain));
     templates.add(new LoaderTemplate(config, domain));
     templates.add(new StorageTemplate(config, domain));
-    
+
     // add read templates
     templates.add(new ResponseTemplate(config, domain));
     templates.add(new ControllerSummaryTemplate(config, domain));
@@ -59,11 +59,21 @@ public class ArchigenGenerator {
   }
 
   public void generate(List<ArcTemplate> templates) throws IOException {
-    for(ArcTemplate template : templates) {
+    for (ArcTemplate template : templates) {
       final String content = template.content();
       final File file = template.file();
       Files.createParentDirs(file);
       Files.asCharSink(file, StandardCharsets.UTF_8).write(content);
     }
+  }
+
+  public List<String> preview(List<ArcTemplate> templates) {
+    List<String> contents = new ArrayList<>();
+
+    for (ArcTemplate template : templates) {
+      contents.add(template.content());
+    }
+
+    return contents;
   }
 }

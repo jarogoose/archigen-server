@@ -16,7 +16,10 @@ public class ArchigenService {
   private final ArchigenGenerator generator;
   private final ConfigStorage configStorage;
 
-  public ArchigenService(ArchigenGenerator generator, ConfigStorage configStorage) {
+  public ArchigenService(
+    ArchigenGenerator generator,
+    ConfigStorage configStorage
+  ) {
     this.generator = generator;
     this.configStorage = configStorage;
   }
@@ -34,5 +37,11 @@ public class ArchigenService {
   public Config loadConfig() {
     var config = configStorage.findAll().get(0);
     return Mapper.toDto(config);
+  }
+
+  public Object preview(Domain domain) {
+    Config config = loadConfig();
+    List<ArcTemplate> templates = generator.prepare(config, domain);
+    return generator.preview(templates);
   }
 }
