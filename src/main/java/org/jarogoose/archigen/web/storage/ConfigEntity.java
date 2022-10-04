@@ -18,6 +18,8 @@ public class ConfigEntity {
 
   @MongoId(FieldType.OBJECT_ID)
   private String id;
+  @Field("project_name")
+  private String projectName;
   private String artefact;
   private String project;
   @Field("base_dir")

@@ -4,25 +4,27 @@ import org.jarogoose.archigen.web.storage.ConfigEntity;
 
 public class Mapper {
 
-  public static Config toDto(ConfigEntity config) {
+  public static Config toDto(ConfigEntity entity) {
     return Config
       .builder()
-      .id(config.getId())
-      .artefact(config.getArtefact())
-      .project(config.getProject())
-      .baseDir(config.getBaseDir())
-      .author(config.getAuthor())
+      .id(entity.getId())
+      .projectName(entity.getProjectName())
+      .artefact(entity.getArtefact())
+      .project(entity.getProject())
+      .baseDir(entity.getBaseDir())
+      .author(entity.getAuthor())
       .build();
   }
 
-  public static ConfigEntity toEntity(Config config) {
+  public static ConfigEntity toEntity(Config dto) {
     return ConfigEntity
       .builder()
-      .id(config.id())
-      .artefact(config.artefact())
-      .project(config.project())
-      .baseDir(config.baseDir())
-      .author(config.author())
+      .id(dto.id())
+      .projectName(dto.projectName())
+      .artefact(dto.artefact())
+      .project(dto.project())
+      .baseDir(dto.baseDir())
+      .author(dto.author())
       .build();
   }
 }
