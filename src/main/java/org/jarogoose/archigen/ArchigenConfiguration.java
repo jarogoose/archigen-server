@@ -1,8 +1,9 @@
 package org.jarogoose.archigen;
 
 import javax.annotation.PostConstruct;
-import org.jarogoose.archigen.web.storage.ConfigEntity;
-import org.jarogoose.archigen.web.storage.ConfigStorage;
+
+import org.jarogoose.archigen.web.config.storage.ConfigEntity;
+import org.jarogoose.archigen.web.config.storage.ConfigStorage;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

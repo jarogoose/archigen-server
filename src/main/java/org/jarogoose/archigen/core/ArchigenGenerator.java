@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import org.jarogoose.archigen.core.domain.Domain;
+
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.core.template.ControllerActionTemplate;
 import org.jarogoose.archigen.core.template.ControllerSummaryTemplate;
@@ -23,7 +23,8 @@ import org.jarogoose.archigen.core.template.ResponseTemplate;
 import org.jarogoose.archigen.core.template.ServiceReadTemplate;
 import org.jarogoose.archigen.core.template.ServiceWriteTemplate;
 import org.jarogoose.archigen.core.template.StorageTemplate;
-import org.jarogoose.archigen.web.domain.Config;
+import org.jarogoose.archigen.web.config.domain.model.dto.Config;
+import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 import org.springframework.stereotype.Component;
 
 @Component

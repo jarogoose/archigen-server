@@ -1,4 +1,4 @@
-package org.jarogoose.archigen.web.storage;
+package org.jarogoose.archigen.web.config.storage;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

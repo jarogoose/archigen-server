@@ -3,8 +3,9 @@ package org.jarogoose.archigen.core.util;
 import static java.lang.String.format;
 import static org.springframework.util.StringUtils.capitalize;
 
+import org.jarogoose.archigen.web.config.domain.model.dto.Config;
+
 import lombok.AllArgsConstructor;
-import org.jarogoose.archigen.web.domain.Config;
 
 @AllArgsConstructor
 public enum Paths {

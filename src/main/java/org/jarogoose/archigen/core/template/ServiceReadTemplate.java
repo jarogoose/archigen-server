@@ -2,9 +2,10 @@ package org.jarogoose.archigen.core.template;
 
 import static org.springframework.util.StringUtils.capitalize;
 import java.io.File;
-import org.jarogoose.archigen.core.domain.Domain;
+
 import org.jarogoose.archigen.core.util.Paths;
-import org.jarogoose.archigen.web.domain.Config;
+import org.jarogoose.archigen.web.config.domain.model.dto.Config;
+import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 
 public final class ServiceReadTemplate implements ArcTemplate {
 

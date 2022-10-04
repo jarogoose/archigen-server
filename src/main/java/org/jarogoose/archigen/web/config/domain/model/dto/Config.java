@@ -1,4 +1,4 @@
-package org.jarogoose.archigen.web.domain;
+package org.jarogoose.archigen.web.config.domain.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

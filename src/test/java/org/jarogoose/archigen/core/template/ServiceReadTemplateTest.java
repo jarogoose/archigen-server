@@ -2,9 +2,9 @@ package org.jarogoose.archigen.core.template;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.jarogoose.archigen.core.domain.Domain;
 import org.jarogoose.archigen.core.template.gwt.Then;
-import org.jarogoose.archigen.web.domain.Config;
+import org.jarogoose.archigen.web.config.domain.model.dto.Config;
+import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
