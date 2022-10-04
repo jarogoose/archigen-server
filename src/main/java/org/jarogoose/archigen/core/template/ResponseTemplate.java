@@ -9,16 +9,17 @@ import org.jarogoose.archigen.web.domain.Config;
 public class ResponseTemplate implements ArcTemplate {
 
   private static final String TEMPLATE = """
-    package {{project-path}}.feature.{{root-name}}.domain.model.response;
+  package {{project-path}}.feature.{{root-name}}.domain.model.response;
 
-    import {{project-path}}.feature.{{root-name}}.domain.model.dto.{{feature-name}};
-    import java.util.List;
-    import lombok.Builder;
-    
-    @Builder
-    public record ShowAll{{feature-name}}Response(
-        List<{{feature-name}}> {{feature-name-lowercase}}
-    ) {}
+  import {{project-path}}.feature.{{root-name}}.domain.model.dto.{{feature-name}};
+  import java.util.List;
+  import lombok.Builder;
+  
+  @Builder
+  public record ShowAll{{feature-name}}Response(
+      List<{{feature-name}}> {{feature-name-lowercase}}
+  ) {}
+  
   """;
 
   private final Config config;
@@ -51,7 +52,8 @@ public class ResponseTemplate implements ArcTemplate {
 
   @Override
   public File file() {
+    final String featureName = String.format("%s%s", "showAll", capitalize(domain.feature()));
     return new File(Paths.RESPONSE_PATH
-      .get(config, domain.root(), domain.feature(), "Response"));
+      .get(config, domain.root(), featureName, "Response"));
   }
 }

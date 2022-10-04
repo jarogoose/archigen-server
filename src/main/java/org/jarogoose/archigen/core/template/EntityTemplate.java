@@ -11,27 +11,28 @@ import org.jarogoose.archigen.web.domain.Config;
 public class EntityTemplate implements ArcTemplate {
 
   private static final String TEMPLATE = """
-    package {{project-path}}.feature.{{root-name}}.storage;
+  package {{project-path}}.feature.{{root-name}}.storage;
 
-    import lombok.AllArgsConstructor;
-    import lombok.Builder;
-    import lombok.Data;
-    import lombok.NoArgsConstructor;
-    import org.springframework.data.mongodb.core.mapping.Document;
-    import org.springframework.data.mongodb.core.mapping.FieldType;
-    import org.springframework.data.mongodb.core.mapping.MongoId;
-    
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Document(collection = "{{document-name}}")
-    class {{feature-name}}Entity {
-    
-      @MongoId(FieldType.OBJECT_ID)
-      private String id;
-      {{data}}
-    }    
+  import lombok.AllArgsConstructor;
+  import lombok.Builder;
+  import lombok.Data;
+  import lombok.NoArgsConstructor;
+  import org.springframework.data.mongodb.core.mapping.Document;
+  import org.springframework.data.mongodb.core.mapping.FieldType;
+  import org.springframework.data.mongodb.core.mapping.MongoId;
+  
+  @Data
+  @Builder
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Document(collection = "{{document-name}}")
+  class {{feature-name}}Entity {
+  
+    @MongoId(FieldType.OBJECT_ID)
+    private String id;
+    {{data}}
+  }
+  
   """;
 
   private final Config config;

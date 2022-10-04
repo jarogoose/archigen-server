@@ -10,29 +10,30 @@ import org.jarogoose.archigen.web.domain.Config;
 public class DtoMapperTemplate implements ArcTemplate {
 
   private static final String TEMPLATE = """
-    package {{project-path}}.feature.{{root-name}}.domain.mapper;
+  package {{project-path}}.feature.{{root-name}}.domain.mapper;
 
-    import {{project-path}}.feature.{{root-name}}.domain.model.dto.{{feature-name}};
-    import {{project-path}}.feature.{{root-name}}.domain.model.request.Add{{feature-name}}Request;
-    import {{project-path}}.feature.{{root-name}}.domain.model.response.ShowAll{{feature-name}}Response;
-    import java.util.List;
-    import lombok.experimental.UtilityClass;
-    
-    @UtilityClass
-    public class {{feature-name}}Mapper {
-    
-      static {{feature-name}} toDto(Add{{feature-name}}Request request) {
-        return {{feature-name}}.builder()
-    {{dto-data}}
-            .build();
-      }
-    
-      static ShowAll{{feature-name}}Response toResponse(List<{{feature-name}}> dtos) {
-        return ShowAll{{feature-name}}Response.builder()
-            .{{feature-name-lowercase}}(dtos)
-            .build();
-      }
+  import {{project-path}}.feature.{{root-name}}.domain.model.dto.{{feature-name}};
+  import {{project-path}}.feature.{{root-name}}.domain.model.request.Add{{feature-name}}Request;
+  import {{project-path}}.feature.{{root-name}}.domain.model.response.ShowAll{{feature-name}}Response;
+  import java.util.List;
+  import lombok.experimental.UtilityClass;
+  
+  @UtilityClass
+  public class {{feature-name}}Mapper {
+  
+    static {{feature-name}} toDto(Add{{feature-name}}Request request) {
+      return {{feature-name}}.builder()
+  {{dto-data}}
+          .build();
     }
+  
+    static ShowAll{{feature-name}}Response toResponse(List<{{feature-name}}> dtos) {
+      return ShowAll{{feature-name}}Response.builder()
+          .{{feature-name-lowercase}}(dtos)
+          .build();
+    }
+  }
+
   """;
 
 private final Config config;
@@ -83,6 +84,7 @@ public DtoMapperTemplate(Config config, Domain domain) {
         .append("())")
         .append(System.lineSeparator());
     }
+    sb.setLength(sb.length() - 1);
     return sb.toString();
   }
 }

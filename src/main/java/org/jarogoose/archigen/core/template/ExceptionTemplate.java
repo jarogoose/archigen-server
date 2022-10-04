@@ -9,18 +9,19 @@ import org.jarogoose.archigen.web.domain.Config;
 public class ExceptionTemplate implements ArcTemplate {
 
   private static final String TEMPLATE = """
-    package {{project-path}}.feature.{{root-name}}.domain.exception;
+  package {{project-path}}.feature.{{root-name}}.domain.exception;
 
-    public class {{feature-name}}Exception extends RuntimeException {
-    
-      public {{feature-name}}Exception(String message) {
-        super(message);
-      }
-    
-      public {{feature-name}}Exception(String message, Throwable cause) {
-        super(message, cause);
-      }
-    }    
+  public class {{feature-name}}Exception extends RuntimeException {
+  
+    public {{feature-name}}Exception(String message) {
+      super(message);
+    }
+  
+    public {{feature-name}}Exception(String message, Throwable cause) {
+      super(message, cause);
+    }
+  }
+  
   """;
 
   private final Config config;

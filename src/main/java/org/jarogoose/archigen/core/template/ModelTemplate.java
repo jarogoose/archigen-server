@@ -10,17 +10,16 @@ import org.jarogoose.archigen.web.domain.Config;
 public class ModelTemplate implements ArcTemplate {
 
   private static final String TEMPLATE = """
-    package {{project-path}}.feature.{{root-name}}.domain.model.dto;
+  package {{project-path}}.feature.{{root-name}}.domain.model.dto;
 
-    import lombok.Builder;
-    
-    @Builder
-    public record {{feature-name}}(
-        String id,
-    {{data}}
-    ) {
-        
-    }    
+  import lombok.Builder;
+  
+  @Builder
+  public record {{feature-name}}(
+      String id,
+  {{data}}
+  ) {}
+
   """;
 
   private final Config config;
@@ -65,6 +64,7 @@ public class ModelTemplate implements ArcTemplate {
         .append(",")
         .append(System.lineSeparator());
     }
+    sb.setLength(sb.length() - 2);
     return sb.toString();
   }
 }

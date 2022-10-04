@@ -10,16 +10,17 @@ import org.jarogoose.archigen.web.domain.Config;
 public class RequestTemplate implements ArcTemplate {
 
   private static final String TEMPLATE = """
-    package {{project-path}}.feature.{{root-name}}.domain.model.request;
+  package {{project-path}}.feature.{{root-name}}.domain.model.request;
 
-    import com.fasterxml.jackson.annotation.JsonProperty;
-    
-    import lombok.Builder;
-    
-    @Builder
-    public record Add{{root-name}}Request(
-    {{data}}
-    ) {}
+  import com.fasterxml.jackson.annotation.JsonProperty;
+  
+  import lombok.Builder;
+  
+  @Builder
+  public record Add{{feature-name}}Request(
+  {{data}}
+  ) {}
+  
   """;
 
   private final Config config;
@@ -51,8 +52,9 @@ public class RequestTemplate implements ArcTemplate {
 
   @Override
   public File file() {
+    final String featureName = String.format("%s%s", "add", capitalize(domain.feature()));
     return new File(Paths.REQUEST_PATH
-      .get(config, domain.root(), domain.feature(), "Request"));
+      .get(config, domain.root(), featureName, "Request"));
   }
 
   private String formatData(List<String> data) {
@@ -66,6 +68,7 @@ public class RequestTemplate implements ArcTemplate {
         .append(",")
         .append(System.lineSeparator());
     }
+    sb.setLength(sb.length() - 2);
     return sb.toString();
   }
 }
