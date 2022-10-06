@@ -15,17 +15,25 @@ import org.springframework.stereotype.Service;
 public class GenerateFacade {
 
   private ArchigenGenerator generator;
-  private ConfigsService ConfigsService;
+  private ConfigsService configsService;
+
+  public GenerateFacade(
+    ArchigenGenerator generator,
+    ConfigsService configsService
+  ) {
+    this.generator = generator;
+    this.configsService = configsService;
+  }
 
   public void generateAll(GenerateRequest request) throws IOException {
-    Config config = ConfigsService.loadConfig(request.projectName());
+    Config config = configsService.loadConfig(request.projectName());
     Domain domain = GenerateMapper.toDomainDto(request);
     List<ArcTemplate> templates = generator.prepare(config, domain);
     generator.generate(templates);
   }
 
   public List<String> preview(GenerateRequest request) {
-    Config config = ConfigsService.loadConfig(request.projectName());
+    Config config = configsService.loadConfig(request.projectName());
     Domain domain = GenerateMapper.toDomainDto(request);
     List<ArcTemplate> templates = generator.prepare(config, domain);
     return generator.preview(templates);

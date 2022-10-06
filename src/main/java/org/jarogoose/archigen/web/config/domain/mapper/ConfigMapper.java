@@ -1,5 +1,6 @@
 package org.jarogoose.archigen.web.config.domain.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
 import org.jarogoose.archigen.web.config.domain.model.request.ModifyConfigRequest;
@@ -21,7 +22,7 @@ public class ConfigMapper {
   }
 
   public static List<Config> toDtos(List<ConfigEntity> entities) {
-    List<Config> dtos = List.of();
+    List<Config> dtos = new ArrayList<>();
 
     for (ConfigEntity entity : entities) {
       dtos.add(toDto(entity));

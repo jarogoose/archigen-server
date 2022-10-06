@@ -13,7 +13,7 @@ public record GenerateRequest(
     @JsonProperty("projectName") String projectName,
     @JsonProperty("feature") String feature,
     @JsonProperty("package") String root,
-    @JsonProperty("rest-api") String restApi,
-    @JsonProperty("read-write") String readWrite,
+    @JsonProperty("restApi") String restApi,
+    @JsonProperty("readWrite") String readWrite,
     @JsonProperty("data") List<String> data
 ) {}

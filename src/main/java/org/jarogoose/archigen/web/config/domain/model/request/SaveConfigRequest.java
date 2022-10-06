@@ -6,9 +6,9 @@ import lombok.Builder;
 
 @Builder
 public record SaveConfigRequest(
-    @JsonProperty("projectName") String projectName,
-    @JsonProperty("artefact") String artefact,
-    @JsonProperty("project") String project,
-    @JsonProperty("baseDir") String baseDir,
-    @JsonProperty("author") String author
+    @JsonProperty(value = "projectName", required = true) String projectName,
+    @JsonProperty(value = "artefact", required = true) String artefact,
+    @JsonProperty(value = "project", required = true) String project,
+    @JsonProperty(value = "baseDir", required = true) String baseDir,
+    @JsonProperty(value = "author", required = true) String author
 ) {}

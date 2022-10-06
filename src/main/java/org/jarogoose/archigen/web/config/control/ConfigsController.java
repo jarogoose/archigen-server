@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +37,7 @@ public class ConfigsController {
     }
   }
 
-  @GetMapping("load-project-configs")
+  @GetMapping("load-project-configs/{name}")
   public ResponseEntity<Object> loadProjectConfigs(
     @PathVariable("name") String projectName
   ) {
@@ -50,7 +51,9 @@ public class ConfigsController {
   }
 
   @PostMapping("save-configs")
-  public ResponseEntity<Object> saveConfigs(@RequestBody SaveConfigRequest request) {
+  public ResponseEntity<Object> saveConfigs(
+    @RequestBody SaveConfigRequest request
+  ) {
     try {
       facade.saveConfig(request);
       return ResponseEntity.ok().build();
@@ -60,8 +63,10 @@ public class ConfigsController {
     }
   }
 
-  @PostMapping("modify-configs")
-  public ResponseEntity<Object> modifyConfigs(@RequestBody ModifyConfigRequest request) {
+  @PutMapping("modify-configs")
+  public ResponseEntity<Object> modifyConfigs(
+    @RequestBody ModifyConfigRequest request
+  ) {
     try {
       facade.modifyConfig(request);
       return ResponseEntity.ok().build();
