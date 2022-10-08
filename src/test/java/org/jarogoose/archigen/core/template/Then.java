@@ -1,4 +1,4 @@
-package org.jarogoose.archigen.core.template.gwt;
+package org.jarogoose.archigen.core.template;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
