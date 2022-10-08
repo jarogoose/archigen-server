@@ -5,6 +5,7 @@ import java.util.List;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
 import org.jarogoose.archigen.web.config.domain.model.request.ModifyConfigRequest;
 import org.jarogoose.archigen.web.config.domain.model.request.SaveConfigRequest;
+import org.jarogoose.archigen.web.config.domain.model.response.LoadAllConfigsResponse;
 import org.jarogoose.archigen.web.config.storage.ConfigEntity;
 
 public class ConfigMapper {
@@ -64,5 +65,9 @@ public class ConfigMapper {
       .baseDir(request.baseDir())
       .author(request.author())
       .build();
+  }
+
+  public static LoadAllConfigsResponse toResponse(List<Config> loadAllConfigs) {
+    return LoadAllConfigsResponse.builder().configs(loadAllConfigs).build();
   }
 }

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jarogoose.archigen.web.config.api.ConfigFacade;
 import org.jarogoose.archigen.web.config.domain.model.request.ModifyConfigRequest;
 import org.jarogoose.archigen.web.config.domain.model.request.SaveConfigRequest;
+import org.jarogoose.archigen.web.config.domain.model.response.LoadAllConfigsResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class ConfigsController {
   }
 
   @GetMapping("load-all-configs")
-  public ResponseEntity<Object> loadAllConfigs() {
+  public ResponseEntity<LoadAllConfigsResponse> loadAllConfigs() {
     try {
       var response = facade.loadAllConfigs();
       return ResponseEntity.ok(response);

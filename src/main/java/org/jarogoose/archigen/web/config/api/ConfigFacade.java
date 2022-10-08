@@ -1,10 +1,10 @@
 package org.jarogoose.archigen.web.config.api;
 
-import java.util.List;
 import org.jarogoose.archigen.web.config.domain.mapper.ConfigMapper;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
 import org.jarogoose.archigen.web.config.domain.model.request.ModifyConfigRequest;
 import org.jarogoose.archigen.web.config.domain.model.request.SaveConfigRequest;
+import org.jarogoose.archigen.web.config.domain.model.response.LoadAllConfigsResponse;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,8 +16,8 @@ public class ConfigFacade {
     this.service = service;
   }
 
-  public List<Config> loadAllConfigs() {
-    return service.loadAllConfigs();
+  public LoadAllConfigsResponse loadAllConfigs() {
+    return ConfigMapper.toResponse(service.loadAllConfigs());
   }
 
   public Config loadConfig(final String projectName) {
