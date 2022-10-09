@@ -1,8 +1,8 @@
 package org.jarogoose.archigen.core.template.api;
 
 import static org.springframework.util.StringUtils.capitalize;
-import java.io.File;
 
+import java.io.File;
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -30,23 +30,23 @@ public final class ServiceWriteTemplate implements ArcTemplate {
    */
   @Service
   class {{feature-name}}WriteService {
-  
+
     private final {{feature-name}}Loader {{feature-name}}Loader;
-  
+
     private {{feature-name}}WriteService({{feature-name}}Loader {{feature-name}}Loader) {
       this.{{feature-name}}Loader = {{feature-name}}Loader;
     }
-  
+
     public void add{{feature-name}}() {
       throw new {{feature-name}}Exception("Auto-generated method stub");
     }
   }
-  
+
   """;
 
   private final Config config;
   private final Domain domain;
-  
+
   public ServiceWriteTemplate(Config config, Domain domain) {
     this.config = config;
     this.domain = domain;
@@ -54,7 +54,11 @@ public final class ServiceWriteTemplate implements ArcTemplate {
 
   @Override
   public String content() {
-    final String projectPath = String.format("%s.%s", config.artefact(), config.project());
+    final String projectPath = String.format(
+      "%s.%s",
+      config.artefact(),
+      config.project()
+    );
     final String featureName = capitalize(domain.feature());
     final String featureNameLowercase = domain.feature();
 
@@ -64,14 +68,22 @@ public final class ServiceWriteTemplate implements ArcTemplate {
     template = template.replace("{{project-path}}", projectPath);
     template = template.replace("{{root-name}}", domain.root());
     template = template.replace("{{feature-name}}", featureName);
-    template = template.replace("{{feature-name-lowercase}}", featureNameLowercase);
+    template =
+      template.replace("{{feature-name-lowercase}}", featureNameLowercase);
 
     return template;
   }
 
   @Override
   public File file() {
-    return new File(Paths.API_PATH
-      .get(config, domain.root(), domain.feature(), "WriteService"));
+    return new File(
+      Paths.API_PATH.get(
+        config,
+        domain.root(),
+        domain.feature(),
+        "WriteService",
+        false
+      )
+    );
   }
 }

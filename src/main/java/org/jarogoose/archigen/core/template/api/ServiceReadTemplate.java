@@ -1,8 +1,8 @@
 package org.jarogoose.archigen.core.template.api;
 
 import static org.springframework.util.StringUtils.capitalize;
-import java.io.File;
 
+import java.io.File;
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -41,12 +41,12 @@ public final class ServiceReadTemplate implements ArcTemplate {
       throw new {{feature-name}}Exception("Auto-generated method stub");
     }
   }
-  
+
   """;
 
   private final Config config;
   private final Domain domain;
-  
+
   public ServiceReadTemplate(Config config, Domain domain) {
     this.config = config;
     this.domain = domain;
@@ -68,14 +68,22 @@ public final class ServiceReadTemplate implements ArcTemplate {
     template = template.replace("{{project-path}}", projectPath);
     template = template.replace("{{root-name}}", domain.root());
     template = template.replace("{{feature-name}}", featureName);
-    template = template.replace("{{feature-name-lowercase}}", featureNameLowercase);
+    template =
+      template.replace("{{feature-name-lowercase}}", featureNameLowercase);
 
     return template;
   }
 
   @Override
   public File file() {
-    return new File(Paths.API_PATH
-      .get(config, domain.root(), domain.feature(), "ReadService"));
+    return new File(
+      Paths.API_PATH.get(
+        config,
+        domain.root(),
+        domain.feature(),
+        "ReadService",
+        false
+      )
+    );
   }
 }
