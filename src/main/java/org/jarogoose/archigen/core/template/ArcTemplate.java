@@ -1,5 +1,6 @@
 package org.jarogoose.archigen.core.template;
 
+import static org.jarogoose.archigen.core.Util.splitByUpperCase;
 import java.io.File;
 import org.jarogoose.archigen.core.TemplateKey;
 import org.jarogoose.archigen.core.template.api.FacadeActionTemplate;
@@ -47,5 +48,10 @@ public interface ArcTemplate {
       case RESPONSE -> new ResponseTemplate(config, domain);
       default -> throw new IllegalArgumentException("Unexpected archigen template key - : " + key);
     };
+  }
+
+  default String replaceFeatureNameUppercase(final String template, final String feature) {
+    final String value = String.join(" ", splitByUpperCase(feature)).toUpperCase();
+    return template.replace("{{feature-name-uppercase}}", value);
   }
 }
