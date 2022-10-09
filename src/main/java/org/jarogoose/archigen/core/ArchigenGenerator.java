@@ -16,21 +16,21 @@ import org.springframework.stereotype.Component;
 public class ArchigenGenerator {
 
   public List<ArcTemplate> prepare(
-    Config config,
-    Domain domain,
-    TemplateFilter filter
+    final Config config,
+    final Domain domain,
+    final TemplateFilter filter
   ) {
-    List<ArcTemplate> templates = new ArrayList<>();
+    final List<ArcTemplate> templates = new ArrayList<>();
 
-    for (TemplateKey key : filter.templateKeys()) {
+    for (final TemplateKey key : filter.templateKeys()) {
       templates.add(ArcTemplate.of(key, config, domain));
     }
 
     return List.copyOf(templates);
   }
 
-  public void generate(List<ArcTemplate> templates) throws IOException {
-    for (ArcTemplate template : templates) {
+  public void generate(final List<ArcTemplate> templates) throws IOException {
+    for (final ArcTemplate template : templates) {
       final String content = template.content();
       final File file = template.file();
       Files.createParentDirs(file);
@@ -38,10 +38,10 @@ public class ArchigenGenerator {
     }
   }
 
-  public List<String> preview(List<ArcTemplate> templates) {
-    List<String> contents = new ArrayList<>();
+  public List<String> preview(final List<ArcTemplate> templates) {
+    final List<String> contents = new ArrayList<>();
 
-    for (ArcTemplate template : templates) {
+    for (final ArcTemplate template : templates) {
       contents.add(template.content());
     }
 
