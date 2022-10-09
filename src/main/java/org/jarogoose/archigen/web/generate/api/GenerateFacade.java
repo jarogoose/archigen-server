@@ -9,33 +9,35 @@ import org.jarogoose.archigen.web.config.domain.model.dto.Config;
 import org.jarogoose.archigen.web.generate.domain.mapper.GenerateMapper;
 import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 import org.jarogoose.archigen.web.generate.domain.model.request.GenerateRequest;
+import org.jarogoose.archigen.web.generate.domain.model.response.PreviewResponse;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GenerateFacade {
 
-  private ArchigenGenerator generator;
-  private ConfigsService configsService;
+  private final ArchigenGenerator generator;
+  private final ConfigsService configsService;
 
   public GenerateFacade(
-    ArchigenGenerator generator,
-    ConfigsService configsService
+    final ArchigenGenerator generator,
+    final ConfigsService configsService
   ) {
     this.generator = generator;
     this.configsService = configsService;
   }
 
-  public void generateAll(GenerateRequest request) throws IOException {
-    Config config = configsService.loadConfig(request.projectName());
-    Domain domain = GenerateMapper.toDomainDto(request);
-    List<ArcTemplate> templates = generator.prepare(config, domain);
+  public void generateAll(final GenerateRequest request) throws IOException {
+    final Config config = configsService.loadConfig(request.projectName());
+    final Domain domain = GenerateMapper.toDomainDto(request);
+    final List<ArcTemplate> templates = generator.prepare(config, domain);
     generator.generate(templates);
   }
 
-  public List<String> preview(GenerateRequest request) {
-    Config config = configsService.loadConfig(request.projectName());
-    Domain domain = GenerateMapper.toDomainDto(request);
-    List<ArcTemplate> templates = generator.prepare(config, domain);
-    return generator.preview(templates);
+  public PreviewResponse previewAll(final GenerateRequest request) {
+    final Config config = configsService.loadConfig(request.projectName());
+    final Domain domain = GenerateMapper.toDomainDto(request);
+    final List<ArcTemplate> templates = generator.prepare(config, domain);
+    final List<String> previewTemplates = generator.preview(templates);
+    return PreviewResponse.builder().templates(previewTemplates).build();
   }
 }

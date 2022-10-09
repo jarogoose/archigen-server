@@ -16,4 +16,8 @@ public class ConfigStorageWrapper {
   public void clear() {
     storage.deleteAll();
   }
+
+  public void save(ConfigEntity config) {
+    storage.save(config);
+  }
 }
