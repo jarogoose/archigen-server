@@ -31,7 +31,7 @@ public final class ServiceWriteTemplate implements ArcTemplate {
   @Service
   class {{feature-name}}WriteService {
   
-    private {{feature-name}}Loader {{feature-name}}Loader;
+    private final {{feature-name}}Loader {{feature-name}}Loader;
   
     private {{feature-name}}WriteService({{feature-name}}Loader {{feature-name}}Loader) {
       this.{{feature-name}}Loader = {{feature-name}}Loader;

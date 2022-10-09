@@ -32,7 +32,7 @@ public final class FacadeActionTemplate implements ArcTemplate {
   @Service
   public class {{feature-name}}ActionFacade {
 
-    private {{feature-name}}WriteService {{feature-name-lowercase}}WriteService;
+    private final {{feature-name}}WriteService {{feature-name-lowercase}}WriteService;
 
     private {{feature-name}}ActionFacade({{feature-name}}WriteService {{feature-name-lowercase}}WriteService) {
       this.{{feature-name-lowercase}}WriteService = {{feature-name-lowercase}}WriteService;

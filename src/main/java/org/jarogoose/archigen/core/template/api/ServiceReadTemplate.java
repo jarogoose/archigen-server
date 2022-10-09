@@ -31,7 +31,7 @@ public final class ServiceReadTemplate implements ArcTemplate {
   @Service
   class {{feature-name}}ReadService {
 
-    private {{feature-name}}Loader {{feature-name-lowercase}}Loader;
+    private final {{feature-name}}Loader {{feature-name-lowercase}}Loader;
 
     private {{feature-name}}ReadService({{feature-name}}Loader {{feature-name-lowercase}}Loader) {
       this.{{feature-name-lowercase}}Loader = {{feature-name-lowercase}}Loader;

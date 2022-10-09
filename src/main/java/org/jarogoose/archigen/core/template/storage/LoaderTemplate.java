@@ -30,7 +30,7 @@ public class LoaderTemplate implements ArcTemplate {
   @Repository
   public class {{feature-name}}Loader {
   
-    private {{feature-name}}Storage {{feature-name-lowercase}}Storage;
+    private final {{feature-name}}Storage {{feature-name-lowercase}}Storage;
   
     public {{feature-name}}Loader() {
       this.{{feature-name-lowercase}}Storage = {{feature-name-lowercase}}Storage;

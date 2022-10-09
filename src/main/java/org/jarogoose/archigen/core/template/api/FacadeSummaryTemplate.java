@@ -32,7 +32,7 @@ public final class FacadeSummaryTemplate implements ArcTemplate {
   @Service
   public class {{feature-name}}SummaryFacade {
 
-    private {{feature-name}}ReadService {{feature-name-lowercase}}ReadService;
+    private final {{feature-name}}ReadService {{feature-name-lowercase}}ReadService;
 
     private {{feature-name}}SummaryFacade({{feature-name}}ReadService {{feature-name-lowercase}}WriteService) {
       this.{{feature-name-lowercase}}ReadService = {{feature-name-lowercase}}ReadService;
