@@ -9,7 +9,7 @@ import org.jarogoose.archigen.core.util.Paths;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
 import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 
-public class ModelTemplate implements ArcTemplate {
+public class DtoTemplate implements ArcTemplate {
 
   private static final String TEMPLATE = """
   package {{project-path}}.feature.{{root-name}}.domain.model.dto;
@@ -27,7 +27,7 @@ public class ModelTemplate implements ArcTemplate {
   private final Config config;
   private final Domain domain;
 
-  public ModelTemplate(Config config, Domain domain) {
+  public DtoTemplate(Config config, Domain domain) {
     this.config = config;
     this.domain = domain;
   }

@@ -11,7 +11,7 @@ import org.jarogoose.archigen.core.template.control.ControllerActionTemplate;
 import org.jarogoose.archigen.core.template.control.ControllerSummaryTemplate;
 import org.jarogoose.archigen.core.template.domain.DtoMapperTemplate;
 import org.jarogoose.archigen.core.template.domain.ExceptionTemplate;
-import org.jarogoose.archigen.core.template.domain.ModelTemplate;
+import org.jarogoose.archigen.core.template.domain.DtoTemplate;
 import org.jarogoose.archigen.core.template.domain.RequestTemplate;
 import org.jarogoose.archigen.core.template.domain.ResponseTemplate;
 import org.jarogoose.archigen.core.template.storage.EntityMapperTemplate;
@@ -354,7 +354,7 @@ public class ArcTemplateUT {
     @Test
     @DisplayName("[MUTATION] generate content")
     public void generateContent() {
-      final ArcTemplate template = new ModelTemplate(
+      final ArcTemplate template = new DtoTemplate(
         Given.CONFIG,
         Given.DOMAIN
       );
@@ -371,7 +371,7 @@ public class ArcTemplateUT {
     @Test
     @DisplayName("[MUTATION] create file path")
     public void createFilePath() {
-      final ArcTemplate template = new ModelTemplate(
+      final ArcTemplate template = new DtoTemplate(
         Given.CONFIG,
         Given.DOMAIN
       );
