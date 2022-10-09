@@ -1,8 +1,8 @@
 package org.jarogoose.archigen.core.template.storage;
 
 import static org.springframework.util.StringUtils.capitalize;
-import java.io.File;
 
+import java.io.File;
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -15,15 +15,15 @@ public class StorageTemplate implements ArcTemplate {
 
   import org.springframework.data.mongodb.repository.MongoRepository;
   import org.springframework.stereotype.Repository;
-  
+
   @Repository
   interface {{feature-name}}Storage extends MongoRepository<{{feature-name}}Entity, String> {}
-  
+
   """;
 
   private final Config config;
   private final Domain domain;
-  
+
   public StorageTemplate(Config config, Domain domain) {
     this.config = config;
     this.domain = domain;
@@ -49,7 +49,14 @@ public class StorageTemplate implements ArcTemplate {
 
   @Override
   public File file() {
-    return new File(Paths.STORAGE_PATH
-      .get(config, domain.root(), domain.feature(), "Storage"));
+    return new File(
+      Paths.STORAGE_PATH.get(
+        config,
+        domain.root(),
+        domain.feature(),
+        "Storage",
+        false
+      )
+    );
   }
 }

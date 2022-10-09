@@ -1,9 +1,9 @@
 package org.jarogoose.archigen.core.template.domain;
 
 import static org.springframework.util.StringUtils.capitalize;
+
 import java.io.File;
 import java.util.List;
-
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -19,16 +19,16 @@ public class DtoMapperTemplate implements ArcTemplate {
   import {{project-path}}.feature.{{root-name}}.domain.model.response.ShowAll{{feature-name}}Response;
   import java.util.List;
   import lombok.experimental.UtilityClass;
-  
+
   @UtilityClass
   public class {{feature-name}}Mapper {
-  
+
     static {{feature-name}} toDto(Add{{feature-name}}Request request) {
       return {{feature-name}}.builder()
   {{dto-data}}
           .build();
     }
-  
+
     static ShowAll{{feature-name}}Response toResponse(List<{{feature-name}}> dtos) {
       return ShowAll{{feature-name}}Response.builder()
           .{{feature-name-lowercase}}(dtos)
@@ -38,15 +38,15 @@ public class DtoMapperTemplate implements ArcTemplate {
 
   """;
 
-private final Config config;
-private final Domain domain;
+  private final Config config;
+  private final Domain domain;
 
-public DtoMapperTemplate(Config config, Domain domain) {
-  this.config = config;
-  this.domain = domain;
-}
+  public DtoMapperTemplate(Config config, Domain domain) {
+    this.config = config;
+    this.domain = domain;
+  }
 
-@Override
+  @Override
   public String content() {
     final String projectPath = String.format(
       "%s.%s",
@@ -71,8 +71,15 @@ public DtoMapperTemplate(Config config, Domain domain) {
 
   @Override
   public File file() {
-    return new File(Paths.DTO_MAPPER_PATH
-      .get(config, domain.root(), domain.feature(), "Mapper"));
+    return new File(
+      Paths.DTO_MAPPER_PATH.get(
+        config,
+        domain.root(),
+        domain.feature(),
+        "Mapper",
+        false
+      )
+    );
   }
 
   private String formatEntityData(List<String> data) {

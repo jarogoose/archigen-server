@@ -1,8 +1,0 @@
-feature: "foodItem"
-package: "food"
-rest-api: "user-ui"
-read-write: "RW" # R - Read only operation, W - write only operation, RW - both
-data:
-  - name
-  - category
-  - quantity

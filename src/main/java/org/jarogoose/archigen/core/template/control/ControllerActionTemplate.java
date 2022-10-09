@@ -4,7 +4,6 @@ import static org.jarogoose.archigen.core.Util.splitByUpperCase;
 import static org.springframework.util.StringUtils.capitalize;
 
 import java.io.File;
-
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -60,12 +59,12 @@ public final class ControllerActionTemplate implements ArcTemplate {
       }
     }
   }
-  
+
   """;
 
   private final Config config;
   private final Domain domain;
-  
+
   public ControllerActionTemplate(Config config, Domain domain) {
     this.config = config;
     this.domain = domain;
@@ -73,7 +72,11 @@ public final class ControllerActionTemplate implements ArcTemplate {
 
   @Override
   public String content() {
-    final String projectPath = String.format("%s.%s", config.artefact(), config.project());
+    final String projectPath = String.format(
+      "%s.%s",
+      config.artefact(),
+      config.project()
+    );
     final String featureName = capitalize(domain.feature());
     final String uriName = String.join("-", splitByUpperCase(domain.feature()));
 
@@ -92,7 +95,14 @@ public final class ControllerActionTemplate implements ArcTemplate {
 
   @Override
   public File file() {
-    return new File(Paths.CONTROLLER_PATH
-      .get(config, domain.root(), domain.feature(), "ActionController"));
+    return new File(
+      Paths.CONTROLLER_PATH.get(
+        config,
+        domain.root(),
+        domain.feature(),
+        "ActionController",
+        false
+      )
+    );
   }
 }

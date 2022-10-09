@@ -1,9 +1,9 @@
 package org.jarogoose.archigen.core.template.domain;
 
 import static org.springframework.util.StringUtils.capitalize;
+
 import java.io.File;
 import java.util.List;
-
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -15,14 +15,14 @@ public class RequestTemplate implements ArcTemplate {
   package {{project-path}}.feature.{{root-name}}.domain.model.request;
 
   import com.fasterxml.jackson.annotation.JsonProperty;
-  
+
   import lombok.Builder;
-  
+
   @Builder
   public record Add{{feature-name}}Request(
   {{data}}
   ) {}
-  
+
   """;
 
   private final Config config;
@@ -54,9 +54,20 @@ public class RequestTemplate implements ArcTemplate {
 
   @Override
   public File file() {
-    final String featureName = String.format("%s%s", "add", capitalize(domain.feature()));
-    return new File(Paths.REQUEST_PATH
-      .get(config, domain.root(), featureName, "Request"));
+    final String featureName = String.format(
+      "%s%s",
+      "add",
+      capitalize(domain.feature())
+    );
+    return new File(
+      Paths.REQUEST_PATH.get(
+        config,
+        domain.root(),
+        featureName,
+        "Request",
+        false
+      )
+    );
   }
 
   private String formatData(List<String> data) {

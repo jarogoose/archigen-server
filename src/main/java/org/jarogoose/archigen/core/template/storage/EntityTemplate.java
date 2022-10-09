@@ -2,9 +2,9 @@ package org.jarogoose.archigen.core.template.storage;
 
 import static org.jarogoose.archigen.core.Util.splitByUpperCase;
 import static org.springframework.util.StringUtils.capitalize;
+
 import java.io.File;
 import java.util.List;
-
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -22,19 +22,19 @@ public class EntityTemplate implements ArcTemplate {
   import org.springframework.data.mongodb.core.mapping.Document;
   import org.springframework.data.mongodb.core.mapping.FieldType;
   import org.springframework.data.mongodb.core.mapping.MongoId;
-  
+
   @Data
   @Builder
   @NoArgsConstructor
   @AllArgsConstructor
   @Document(collection = "{{document-name}}")
   class {{feature-name}}Entity {
-  
+
     @MongoId(FieldType.OBJECT_ID)
     private String id;
     {{data}}
   }
-  
+
   """;
 
   private final Config config;
@@ -68,8 +68,15 @@ public class EntityTemplate implements ArcTemplate {
 
   @Override
   public File file() {
-    return new File(Paths.STORAGE_PATH
-      .get(config, domain.root(), domain.feature(), "Entity"));
+    return new File(
+      Paths.STORAGE_PATH.get(
+        config,
+        domain.root(),
+        domain.feature(),
+        "Entity",
+        false
+      )
+    );
   }
 
   private String formatData(List<String> data) {

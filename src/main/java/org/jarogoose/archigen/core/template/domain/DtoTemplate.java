@@ -1,9 +1,9 @@
 package org.jarogoose.archigen.core.template.domain;
 
 import static org.springframework.util.StringUtils.capitalize;
+
 import java.io.File;
 import java.util.List;
-
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -15,7 +15,7 @@ public class DtoTemplate implements ArcTemplate {
   package {{project-path}}.feature.{{root-name}}.domain.model.dto;
 
   import lombok.Builder;
-  
+
   @Builder
   public record {{feature-name}}(
       String id,
@@ -53,8 +53,9 @@ public class DtoTemplate implements ArcTemplate {
 
   @Override
   public File file() {
-    return new File(Paths.DTO_PATH
-      .get(config, domain.root(), domain.feature(), ""));
+    return new File(
+      Paths.DTO_PATH.get(config, domain.root(), domain.feature(), "", false)
+    );
   }
 
   private String formatData(List<String> data) {

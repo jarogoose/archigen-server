@@ -1,9 +1,9 @@
 package org.jarogoose.archigen.core.template.storage;
 
 import static org.springframework.util.StringUtils.capitalize;
+
 import java.io.File;
 import java.util.List;
-
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -18,10 +18,10 @@ public class EntityMapperTemplate implements ArcTemplate {
   import java.util.ArrayList;
   import java.util.List;
   import lombok.experimental.UtilityClass;
-  
+
   @UtilityClass
   class {{feature-name}}EntityMapper {
-  
+
     static {{feature-name}} toDto(final {{feature-name}}Entity entity) {
       return {{feature-name}}
         .builder()
@@ -29,17 +29,17 @@ public class EntityMapperTemplate implements ArcTemplate {
     {{dto-data}}
         .build();
     }
-  
+
     static List<{{feature-name}}> toDtos(final List<{{feature-name}}Entity> entities) {
       final List<{{feature-name}}> dtos = new ArrayList<>();
-  
+
       for (final {{feature-name}}Entity entity : entities) {
         dtos.add(toDto(entity));
       }
-  
+
       return dtos;
     }
-  
+
     static {{feature-name}}Entity toEntity(final {{feature-name}} dto) {
       return {{feature-name}}Entity
         .builder()
@@ -47,14 +47,14 @@ public class EntityMapperTemplate implements ArcTemplate {
     {{entity-data}}
         .build();
     }
-  
+
     static List<{{feature-name}}Entity> toEntities(final List<{{feature-name}}> dtos) {
       final List<{{feature-name}}Entity> entities = new ArrayList<>();
-  
+
       for (final {{feature-name}} dto : dtos) {
         entities.add(toEntity(dto));
       }
-  
+
       return entities;
     }
   }
@@ -92,8 +92,15 @@ public class EntityMapperTemplate implements ArcTemplate {
 
   @Override
   public File file() {
-    return new File(Paths.STORAGE_PATH
-      .get(config, domain.root(), domain.feature(), "EntityMapper"));
+    return new File(
+      Paths.STORAGE_PATH.get(
+        config,
+        domain.root(),
+        domain.feature(),
+        "EntityMapper",
+        false
+      )
+    );
   }
 
   private String formatDtoData(List<String> data) {

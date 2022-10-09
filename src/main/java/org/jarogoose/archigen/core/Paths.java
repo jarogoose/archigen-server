@@ -15,7 +15,8 @@ public enum Paths {
   DTO_PATH("domain/model/dto"),
   DTO_MAPPER_PATH("domain/mapper"),
   STORAGE_PATH("storage"),
-  EXCEPTION_PATH("domain/exception");
+  EXCEPTION_PATH("domain/exception"),
+  STORAGE_WRAPPER_PATH("domain/exception");
 
   private final String value;
 
@@ -23,14 +24,16 @@ public enum Paths {
     Config config,
     String root,
     String feature,
-    String postfix
+    String postfix,
+    boolean isTest
   ) {
     String dir = config.baseDir();
     String artefact = config.artefact().replace(".", "/");
     String project = config.project();
     return format(
-      "%s/src/main/java/%s/%s/feature/%s/%s/%s%s.java",
+      "%s/src/%s/java/%s/%s/feature/%s/%s/%s%s.java",
       dir,
+      isTest ? "test" : "main",
       artefact,
       project,
       root,

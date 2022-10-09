@@ -1,8 +1,8 @@
 package org.jarogoose.archigen.core.template.domain;
 
 import static org.springframework.util.StringUtils.capitalize;
-import java.io.File;
 
+import java.io.File;
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -14,16 +14,16 @@ public class ExceptionTemplate implements ArcTemplate {
   package {{project-path}}.feature.{{root-name}}.domain.exception;
 
   public class {{feature-name}}Exception extends RuntimeException {
-  
+
     public {{feature-name}}Exception(String message) {
       super(message);
     }
-  
+
     public {{feature-name}}Exception(String message, Throwable cause) {
       super(message, cause);
     }
   }
-  
+
   """;
 
   private final Config config;
@@ -54,7 +54,14 @@ public class ExceptionTemplate implements ArcTemplate {
 
   @Override
   public File file() {
-    return new File(Paths.EXCEPTION_PATH
-      .get(config, domain.root(), domain.feature(), "Exception"));
+    return new File(
+      Paths.EXCEPTION_PATH.get(
+        config,
+        domain.root(),
+        domain.feature(),
+        "Exception",
+        false
+      )
+    );
   }
 }

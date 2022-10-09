@@ -1,8 +1,8 @@
 package org.jarogoose.archigen.core.template.storage;
 
 import static org.springframework.util.StringUtils.capitalize;
-import java.io.File;
 
+import java.io.File;
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -15,7 +15,7 @@ public class LoaderTemplate implements ArcTemplate {
 
   import {{project-path}}.feature.{{root-name}}.domain.exception.{{feature-name}}Exception;
   import org.springframework.stereotype.Repository;
-  
+
   /**
    * {@link {{feature-name}}Loader} executes and validate CRUD operations data.
    * <p>
@@ -29,27 +29,27 @@ public class LoaderTemplate implements ArcTemplate {
    */
   @Repository
   public class {{feature-name}}Loader {
-  
+
     private final {{feature-name}}Storage {{feature-name-lowercase}}Storage;
-  
+
     public {{feature-name}}Loader() {
       this.{{feature-name-lowercase}}Storage = {{feature-name-lowercase}}Storage;
     }
-  
+
     public void create{{feature-name}}() {
       throw new {{feature-name}}Exception("Auto-generated method stub");
     }
-  
+
     public void readAll{{feature-name}}() {
       throw new {{feature-name}}Exception("Auto-generated method stub");
     }
   }
-  
+
   """;
 
   private final Config config;
   private final Domain domain;
-  
+
   public LoaderTemplate(Config config, Domain domain) {
     this.config = config;
     this.domain = domain;
@@ -71,14 +71,22 @@ public class LoaderTemplate implements ArcTemplate {
     template = template.replace("{{project-path}}", projectPath);
     template = template.replace("{{root-name}}", domain.root());
     template = template.replace("{{feature-name}}", featureName);
-    template = template.replace("{{feature-name-lowercase}}", featureNameLowercase);
+    template =
+      template.replace("{{feature-name-lowercase}}", featureNameLowercase);
 
     return template;
   }
 
   @Override
   public File file() {
-    return new File(Paths.STORAGE_PATH
-      .get(config, domain.root(), domain.feature(), "Loader"));
+    return new File(
+      Paths.STORAGE_PATH.get(
+        config,
+        domain.root(),
+        domain.feature(),
+        "Loader",
+        false
+      )
+    );
   }
 }

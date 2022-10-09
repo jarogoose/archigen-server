@@ -1,8 +1,8 @@
 package org.jarogoose.archigen.core.template.domain;
 
 import static org.springframework.util.StringUtils.capitalize;
-import java.io.File;
 
+import java.io.File;
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -16,12 +16,12 @@ public class ResponseTemplate implements ArcTemplate {
   import {{project-path}}.feature.{{root-name}}.domain.model.dto.{{feature-name}};
   import java.util.List;
   import lombok.Builder;
-  
+
   @Builder
   public record ShowAll{{feature-name}}Response(
       List<{{feature-name}}> {{feature-name-lowercase}}
   ) {}
-  
+
   """;
 
   private final Config config;
@@ -47,15 +47,27 @@ public class ResponseTemplate implements ArcTemplate {
     template = template.replace("{{project-path}}", projectPath);
     template = template.replace("{{root-name}}", domain.root());
     template = template.replace("{{feature-name}}", featureName);
-    template = template.replace("{{feature-name-lowercase}}", featureNameLowercase);
+    template =
+      template.replace("{{feature-name-lowercase}}", featureNameLowercase);
 
     return template;
   }
 
   @Override
   public File file() {
-    final String featureName = String.format("%s%s", "showAll", capitalize(domain.feature()));
-    return new File(Paths.RESPONSE_PATH
-      .get(config, domain.root(), featureName, "Response"));
+    final String featureName = String.format(
+      "%s%s",
+      "showAll",
+      capitalize(domain.feature())
+    );
+    return new File(
+      Paths.RESPONSE_PATH.get(
+        config,
+        domain.root(),
+        featureName,
+        "Response",
+        false
+      )
+    );
   }
 }
