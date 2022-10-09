@@ -4,8 +4,8 @@ import static org.springframework.util.StringUtils.capitalize;
 import java.io.File;
 import java.util.List;
 
+import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
-import org.jarogoose.archigen.core.util.Paths;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
 import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 

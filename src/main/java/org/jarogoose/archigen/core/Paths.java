@@ -1,4 +1,4 @@
-package org.jarogoose.archigen.core.util;
+package org.jarogoose.archigen.core;
 
 import static java.lang.String.format;
 import static org.springframework.util.StringUtils.capitalize;

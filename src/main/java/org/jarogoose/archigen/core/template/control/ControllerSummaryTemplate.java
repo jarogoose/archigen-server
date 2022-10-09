@@ -1,12 +1,12 @@
 package org.jarogoose.archigen.core.template.control;
 
-import static org.jarogoose.archigen.core.util.StringUtils.splitByUpperCase;
+import static org.jarogoose.archigen.core.Util.splitByUpperCase;
 import static org.springframework.util.StringUtils.capitalize;
 
 import java.io.File;
 
+import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
-import org.jarogoose.archigen.core.util.Paths;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
 import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 

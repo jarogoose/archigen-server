@@ -3,8 +3,8 @@ package org.jarogoose.archigen.core.template.domain;
 import static org.springframework.util.StringUtils.capitalize;
 import java.io.File;
 
+import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
-import org.jarogoose.archigen.core.util.Paths;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
 import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 
