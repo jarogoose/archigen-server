@@ -1,10 +1,6 @@
 package org.jarogoose.archigen.core.template.storage;
 
-import static org.jarogoose.archigen.core.Util.splitByUpperCase;
-import static org.springframework.util.StringUtils.capitalize;
-
 import java.io.File;
-import java.util.List;
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -47,21 +43,15 @@ public class EntityTemplate implements ArcTemplate {
 
   @Override
   public String content() {
-    final String projectPath = String.format(
-      "%s.%s",
-      config.artefact(),
-      config.project()
-    );
-    final String featureName = capitalize(domain.feature());
-    final String documentName = formatDocumentName(domain.feature());
-
     String template = TEMPLATE;
 
-    template = template.replace("{{project-path}}", projectPath);
-    template = template.replace("{{root-name}}", domain.root());
-    template = template.replace("{{feature-name}}", featureName);
-    template = template.replace("{{document-name}}", documentName);
-    template = template.replace("{{data}}", formatData(domain.data()));
+    template =
+      replaceProjectPath(template, config.artefact(), config.project());
+    template = replaceRootName(template, domain.root());
+    template = replaceFeatureName(template, domain.feature());
+    template = replaceFeatureName(template, domain.feature());
+    template = replaceDocumentName(template, domain.feature());
+    template = replaceEntityData(template, domain.data());
 
     return template;
   }
@@ -77,26 +67,5 @@ public class EntityTemplate implements ArcTemplate {
         false
       )
     );
-  }
-
-  private String formatData(List<String> data) {
-    StringBuilder sb = new StringBuilder();
-    for (String field : data) {
-      sb
-        .append("private String ")
-        .append(field.toLowerCase())
-        .append(";")
-        .append(System.lineSeparator());
-    }
-    return sb.toString();
-  }
-
-  private String formatDocumentName(String feature) {
-    StringBuilder sb = new StringBuilder();
-    for (String word : splitByUpperCase(feature)) {
-      sb.append(word.toLowerCase()).append("_");
-    }
-    sb.deleteCharAt(sb.length() - 1);
-    return sb.toString().toUpperCase();
   }
 }

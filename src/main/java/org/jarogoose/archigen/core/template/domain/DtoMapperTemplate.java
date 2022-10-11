@@ -1,9 +1,6 @@
 package org.jarogoose.archigen.core.template.domain;
 
-import static org.springframework.util.StringUtils.capitalize;
-
 import java.io.File;
-import java.util.List;
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -25,7 +22,7 @@ public class DtoMapperTemplate implements ArcTemplate {
 
     static {{feature-name}} toDto(Add{{feature-name}}Request request) {
       return {{feature-name}}.builder()
-  {{dto-data}}
+  {{data}}
           .build();
     }
 
@@ -48,23 +45,15 @@ public class DtoMapperTemplate implements ArcTemplate {
 
   @Override
   public String content() {
-    final String projectPath = String.format(
-      "%s.%s",
-      config.artefact(),
-      config.project()
-    );
-    final String featureName = capitalize(domain.feature());
-    final String featureNameLowercase = domain.feature();
-
     String template = TEMPLATE;
 
-    template = template.replace("{{project-path}}", projectPath);
-    template = template.replace("{{root-name}}", domain.root());
-    template = template.replace("{{feature-name}}", featureName);
+    template = replaceAuthorName(template, config.author());
     template =
-      template.replace("{{feature-name-lowercase}}", featureNameLowercase);
-    template =
-      template.replace("{{dto-data}}", formatEntityData(domain.data()));
+      replaceProjectPath(template, config.artefact(), config.project());
+    template = replaceRootName(template, domain.root());
+    template = replaceFeatureName(template, domain.feature());
+    template = replaceFeatureNameLowered(template, domain.feature());
+    template = replaceToDtoData(template, domain.data());
 
     return template;
   }
@@ -80,20 +69,5 @@ public class DtoMapperTemplate implements ArcTemplate {
         false
       )
     );
-  }
-
-  private String formatEntityData(List<String> data) {
-    StringBuilder sb = new StringBuilder();
-    for (String field : data) {
-      sb
-        .append("        .")
-        .append(field)
-        .append("(request.")
-        .append(field)
-        .append("())")
-        .append(System.lineSeparator());
-    }
-    sb.setLength(sb.length() - 1);
-    return sb.toString();
   }
 }

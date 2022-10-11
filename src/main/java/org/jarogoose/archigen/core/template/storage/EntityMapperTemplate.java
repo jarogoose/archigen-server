@@ -1,9 +1,6 @@
 package org.jarogoose.archigen.core.template.storage;
 
-import static org.springframework.util.StringUtils.capitalize;
-
 import java.io.File;
-import java.util.List;
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -26,7 +23,7 @@ public class EntityMapperTemplate implements ArcTemplate {
       return {{feature-name}}
         .builder()
         .id(entity.getId())
-    {{dto-data}}
+    {{entity-to-dto-data}}
         .build();
     }
 
@@ -44,7 +41,7 @@ public class EntityMapperTemplate implements ArcTemplate {
       return {{feature-name}}Entity
         .builder()
         .id(dto.id() == null ? null : dto.id())
-    {{entity-data}}
+    {{dto-to-entity-data}}
         .build();
     }
 
@@ -71,21 +68,14 @@ public class EntityMapperTemplate implements ArcTemplate {
 
   @Override
   public String content() {
-    final String projectPath = String.format(
-      "%s.%s",
-      config.artefact(),
-      config.project()
-    );
-    final String featureName = capitalize(domain.feature());
-
     String template = TEMPLATE;
 
-    template = template.replace("{{project-path}}", projectPath);
-    template = template.replace("{{root-name}}", domain.root());
-    template = template.replace("{{feature-name}}", featureName);
-    template = template.replace("{{dto-data}}", formatDtoData(domain.data()));
     template =
-      template.replace("{{entity-data}}", formatEntityData(domain.data()));
+      replaceProjectPath(template, config.artefact(), config.project());
+    template = replaceRootName(template, domain.root());
+    template = replaceFeatureName(template, domain.feature());
+    template = replaceEntityToDtoData(template, domain.data());
+    template = replaceDtoToEntityData(template, domain.data());
 
     return template;
   }
@@ -101,35 +91,5 @@ public class EntityMapperTemplate implements ArcTemplate {
         false
       )
     );
-  }
-
-  private String formatDtoData(List<String> data) {
-    StringBuilder sb = new StringBuilder();
-    for (String field : data) {
-      sb
-        .append("    .")
-        .append(field)
-        .append("(entity.get")
-        .append(capitalize(field))
-        .append("())")
-        .append(System.lineSeparator());
-    }
-    sb.setLength(sb.length() - 1);
-    return sb.toString();
-  }
-
-  private String formatEntityData(List<String> data) {
-    StringBuilder sb = new StringBuilder();
-    for (String field : data) {
-      sb
-        .append("    .")
-        .append(field)
-        .append("(dto.")
-        .append(field)
-        .append("())")
-        .append(System.lineSeparator());
-    }
-    sb.setLength(sb.length() - 1);
-    return sb.toString();
   }
 }

@@ -1,7 +1,5 @@
 package org.jarogoose.archigen.core.template.storage;
 
-import static org.springframework.util.StringUtils.capitalize;
-
 import java.io.File;
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
@@ -31,18 +29,12 @@ public class StorageTemplate implements ArcTemplate {
 
   @Override
   public String content() {
-    final String projectPath = String.format(
-      "%s.%s",
-      config.artefact(),
-      config.project()
-    );
-    final String featureName = capitalize(domain.feature());
-
     String template = TEMPLATE;
 
-    template = template.replace("{{project-path}}", projectPath);
-    template = template.replace("{{root-name}}", domain.root());
-    template = template.replace("{{feature-name}}", featureName);
+    template =
+      replaceProjectPath(template, config.artefact(), config.project());
+    template = replaceRootName(template, domain.root());
+    template = replaceFeatureName(template, domain.feature());
 
     return template;
   }

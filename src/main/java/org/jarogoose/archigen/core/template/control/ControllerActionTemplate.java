@@ -1,8 +1,5 @@
 package org.jarogoose.archigen.core.template.control;
 
-import static org.jarogoose.archigen.core.Util.splitByUpperCase;
-import static org.springframework.util.StringUtils.capitalize;
-
 import java.io.File;
 import org.jarogoose.archigen.core.Paths;
 import org.jarogoose.archigen.core.template.ArcTemplate;
@@ -74,24 +71,17 @@ public final class ControllerActionTemplate implements ArcTemplate {
 
   @Override
   public String content() {
-    final String projectPath = String.format(
-      "%s.%s",
-      config.artefact(),
-      config.project()
-    );
-    final String featureName = capitalize(domain.feature());
-    final String uriName = String.join("-", splitByUpperCase(domain.feature()));
-
     String template = TEMPLATE;
 
-    template = template.replace("{{author-name}}", config.author());
-    template = template.replace("{{project-path}}", projectPath);
-    template = template.replace("{{root-name}}", domain.root());
-    template = template.replace("{{rest-api}}", domain.restApi());
-    template = template.replace("{{domain-uri}}", domain.root());
-    template = template.replace("{{uri}}", uriName);
-    template = template.replace("{{feature-name}}", featureName);
-    replaceFeatureNameUppercase(template, domain.feature());
+    template = replaceAuthorName(template, config.author());
+    template =
+      replaceProjectPath(template, config.artefact(), config.project());
+    template = replaceRootName(template, domain.root());
+    template = replaceRestApi(template, domain.restApi());
+    template = replaceDomainUri(template, domain.root());
+    template = replaceUri(template, domain.feature());
+    template = replaceFeatureName(template, domain.feature());
+    template = replaceFeatureNameUppercase(template, domain.feature());
 
     return template;
   }
