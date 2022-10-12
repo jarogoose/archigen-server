@@ -15,8 +15,7 @@ public enum Paths {
   DTO_PATH("domain/model/dto"),
   DTO_MAPPER_PATH("domain/mapper"),
   STORAGE_PATH("storage"),
-  EXCEPTION_PATH("domain/exception"),
-  STORAGE_WRAPPER_PATH("domain/exception");
+  EXCEPTION_PATH("domain/exception");
 
   private final String value;
 

@@ -17,7 +17,10 @@ public enum TemplateKey {
   DTO,
   DTO_MAPPER,
   REQUEST,
-  RESPONSE;
+  RESPONSE,
+  STORAGE_WRAPPER,
+  BEHAVIORAL_TEST,
+  GIVEN;
 
   public static List<TemplateKey> all() {
     return List.of(values());

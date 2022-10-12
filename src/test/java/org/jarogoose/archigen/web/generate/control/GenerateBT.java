@@ -76,7 +76,7 @@ public class GenerateBT {
         () -> assertThat(response).isNotNull(),
         () -> assertThat(response.getStatusCodeValue()).isEqualTo(200),
         () -> assertThat(response.getBody()).isNotNull(),
-        () -> assertThat(response.getBody().templates()).hasSize(15)
+        () -> assertThat(response.getBody().templates()).hasSize(18)
       );
     }
   }

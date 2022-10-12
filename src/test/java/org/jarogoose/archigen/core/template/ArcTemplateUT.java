@@ -10,14 +10,17 @@ import org.jarogoose.archigen.core.template.api.ServiceWriteTemplate;
 import org.jarogoose.archigen.core.template.control.ControllerActionTemplate;
 import org.jarogoose.archigen.core.template.control.ControllerSummaryTemplate;
 import org.jarogoose.archigen.core.template.domain.DtoMapperTemplate;
-import org.jarogoose.archigen.core.template.domain.ExceptionTemplate;
 import org.jarogoose.archigen.core.template.domain.DtoTemplate;
+import org.jarogoose.archigen.core.template.domain.ExceptionTemplate;
 import org.jarogoose.archigen.core.template.domain.RequestTemplate;
 import org.jarogoose.archigen.core.template.domain.ResponseTemplate;
 import org.jarogoose.archigen.core.template.storage.EntityMapperTemplate;
 import org.jarogoose.archigen.core.template.storage.EntityTemplate;
 import org.jarogoose.archigen.core.template.storage.LoaderTemplate;
 import org.jarogoose.archigen.core.template.storage.StorageTemplate;
+import org.jarogoose.archigen.core.template.testing.BehavioralTestTemplate;
+import org.jarogoose.archigen.core.template.testing.GivenTemplate;
+import org.jarogoose.archigen.core.template.testing.StorageWrapperTemplate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -354,10 +357,7 @@ public class ArcTemplateUT {
     @Test
     @DisplayName("[MUTATION] generate content")
     public void generateContent() {
-      final ArcTemplate template = new DtoTemplate(
-        Given.CONFIG,
-        Given.DOMAIN
-      );
+      final ArcTemplate template = new DtoTemplate(Given.CONFIG, Given.DOMAIN);
 
       final String actualContent = template.content();
 
@@ -371,10 +371,7 @@ public class ArcTemplateUT {
     @Test
     @DisplayName("[MUTATION] create file path")
     public void createFilePath() {
-      final ArcTemplate template = new DtoTemplate(
-        Given.CONFIG,
-        Given.DOMAIN
-      );
+      final ArcTemplate template = new DtoTemplate(Given.CONFIG, Given.DOMAIN);
 
       final String actualPath = template.file().getPath();
 
@@ -622,6 +619,131 @@ public class ArcTemplateUT {
 
       final String expectedPath =
         "/home/user/path/to/project/src/main/java/com/jarogoose/enenbi/feature/food/storage/FoodItemStorage.java";
+      assertAll(
+        () -> assertThat(actualPath).isNotNull(),
+        () -> assertThat(actualPath).isEqualTo(expectedPath)
+      );
+    }
+  }
+
+  @Nested
+  @DisplayName("[FEATURE] storage wrapper test template")
+  class StorageWrapperTestTemplateFeature {
+
+    @Test
+    @DisplayName("[MUTATION] generate content")
+    public void generateContent() {
+      final ArcTemplate template = new StorageWrapperTemplate(
+        Given.CONFIG,
+        Given.DOMAIN
+      );
+
+      final String actualContent = template.content();
+
+      final String expectClassSignature = "public class FoodItemStorageWrapper";
+      assertAll(
+        () -> assertThat(actualContent).isNotBlank(),
+        () -> assertThat(actualContent).contains(expectClassSignature)
+      );
+    }
+
+    @Test
+    @DisplayName("[MUTATION] create file path")
+    public void createFilePath() {
+      final ArcTemplate template = new StorageWrapperTemplate(
+        Given.CONFIG,
+        Given.DOMAIN
+      );
+
+      final String actualPath = template.file().getPath();
+
+      final String expectedPath =
+        "/home/user/path/to/project/src/test/java/com/jarogoose/enenbi/feature/food/storage/FoodItemStorageWrapper.java";
+      assertAll(
+        () -> assertThat(actualPath).isNotNull(),
+        () -> assertThat(actualPath).isEqualTo(expectedPath)
+      );
+    }
+  }
+
+  @Nested
+  @DisplayName("[FEATURE] given test template")
+  class GivenTemplateFeature {
+
+    @Test
+    @DisplayName("[MUTATION] generate content")
+    public void generateContent() {
+      final ArcTemplate template = new GivenTemplate(
+        Given.CONFIG,
+        Given.DOMAIN
+      );
+
+      final String actualContent = template.content();
+
+      final String expectClassSignature = "interface Given";
+      final String expectPostUrl = "http://localhost:%s/user-ui/food-api/action/add-food-item";
+      final String expectGetUrl = "http://localhost:%s/user-ui/food-api/summary/show-all-food-item";
+      assertAll(
+        () -> assertThat(actualContent).isNotBlank(),
+        () -> assertThat(actualContent).contains(expectClassSignature),
+        () -> assertThat(actualContent).contains(expectPostUrl),
+        () -> assertThat(actualContent).contains(expectGetUrl)
+      );
+    }
+
+    @Test
+    @DisplayName("[MUTATION] create file path")
+    public void createFilePath() {
+      final ArcTemplate template = new GivenTemplate(
+        Given.CONFIG,
+        Given.DOMAIN
+      );
+
+      final String actualPath = template.file().getPath();
+
+      final String expectedPath =
+        "/home/user/path/to/project/src/test/java/com/jarogoose/enenbi/feature/food/control/Given.java";
+      assertAll(
+        () -> assertThat(actualPath).isNotNull(),
+        () -> assertThat(actualPath).isEqualTo(expectedPath)
+      );
+    }
+  }
+
+  @Nested
+  @DisplayName("[FEATURE] behavioral test template")
+  class BehavioralTestTemplateFeature {
+
+    @Test
+    @DisplayName("[MUTATION] generate content")
+    public void generateContent() {
+      final ArcTemplate template = new BehavioralTestTemplate(
+        Given.CONFIG,
+        Given.DOMAIN
+      );
+
+      final String actualContent = template.content();
+      System.out.println(actualContent);
+
+      final String expectClassSignature = "public class FoodItemBT";
+      assertAll(
+        () -> assertThat(actualContent).isNotBlank(),
+        () -> assertThat(actualContent).contains(expectClassSignature)
+      );
+    }
+
+    @Test
+    @DisplayName("[MUTATION] create file path")
+    public void createFilePath() {
+      final ArcTemplate template = new BehavioralTestTemplate(
+        Given.CONFIG,
+        Given.DOMAIN
+      );
+
+      final String actualPath = template.file().getPath();
+
+      final String expectedPath =
+        "/home/user/path/to/project/src/test/java/com/jarogoose/enenbi/feature/food/control/FoodItemBT.java";
       assertAll(
         () -> assertThat(actualPath).isNotNull(),
         () -> assertThat(actualPath).isEqualTo(expectedPath)

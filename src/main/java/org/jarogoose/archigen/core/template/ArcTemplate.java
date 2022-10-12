@@ -22,6 +22,7 @@ import org.jarogoose.archigen.core.template.storage.EntityTemplate;
 import org.jarogoose.archigen.core.template.storage.LoaderTemplate;
 import org.jarogoose.archigen.core.template.storage.StorageTemplate;
 import org.jarogoose.archigen.core.template.testing.BehavioralTestTemplate;
+import org.jarogoose.archigen.core.template.testing.GivenTemplate;
 import org.jarogoose.archigen.core.template.testing.StorageWrapperTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
 import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
@@ -53,6 +54,7 @@ public interface ArcTemplate {
       case RESPONSE -> new ResponseTemplate(config, domain);
       case BEHAVIORAL_TEST -> new BehavioralTestTemplate(config, domain);
       case STORAGE_WRAPPER -> new StorageWrapperTemplate(config, domain);
+      case GIVEN -> new GivenTemplate(config, domain);
       default -> throw new IllegalArgumentException("Unexpected archigen template key - : " + key);
     };
   }
@@ -123,6 +125,30 @@ public interface ArcTemplate {
     }
     sb.deleteCharAt(sb.length() - 1);
     return template.replace("{{document-name}}", sb.toString());
+  }
+
+  default String replaceFeatureAsText(
+    final String template,
+    final String feature
+  ) {
+    StringBuilder sb = new StringBuilder();
+    for (String word : splitByUpperCase(feature)) {
+      sb.append(word.toLowerCase()).append(" ");
+    }
+    sb.deleteCharAt(sb.length() - 1);
+    return template.replace("{{feature-as-text}}", sb.toString());
+  }
+
+  default String replaceFeatureConstant(
+    final String template,
+    final String feature
+  ) {
+    StringBuilder sb = new StringBuilder();
+    for (String word : splitByUpperCase(feature)) {
+      sb.append(word.toLowerCase()).append("_");
+    }
+    sb.deleteCharAt(sb.length() - 1);
+    return template.replace("{{feature-constant}}", sb.toString().toUpperCase());
   }
 
   default String replaceDtoData(
@@ -232,5 +258,24 @@ public interface ArcTemplate {
     sb.setLength(sb.length() - 1);
 
     return template.replace("{{dto-to-entity-data}}", sb.toString());
+  }
+
+  default String replaceTestEntityData(
+    final String template,
+    final List<String> data
+  ) {
+    StringBuilder sb = new StringBuilder();
+    for (String field : data) {
+      sb
+        .append("      .")
+        .append(field)
+        .append("(\"")
+        .append(field)
+        .append("\")")
+        .append(System.lineSeparator());
+    }
+    sb.setLength(sb.length() - 1);
+
+    return template.replace("{{test-entity-data}}", sb.toString());
   }
 }
