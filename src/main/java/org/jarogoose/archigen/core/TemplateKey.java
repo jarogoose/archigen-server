@@ -20,7 +20,8 @@ public enum TemplateKey {
   RESPONSE,
   STORAGE_WRAPPER,
   BEHAVIORAL_TEST,
-  GIVEN;
+  GIVEN,
+  ENTITY_MAPPER_UT;
 
   public static List<TemplateKey> all() {
     return List.of(values());

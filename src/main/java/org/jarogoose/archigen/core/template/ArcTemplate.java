@@ -22,6 +22,7 @@ import org.jarogoose.archigen.core.template.storage.EntityTemplate;
 import org.jarogoose.archigen.core.template.storage.LoaderTemplate;
 import org.jarogoose.archigen.core.template.storage.StorageTemplate;
 import org.jarogoose.archigen.core.template.testing.BehavioralTestTemplate;
+import org.jarogoose.archigen.core.template.testing.EntityMapperUnitTestTemplate;
 import org.jarogoose.archigen.core.template.testing.GivenTemplate;
 import org.jarogoose.archigen.core.template.testing.StorageWrapperTemplate;
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
@@ -55,6 +56,7 @@ public interface ArcTemplate {
       case BEHAVIORAL_TEST -> new BehavioralTestTemplate(config, domain);
       case STORAGE_WRAPPER -> new StorageWrapperTemplate(config, domain);
       case GIVEN -> new GivenTemplate(config, domain);
+      case ENTITY_MAPPER_UT -> new EntityMapperUnitTestTemplate(config, domain);
       default -> throw new IllegalArgumentException("Unexpected archigen template key - : " + key);
     };
   }

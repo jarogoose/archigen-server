@@ -19,6 +19,7 @@ import org.jarogoose.archigen.core.template.storage.EntityTemplate;
 import org.jarogoose.archigen.core.template.storage.LoaderTemplate;
 import org.jarogoose.archigen.core.template.storage.StorageTemplate;
 import org.jarogoose.archigen.core.template.testing.BehavioralTestTemplate;
+import org.jarogoose.archigen.core.template.testing.EntityMapperUnitTestTemplate;
 import org.jarogoose.archigen.core.template.testing.GivenTemplate;
 import org.jarogoose.archigen.core.template.testing.StorageWrapperTemplate;
 import org.junit.jupiter.api.DisplayName;
@@ -681,8 +682,10 @@ public class ArcTemplateUT {
       final String actualContent = template.content();
 
       final String expectClassSignature = "interface Given";
-      final String expectPostUrl = "http://localhost:%s/user-ui/food-api/action/add-food-item";
-      final String expectGetUrl = "http://localhost:%s/user-ui/food-api/summary/show-all-food-item";
+      final String expectPostUrl =
+        "http://localhost:%s/user-ui/food-api/action/add-food-item";
+      final String expectGetUrl =
+        "http://localhost:%s/user-ui/food-api/summary/show-all-food-item";
       assertAll(
         () -> assertThat(actualContent).isNotBlank(),
         () -> assertThat(actualContent).contains(expectClassSignature),
@@ -723,7 +726,6 @@ public class ArcTemplateUT {
       );
 
       final String actualContent = template.content();
-      System.out.println(actualContent);
 
       final String expectClassSignature = "public class FoodItemBT";
       assertAll(
@@ -744,6 +746,46 @@ public class ArcTemplateUT {
 
       final String expectedPath =
         "/home/user/path/to/project/src/test/java/com/jarogoose/enenbi/feature/food/control/FoodItemBT.java";
+      assertAll(
+        () -> assertThat(actualPath).isNotNull(),
+        () -> assertThat(actualPath).isEqualTo(expectedPath)
+      );
+    }
+  }
+
+  @Nested
+  @DisplayName("[FEATURE] entity mapper unit test template")
+  class EntityMapperUnitTestTemplateFeature {
+
+    @Test
+    @DisplayName("[MUTATION] generate content")
+    public void generateContent() {
+      final ArcTemplate template = new EntityMapperUnitTestTemplate(
+        Given.CONFIG,
+        Given.DOMAIN
+      );
+
+      final String actualContent = template.content();
+
+      final String expectClassSignature = "public class FoodItemEntityMapperUT";
+      assertAll(
+        () -> assertThat(actualContent).isNotBlank(),
+        () -> assertThat(actualContent).contains(expectClassSignature)
+      );
+    }
+
+    @Test
+    @DisplayName("[MUTATION] create file path")
+    public void createFilePath() {
+      final ArcTemplate template = new EntityMapperUnitTestTemplate(
+        Given.CONFIG,
+        Given.DOMAIN
+      );
+
+      final String actualPath = template.file().getPath();
+
+      final String expectedPath =
+        "/home/user/path/to/project/src/test/java/com/jarogoose/enenbi/feature/food/storage/FoodItemEntityMapperUT.java";
       assertAll(
         () -> assertThat(actualPath).isNotNull(),
         () -> assertThat(actualPath).isEqualTo(expectedPath)
