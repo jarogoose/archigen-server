@@ -1,9 +1,6 @@
 package org.jarogoose.archigen.web.config.control;
 
-import lombok.experimental.UtilityClass;
-
-@UtilityClass
-public class Given {
+public interface Given {
 
   String SAVE_CONFIG_URL = "http://localhost:%s/archigen-ui/configs-api/save-configs";
 

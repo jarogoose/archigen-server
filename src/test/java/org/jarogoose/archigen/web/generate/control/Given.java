@@ -1,10 +1,8 @@
 package org.jarogoose.archigen.web.generate.control;
 
-import lombok.experimental.UtilityClass;
 import org.jarogoose.archigen.web.config.storage.ConfigEntity;
 
-@UtilityClass
-public class Given {
+public interface Given {
 
   String PREVIEW_ALL_URL =
     "http://localhost:%s/archigen-ui/generate-api/preview-all";

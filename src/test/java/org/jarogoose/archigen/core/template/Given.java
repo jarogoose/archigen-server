@@ -1,16 +1,13 @@
 package org.jarogoose.archigen.core.template;
 
-import lombok.experimental.UtilityClass;
-
 import java.util.List;
 
 import org.jarogoose.archigen.web.config.domain.model.dto.Config;
 import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 
-@UtilityClass
-public class Given {
+public interface Given {
 
-  public Domain DOMAIN = Domain
+  Domain DOMAIN = Domain
     .builder()
     .feature("foodItem")
     .root("food")
@@ -19,7 +16,7 @@ public class Given {
     .data(List.of("name", "category", "quantity"))
     .build();
 
-  public Config CONFIG = Config
+  Config CONFIG = Config
     .builder()
     .artefact("com.jarogoose")
     .project("enenbi")

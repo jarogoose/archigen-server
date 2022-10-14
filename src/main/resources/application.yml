@@ -4,10 +4,10 @@ server:
 spring:
   data:
     mongodb:
-      authentication-database: 'arcadmin'
-      username: 'goose'
-      password: 'goose'
+      username: 'prodadmin'
+      password: 'prodpassword'
+      authentication-database: admin
       database: archigen
       port: 27017
-      host: localhost
+      host: arc-dev-mongodb
       auto-index-creation: true
