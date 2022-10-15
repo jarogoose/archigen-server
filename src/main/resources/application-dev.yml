@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      username: 'prodadmin'
+      password: 'prodpassword'
+      authentication-database: admin
+      database: archigen
+      port: 27017
+      host: arc-dev-mongodb
+      auto-index-creation: true
