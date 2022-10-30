@@ -12,3 +12,9 @@ These additional references should also help you:
 
 * [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
 
+# Working with compose files
+
+### Start testing mongo DB server
+```sh
+docker compose --project-name arc-test-db -f docker-compose.test.yaml up -d
+```
