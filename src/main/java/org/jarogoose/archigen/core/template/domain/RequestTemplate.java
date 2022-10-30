@@ -11,18 +11,18 @@ import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 public class RequestTemplate implements ArcTemplate {
 
   private static final String TEMPLATE = """
-  package {{project-path}}.feature.{{root-name}}.domain.model.request;
+      package {{project-path}}.feature.{{root-name}}.domain.model.request;
 
-  import com.fasterxml.jackson.annotation.JsonProperty;
+      import com.fasterxml.jackson.annotation.JsonProperty;
 
-  import lombok.Builder;
+      import lombok.Builder;
 
-  @Builder
-  public record Add{{feature-name}}Request(
-  {{data}}
-  ) {}
+      @Builder
+      public record Add{{feature-name}}Request(
+      {{data}}
+      ) {}
 
-  """;
+      """;
 
   private final Config config;
   private final Domain domain;
@@ -36,8 +36,7 @@ public class RequestTemplate implements ArcTemplate {
   public String content() {
     String template = TEMPLATE;
 
-    template =
-      replaceProjectPath(template, config.artefact(), config.project());
+    template = replaceProjectPath(template, config.artefact(), config.project());
     template = replaceRootName(template, domain.root());
     template = replaceFeatureName(template, domain.feature());
     template = replaceRequestData(template, domain.data());
@@ -48,18 +47,15 @@ public class RequestTemplate implements ArcTemplate {
   @Override
   public File file() {
     final String featureName = String.format(
-      "%s%s",
-      "add",
-      capitalize(domain.feature())
-    );
+        "%s%s",
+        "add",
+        capitalize(domain.feature()));
     return new File(
-      Paths.REQUEST_PATH.get(
-        config,
-        domain.root(),
-        featureName,
-        "Request",
-        false
-      )
-    );
+        Paths.REQUEST_PATH.get(
+            config,
+            domain.root(),
+            featureName,
+            "Request",
+            false));
   }
 }

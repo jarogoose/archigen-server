@@ -10,12 +10,12 @@ public class GenerateMapper {
 
   public static Domain toDomainDto(GenerateRequest request) {
     return Domain
-      .builder()
-      .feature(request.feature())
-      .root(request.root())
-      .restApi(request.restApi())
-      .readWrite(request.readWrite())
-      .data(request.data())
-      .build();
+        .builder()
+        .feature(request.feature())
+        .root(request.root())
+        .restApi(request.restApi())
+        .readWrite(request.readWrite())
+        .data(request.data())
+        .build();
   }
 }

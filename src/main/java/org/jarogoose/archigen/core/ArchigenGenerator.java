@@ -16,10 +16,9 @@ import org.springframework.stereotype.Component;
 public class ArchigenGenerator {
 
   public List<ArcTemplate> prepare(
-    final Config config,
-    final Domain domain,
-    final TemplateFilter filter
-  ) {
+      final Config config,
+      final Domain domain,
+      final TemplateFilter filter) {
     final List<ArcTemplate> templates = new ArrayList<>();
 
     for (final TemplateKey key : filter.templateKeys()) {

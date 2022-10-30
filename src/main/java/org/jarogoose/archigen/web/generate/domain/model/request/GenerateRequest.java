@@ -10,10 +10,10 @@ import lombok.experimental.Accessors;
 @Builder
 @Accessors(fluent = true)
 public record GenerateRequest(
-    @JsonProperty("projectName") String projectName,
-    @JsonProperty("feature") String feature,
-    @JsonProperty("package") String root,
-    @JsonProperty("restApi") String restApi,
-    @JsonProperty("readWrite") String readWrite,
-    @JsonProperty("data") List<String> data
-) {}
+        @JsonProperty("projectName") String projectName,
+        @JsonProperty("feature") String feature,
+        @JsonProperty("package") String root,
+        @JsonProperty("restApi") String restApi,
+        @JsonProperty("readWrite") String readWrite,
+        @JsonProperty("data") List<String> data) {
+}

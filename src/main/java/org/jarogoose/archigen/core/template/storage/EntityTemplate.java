@@ -9,29 +9,29 @@ import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 public class EntityTemplate implements ArcTemplate {
 
   private static final String TEMPLATE = """
-  package {{project-path}}.feature.{{root-name}}.storage;
+      package {{project-path}}.feature.{{root-name}}.storage;
 
-  import lombok.AllArgsConstructor;
-  import lombok.Builder;
-  import lombok.Data;
-  import lombok.NoArgsConstructor;
-  import org.springframework.data.mongodb.core.mapping.Document;
-  import org.springframework.data.mongodb.core.mapping.FieldType;
-  import org.springframework.data.mongodb.core.mapping.MongoId;
+      import lombok.AllArgsConstructor;
+      import lombok.Builder;
+      import lombok.Data;
+      import lombok.NoArgsConstructor;
+      import org.springframework.data.mongodb.core.mapping.Document;
+      import org.springframework.data.mongodb.core.mapping.FieldType;
+      import org.springframework.data.mongodb.core.mapping.MongoId;
 
-  @Data
-  @Builder
-  @NoArgsConstructor
-  @AllArgsConstructor
-  @Document(collection = "{{document-name}}")
-  class {{feature-name}}Entity {
+      @Data
+      @Builder
+      @NoArgsConstructor
+      @AllArgsConstructor
+      @Document(collection = "{{document-name}}")
+      class {{feature-name}}Entity {
 
-    @MongoId(FieldType.OBJECT_ID)
-    private String id;
-    {{data}}
-  }
+        @MongoId(FieldType.OBJECT_ID)
+        private String id;
+        {{data}}
+      }
 
-  """;
+      """;
 
   private final Config config;
   private final Domain domain;
@@ -45,8 +45,7 @@ public class EntityTemplate implements ArcTemplate {
   public String content() {
     String template = TEMPLATE;
 
-    template =
-      replaceProjectPath(template, config.artefact(), config.project());
+    template = replaceProjectPath(template, config.artefact(), config.project());
     template = replaceRootName(template, domain.root());
     template = replaceFeatureName(template, domain.feature());
     template = replaceFeatureName(template, domain.feature());
@@ -59,13 +58,11 @@ public class EntityTemplate implements ArcTemplate {
   @Override
   public File file() {
     return new File(
-      Paths.STORAGE_PATH.get(
-        config,
-        domain.root(),
-        domain.feature(),
-        "Entity",
-        false
-      )
-    );
+        Paths.STORAGE_PATH.get(
+            config,
+            domain.root(),
+            domain.feature(),
+            "Entity",
+            false));
   }
 }

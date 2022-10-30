@@ -8,5 +8,5 @@ import lombok.Builder;
 
 @Builder
 public record LoadAllConfigsResponse(
-    List<Config> configs
-) {}
+        List<Config> configs) {
+}

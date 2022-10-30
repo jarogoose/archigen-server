@@ -9,17 +9,17 @@ import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 public class DtoTemplate implements ArcTemplate {
 
   private static final String TEMPLATE = """
-  package {{project-path}}.feature.{{root-name}}.domain.model.dto;
+      package {{project-path}}.feature.{{root-name}}.domain.model.dto;
 
-  import lombok.Builder;
+      import lombok.Builder;
 
-  @Builder
-  public record {{feature-name}}(
-      String id,
-  {{data}}
-  ) {}
+      @Builder
+      public record {{feature-name}}(
+          String id,
+      {{data}}
+      ) {}
 
-  """;
+      """;
 
   private final Config config;
   private final Domain domain;
@@ -33,8 +33,7 @@ public class DtoTemplate implements ArcTemplate {
   public String content() {
     String template = TEMPLATE;
 
-    template =
-      replaceProjectPath(template, config.artefact(), config.project());
+    template = replaceProjectPath(template, config.artefact(), config.project());
     template = replaceRootName(template, domain.root());
     template = replaceFeatureName(template, domain.feature());
     template = replaceDtoData(template, domain.data());
@@ -45,7 +44,6 @@ public class DtoTemplate implements ArcTemplate {
   @Override
   public File file() {
     return new File(
-      Paths.DTO_PATH.get(config, domain.root(), domain.feature(), "", false)
-    );
+        Paths.DTO_PATH.get(config, domain.root(), domain.feature(), "", false));
   }
 }

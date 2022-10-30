@@ -6,5 +6,5 @@ import lombok.Builder;
 
 @Builder
 public record PreviewResponse(
-    List<String> templates
-) {}
+        List<String> templates) {
+}

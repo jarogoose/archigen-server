@@ -61,23 +61,21 @@ public class GenerateBT {
     @Order(1)
     @DisplayName("[REQUEST] preview of all templates")
     public void action_saveFirstConfigs()
-      throws JsonMappingException, JsonProcessingException {
+        throws JsonMappingException, JsonProcessingException {
       var url = String.format(Given.PREVIEW_ALL_URL, port);
       var request = new ObjectMapper()
-      .readValue(Given.GENERATE_REQUEST, GenerateRequest.class);
+          .readValue(Given.GENERATE_REQUEST, GenerateRequest.class);
 
       var response = (ResponseEntity<PreviewResponse>) restTemplate.postForEntity(
-        url,
-        request,
-        PreviewResponse.class
-      );
+          url,
+          request,
+          PreviewResponse.class);
 
       assertAll(
-        () -> assertThat(response).isNotNull(),
-        () -> assertThat(response.getStatusCodeValue()).isEqualTo(200),
-        () -> assertThat(response.getBody()).isNotNull(),
-        () -> assertThat(response.getBody().templates()).hasSize(19)
-      );
+          () -> assertThat(response).isNotNull(),
+          () -> assertThat(response.getStatusCode().value()).isEqualTo(200),
+          () -> assertThat(response.getBody()).isNotNull(),
+          () -> assertThat(response.getBody().templates()).hasSize(19));
     }
   }
 }

@@ -26,8 +26,7 @@ public class GenerateController {
 
   @PostMapping("generate-all")
   public ResponseEntity<Object> generate(
-    @RequestBody final GenerateRequest request
-  ) {
+      @RequestBody final GenerateRequest request) {
     try {
       facade.generateAll(request);
       return ResponseEntity.ok().build();
@@ -42,8 +41,7 @@ public class GenerateController {
 
   @PostMapping("preview-all")
   public ResponseEntity<PreviewResponse> loadConfigs(
-    @RequestBody final GenerateRequest request
-  ) {
+      @RequestBody final GenerateRequest request) {
     try {
       final var response = facade.previewAll(request);
       return ResponseEntity.ok(response);

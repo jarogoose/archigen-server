@@ -9,15 +9,15 @@ import org.jarogoose.archigen.web.generate.domain.model.dto.Domain;
 public class StorageTemplate implements ArcTemplate {
 
   public static final String TEMPLATE = """
-  package {{project-path}}.feature.{{root-name}}.storage;
+      package {{project-path}}.feature.{{root-name}}.storage;
 
-  import org.springframework.data.mongodb.repository.MongoRepository;
-  import org.springframework.stereotype.Repository;
+      import org.springframework.data.mongodb.repository.MongoRepository;
+      import org.springframework.stereotype.Repository;
 
-  @Repository
-  interface {{feature-name}}Storage extends MongoRepository<{{feature-name}}Entity, String> {}
+      @Repository
+      interface {{feature-name}}Storage extends MongoRepository<{{feature-name}}Entity, String> {}
 
-  """;
+      """;
 
   private final Config config;
   private final Domain domain;
@@ -31,8 +31,7 @@ public class StorageTemplate implements ArcTemplate {
   public String content() {
     String template = TEMPLATE;
 
-    template =
-      replaceProjectPath(template, config.artefact(), config.project());
+    template = replaceProjectPath(template, config.artefact(), config.project());
     template = replaceRootName(template, domain.root());
     template = replaceFeatureName(template, domain.feature());
 
@@ -42,13 +41,11 @@ public class StorageTemplate implements ArcTemplate {
   @Override
   public File file() {
     return new File(
-      Paths.STORAGE_PATH.get(
-        config,
-        domain.root(),
-        domain.feature(),
-        "Storage",
-        false
-      )
-    );
+        Paths.STORAGE_PATH.get(
+            config,
+            domain.root(),
+            domain.feature(),
+            "Storage",
+            false));
   }
 }

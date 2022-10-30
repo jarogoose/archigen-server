@@ -8,5 +8,5 @@ import lombok.Builder;
 
 @Builder
 public record TemplateFilter(
-    List<TemplateKey> templateKeys
-) {}
+        List<TemplateKey> templateKeys) {
+}

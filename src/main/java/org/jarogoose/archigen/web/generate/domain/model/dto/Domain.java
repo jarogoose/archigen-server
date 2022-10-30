@@ -8,9 +8,9 @@ import lombok.experimental.Accessors;
 @Builder
 @Accessors(fluent = true)
 public record Domain(
-    String feature,
-    String root,
-    String restApi,
-    String readWrite,
-    List<String> data
-) {}
+        String feature,
+        String root,
+        String restApi,
+        String readWrite,
+        List<String> data) {
+}

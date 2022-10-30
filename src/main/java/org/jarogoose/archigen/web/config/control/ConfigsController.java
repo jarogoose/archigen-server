@@ -40,8 +40,7 @@ public class ConfigsController {
 
   @GetMapping("load-project-configs/{name}")
   public ResponseEntity<Object> loadProjectConfigs(
-    @PathVariable("name") String projectName
-  ) {
+      @PathVariable("name") String projectName) {
     try {
       var response = facade.loadConfig(projectName);
       return ResponseEntity.ok(response);
@@ -53,8 +52,7 @@ public class ConfigsController {
 
   @PostMapping("save-configs")
   public ResponseEntity<Object> saveConfigs(
-    @RequestBody SaveConfigRequest request
-  ) {
+      @RequestBody SaveConfigRequest request) {
     try {
       facade.saveConfig(request);
       return ResponseEntity.ok().build();
@@ -66,8 +64,7 @@ public class ConfigsController {
 
   @PutMapping("modify-configs")
   public ResponseEntity<Object> modifyConfigs(
-    @RequestBody ModifyConfigRequest request
-  ) {
+      @RequestBody ModifyConfigRequest request) {
     try {
       facade.modifyConfig(request);
       return ResponseEntity.ok().build();

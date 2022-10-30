@@ -4,8 +4,8 @@ server:
 spring:
   data:
     mongodb:
-      username: 'arcadmin'
-      password: 'admin'
+      username: "arcadmin"
+      password: "admin"
       # authentication-database: admin
       database: archigen
       port: 27017

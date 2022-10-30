@@ -10,7 +10,7 @@ public class Then {
 
     for (int i = 0; i < expectLines.length; i++) {
       assertThat(actualLines[i])
-          .withFailMessage("Line %s expect to be \n %s \n but was \n %s", i+1, expectLines[i], actualLines[i])
+          .withFailMessage("Line %s expect to be \n %s \n but was \n %s", i + 1, expectLines[i], actualLines[i])
           .isEqualTo(expectLines[i]);
     }
 

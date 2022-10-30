@@ -55,22 +55,20 @@ public class ConfigsBT {
     @Order(1)
     @DisplayName("[REQUEST] save first configs")
     public void action_saveFirstConfigs()
-      throws JsonMappingException, JsonProcessingException {
+        throws JsonMappingException, JsonProcessingException {
       var url = String.format(Given.SAVE_CONFIG_URL, port);
       var request = new ObjectMapper()
-      .readValue(Given.SAVE_CONFIG_JSON, SaveConfigRequest.class);
+          .readValue(Given.SAVE_CONFIG_JSON, SaveConfigRequest.class);
 
       var response = (ResponseEntity<Object>) restTemplate.postForEntity(
-        url,
-        request,
-        Object.class
-      );
+          url,
+          request,
+          Object.class);
 
       assertAll(
-        () -> assertThat(response).isNotNull(),
-        () -> assertThat(response.getBody()).isNull(),
-        () -> assertThat(response.getStatusCodeValue()).isEqualTo(200)
-      );
+          () -> assertThat(response).isNotNull(),
+          () -> assertThat(response.getBody()).isNull(),
+          () -> assertThat(response.getStatusCode().value()).isEqualTo(200));
     }
 
     @Test
@@ -80,16 +78,14 @@ public class ConfigsBT {
       var url = String.format(Given.GET_ALL_CONFIG_URL, port);
 
       ResponseEntity<LoadAllConfigsResponse> response = restTemplate.getForEntity(
-        url,
-        LoadAllConfigsResponse.class
-      );
+          url,
+          LoadAllConfigsResponse.class);
 
       assertAll(
-        () -> assertThat(response).isNotNull(),
-        () -> assertThat(response.getStatusCodeValue()).isEqualTo(200),
-        () -> assertThat(response.getBody()).isNotNull(),
-        () -> assertThat(response.getBody().configs()).hasSize(1)
-      );
+          () -> assertThat(response).isNotNull(),
+          () -> assertThat(response.getStatusCode().value()).isEqualTo(200),
+          () -> assertThat(response.getBody()).isNotNull(),
+          () -> assertThat(response.getBody().configs()).hasSize(1));
     }
   }
 }

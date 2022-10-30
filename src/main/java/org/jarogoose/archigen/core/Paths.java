@@ -20,26 +20,24 @@ public enum Paths {
   private final String value;
 
   public String get(
-    Config config,
-    String root,
-    String feature,
-    String postfix,
-    boolean isTest
-  ) {
+      Config config,
+      String root,
+      String feature,
+      String postfix,
+      boolean isTest) {
     String dir = config.baseDir();
     String artefact = config.artefact().replace(".", "/");
     String project = config.project();
     return format(
-      "%s/src/%s/java/%s/%s/feature/%s/%s/%s%s.java",
-      dir,
-      isTest ? "test" : "main",
-      artefact,
-      project,
-      root,
-      this.value,
-      capitalize(feature),
-      postfix
-    );
+        "%s/src/%s/java/%s/%s/feature/%s/%s/%s%s.java",
+        dir,
+        isTest ? "test" : "main",
+        artefact,
+        project,
+        root,
+        this.value,
+        capitalize(feature),
+        postfix);
   }
 
   @Override

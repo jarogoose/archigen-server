@@ -21,9 +21,8 @@ public class GenerateFacade {
   private final ConfigsService configsService;
 
   public GenerateFacade(
-    final ArchigenGenerator generator,
-    final ConfigsService configsService
-  ) {
+      final ArchigenGenerator generator,
+      final ConfigsService configsService) {
     this.generator = generator;
     this.configsService = configsService;
   }
@@ -32,10 +31,9 @@ public class GenerateFacade {
     final Config config = configsService.loadConfig(request.projectName());
     final Domain domain = GenerateMapper.toDomainDto(request);
     final List<ArcTemplate> templates = generator.prepare(
-      config,
-      domain,
-      new TemplateFilter(TemplateKey.all())
-    );
+        config,
+        domain,
+        new TemplateFilter(TemplateKey.all()));
     generator.generate(templates);
   }
 
@@ -43,10 +41,9 @@ public class GenerateFacade {
     final Config config = configsService.loadConfig(request.projectName());
     final Domain domain = GenerateMapper.toDomainDto(request);
     final List<ArcTemplate> templates = generator.prepare(
-      config,
-      domain,
-      new TemplateFilter(TemplateKey.all())
-    );
+        config,
+        domain,
+        new TemplateFilter(TemplateKey.all()));
     final List<String> previewTemplates = generator.preview(templates);
     return PreviewResponse.builder().templates(previewTemplates).build();
   }
