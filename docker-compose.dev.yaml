@@ -3,39 +3,40 @@ name: archigen
 
 services:
   ### Mongo DB ###
-  arc-mongodb:
-    container_name: arc-mongodb
+  arc-dev-mongodb:
+    container_name: arc-dev-mongodb
     image: mongo
-    restart: always
     ports:
-      - 8120:27017
+      - 9120:27017
+    restart: always
     env_file:
-      - ./.env/mongodb.env
+      - ./.env/mongodb-dev.env
     volumes:
-      - arc-db:/data/db
+      - arc-dev-db:/data/db
 
   ### Spring Boot Server ###
-  arc-server:
-    container_name: arc-server
+  arc-dev-server:
+    container_name: arc-dev-server
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 8110:8080
+      - 9110:8080
     environment:
+      - SPRING_PROFILES_ACTIVE=dev
       - SERVER_PORT=8080
     depends_on:
-      - arc-mongodb
+      - arc-dev-mongodb
 
   ### Ionic App NGINX Server ###
-  arc-ui:
-    container_name: arc-web
+  arc-dev-ui:
+    container_name: arc-dev-web
     build:
       context: ../archigen-ui
       dockerfile: Dockerfile
     ports:
-      - 8100:80
+      - 9100:80
 
 ### Volumes ###
 volumes:
-  arc-db:
+  arc-dev-db:

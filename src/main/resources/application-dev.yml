@@ -1,8 +1,8 @@
 spring:
   data:
     mongodb:
-      username: 'prodadmin'
-      password: 'prodpassword'
+      username: 'devadmin'
+      password: 'devpassword'
       authentication-database: admin
       database: archigen
       port: 27017

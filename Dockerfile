@@ -1,5 +1,5 @@
 FROM openjdk:17-jdk-alpine
 
-COPY ./build/libs/archigen-0.0.1.jar app.jar
+COPY ./build/libs/*.jar app.jar
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
