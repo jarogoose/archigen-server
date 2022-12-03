@@ -7,9 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
@@ -29,8 +32,6 @@ public class SecurityConfiguration {
         });
 
         http.addFilter(CorsFilter());
-        // http.cors().disable();
-        // http.csrf().disable();
 
         http.authorizeHttpRequests()
                 .requestMatchers("/actuator/**", "/register", "/login").permitAll()
@@ -56,6 +57,16 @@ public class SecurityConfiguration {
         source.registerCorsConfiguration("/**", configuration);
 
         return new CorsFilter(source);
+    }
+
+    @Bean
+    public InMemoryUserDetailsManager userDetailsManager() {
+        UserDetails admin = User
+                .withUsername("user")
+                .password("password")
+                .authorities("general")
+                .build();
+        return new InMemoryUserDetailsManager(admin);
     }
 
     @Bean

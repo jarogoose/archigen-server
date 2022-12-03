@@ -2,10 +2,6 @@ server:
   port: 7000
 
 spring:
-  security:
-    user:
-      name: admin
-      password: secret
   data:
     mongodb:
       username: "admin"
