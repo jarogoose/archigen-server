@@ -24,6 +24,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfiguration {
 
     @Bean
+    @Profile("!test")
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(csrf -> {
@@ -60,11 +61,12 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    @Profile("!test")
     public InMemoryUserDetailsManager userDetailsManager() {
         UserDetails admin = User
-                .withUsername("user")
-                .password("password")
-                .authorities("general")
+                .withUsername("admin")
+                .password("secret")
+                .authorities("admin")
                 .build();
         return new InMemoryUserDetailsManager(admin);
     }
