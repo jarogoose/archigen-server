@@ -1,0 +1,28 @@
+server:
+  port: 7000
+
+spring:
+  security:
+    user:
+      name: admin
+      password: secret
+  data:
+    mongodb:
+      username: "admin"
+      password: "password"
+      authentication-database: admin
+      database: archigen
+      port: 7120
+      host: localhost
+      auto-index-creation: true
+
+logging:
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: ${pwd}/.logs/arc.logs
+  level:
+    org:
+      springframework:
+        security: TRACE
+        web: TRACE

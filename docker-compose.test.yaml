@@ -9,4 +9,3 @@ services:
       MONGO_INITDB_ROOT_USERNAME: jaro
       MONGO_INITDB_ROOT_PASSWORD: goose
       MONGO_INITDB_DATABASE: archigen-test
-

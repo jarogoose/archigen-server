@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  arc-local-mongodb:
+    container_name: arc-local-mongodb
+    image: "mongo"
+    ports:
+      - 7120:27017
+    volumes:
+      - arc-local-db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: archigen
+
+volumes:
+  arc-local-db:
