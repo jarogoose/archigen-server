@@ -1,18 +1,20 @@
 package org.jarogoose.archigen.web.security;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
@@ -21,6 +23,7 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableMongoAuditing
 public class SecurityConfiguration {
 
     @Bean
@@ -61,25 +64,22 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    @Profile("!test")
-    public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails admin = User
-                .withUsername("admin")
-                .password("secret")
-                .authorities("admin")
-                .build();
-        return new InMemoryUserDetailsManager(admin);
-    }
-
-    @Bean
-    @Profile("!local")
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    @Profile("local")
-    PasswordEncoder localPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    public AuditorAware<String> myAuditorProvider() {
+        return new AuditorAware<String>() {
+
+            @Override
+            public Optional<String> getCurrentAuditor() {
+                return Optional.ofNullable(SecurityContextHolder.getContext())
+                        .map(SecurityContext::getAuthentication)
+                        .filter(Authentication::isAuthenticated)
+                        .map(Authentication::getName);
+            }
+
+        };
     }
 }
